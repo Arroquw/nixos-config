@@ -10,7 +10,7 @@
 
   outputs = { self, nixpkgs, hyprland, home-manager, ... }: 
     let
-      user = "nomad";
+      user = "justin";
       system = "x86_64-linux";
       pkgs = import nixpkgs {
        inherit system;
@@ -27,7 +27,7 @@
             hyprland.nixosModules.default
             {
               programs.hyprland.enable = true;
-              programs.hyprland.nvidiaPatches=true;
+              programs.hyprland.enableNvidiaPatches=true;
               programs.hyprland.xwayland.enable=true;
             }
             home-manager.nixosModules.home-manager
@@ -42,10 +42,5 @@
       };
     };
   }
-
-#nixos-22.11
-
-
-
-
+#nixos-23.11
 

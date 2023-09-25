@@ -4,6 +4,7 @@
   nix.settings = {
     substituters = ["https://hyprland.cachix.org"];
     trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
+    experimental-features = [ "nix-command" "flakes" ];
   };
 
 # Include the results of the hardware scan.
@@ -13,28 +14,70 @@
     ./modules/users.nix
     ./modules/nvidia.nix];
 
+  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.nvidia.acceptLicense = true;
 
-  #ntfs support
-  boot.supportedFilesystems = [ "ntfs" ];
+  boot = {
+    initrd = {
+      kernelModules = [ "nvidia" ];
+    };
+    extraModulePackages = [ config.boot.kernelPackages.nvidia_x11 ];
+    supportedFilesystems = [ "ntfs" ];
+    loader = {
+      efi = {
+        canTouchEfiVariables = true;
+        efiSysMountPoint = "/boot";
+      };
+      systemd-boot = {
+        enable = true;
+        configurationLimit = 3;
+      };
+    };
+  };
+
+  fileSystems = {
+    "/mnt/newvolume" =
+    { device = "/dev/disk/by-path/pci-0000:00:17.0-ata-2-part2";
+      fsType = "ntfs-3g";
+      options = [ "rw" "uid=1000" ];
+    };
+
+    "/mnt/brokenconn" =
+    { device = "/dev/disk/by-path/pci-0000:00:17.0-ata-4-part2";
+      fsType = "ntfs-3g";
+      options = [ "rw" "uid=1000" ];
+    };
+
+    "/mnt/hdd" =
+    { device = "/dev/disk/by-path/pci-0000:00:17.0-ata-6-part1";
+      fsType = "ntfs-3g";
+      options = [ "rw" "uid=1000" ];
+    };
+
+    "/mnt/intel-nvme" =
+    { device = "/dev/disk/by-path/pci-0000:03:00.0-nvme-1-part2";
+      fsType = "ntfs-3g";
+      options = [ "rw" "uid=1000" ];
+    };
+  
+    "/mnt/windows" =
+    { device = "/dev/disk/by-path/pci-0000:02:00.0-nvme-1-part2";
+      fsType = "ntfs-3g";
+      options = [ "rw" "uid=1000" ];
+    };
+};
+
+
   # Fonts
-    fonts.fonts = with pkgs; [
+    fonts.packages = with pkgs; [
       font-awesome
      (nerdfonts.override { fonts = [ "FiraCode" "JetBrainsMono" "Iosevka" ]; })
      ];
   #emojis
     #services.gollum.emoji = true;
 
-
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.efi.efiSysMountPoint = "/boot/efi";
-  # Boot entries limit
-  boot.loader.systemd-boot.configurationLimit = 3;
-
-
   # Define your hostname
-  networking.hostName = "unkown";
+  networking.hostName = "NixOS-justin";
   # Enable networking
   networking.networkmanager.enable = true; 
   # Bluethooth
@@ -62,19 +105,19 @@
 
 
   # Set your time zone.
-  time.timeZone = "Asia/Kuwait";
+  time.timeZone = "Europe/Amsterdam";
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
   i18n.extraLocaleSettings = {
-    LC_ADDRESS = "en_GB.UTF-8";
-    LC_IDENTIFICATION = "en_GB.UTF-8";
-    LC_MEASUREMENT = "en_GB.UTF-8";
-    LC_MONETARY = "en_GB.UTF-8";
-    LC_NAME = "en_GB.UTF-8";
-    LC_NUMERIC = "en_GB.UTF-8";
-    LC_PAPER = "en_GB.UTF-8";
-    LC_TELEPHONE = "en_GB.UTF-8";
-    LC_TIME = "en_GB.UTF-8";
+    LC_ADDRESS = "en_DK.UTF-8";
+    LC_IDENTIFICATION = "en_DK.UTF-8";
+    LC_MEASUREMENT = "en_DK.UTF-8";
+    LC_MONETARY = "en_DK.UTF-8";
+    LC_NAME = "en_DK.UTF-8";
+    LC_NUMERIC = "en_DK.UTF-8";
+    LC_PAPER = "en_DK.UTF-8";
+    LC_TELEPHONE = "en_DK.UTF-8";
+    LC_TIME = "en_DK.UTF-8";
   };
   # Configure keymap in X11
   services.xserver = {
@@ -88,22 +131,22 @@
   # Flatpak
   services.flatpak.enable = true;
   # locate
-  services.locate.enable = true;
+#  services.locate.enable = true;
   # Enable CUPS to print documents.
   services.printing.enable = true;
   # Enable touchpad support (enabled default in most desktopManager).
-  services.xserver.libinput.enable = true;
-  services.xserver.libinput.touchpad.tapping = true; #tap
+  #services.xserver.libinput.enable = true;
+  #services.xserver.libinput.touchpad.tapping = true; #tap
   # Do nothing if AC on
-  services.logind.lidSwitchExternalPower = "ignore";
+#  services.logind.lidSwitchExternalPower = "ignore";
   #tlp
   services.tlp.enable = true;
   #upower dbus
-  services.upower.enable = true;
-  powerManagement = {
-    enable = true;
-    cpuFreqGovernor = "ondemand";
- };
+#  services.upower.enable = true;
+#  powerManagement = {
+#    enable = true;
+#    cpuFreqGovernor = "ondemand";
+# };
 
 
   #Display
@@ -124,11 +167,6 @@
     wlr.enable = true;
   };
 
-
-  #SystemPackages
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
   environment.systemPackages = with pkgs; [
  # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
      vim
@@ -138,8 +176,32 @@
      git
      neofetch
      gh
-  ];
-
+     zig
+     killall
+     gh
+     vim
+     wget
+     neofetch
+     xdg-utils
+     xdg-desktop-portal
+     xdg-desktop-portal-gtk
+     xdg-desktop-portal-hyprland
+     xwayland
+     meson
+     busybox
+     gcc
+     konsole
+     dolphin
+     read-edid
+     cloud-utils
+     go
+     pkg-config
+     libpng
+     nwg-look
+     mangohud
+     gamescope
+#     build-essential
+   ];
 
   #Firewall
   # Open ports in the firewall.
@@ -155,8 +217,7 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "22.11"; # Did you read the comment?
-
+  system.stateVersion = "23.11"; # Did you read the comment?
 }
 
 
