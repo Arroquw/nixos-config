@@ -109,15 +109,15 @@
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
   i18n.extraLocaleSettings = {
-    LC_ADDRESS = "en_DK.UTF-8";
-    LC_IDENTIFICATION = "en_DK.UTF-8";
-    LC_MEASUREMENT = "en_DK.UTF-8";
-    LC_MONETARY = "en_DK.UTF-8";
-    LC_NAME = "en_DK.UTF-8";
-    LC_NUMERIC = "en_DK.UTF-8";
-    LC_PAPER = "en_DK.UTF-8";
-    LC_TELEPHONE = "en_DK.UTF-8";
-    LC_TIME = "en_DK.UTF-8";
+    LC_ADDRESS = "nl_NL.UTF-8";
+    LC_IDENTIFICATION = "nl_NL.UTF-8";
+    LC_MEASUREMENT = "nl_NL.UTF-8";
+    LC_MONETARY = "nl_NL.UTF-8";
+    LC_NAME = "nl_NL.UTF-8";
+    LC_NUMERIC = "nl_NL.UTF-8";
+    LC_PAPER = "nl_NL.UTF-8";
+    LC_TELEPHONE = "nl_NL.UTF-8";
+    LC_TIME = "nl_NL.UTF-8";
   };
   # Configure keymap in X11
   services.xserver = {
@@ -128,20 +128,15 @@
   #Services
   # Enable the X11 windowing system.
   services.xserver.enable = true;
-  # Flatpak
-  services.flatpak.enable = true;
-  # locate
+#  services.flatpak.enable = true;
 #  services.locate.enable = true;
   # Enable CUPS to print documents.
   services.printing.enable = true;
   # Enable touchpad support (enabled default in most desktopManager).
   #services.xserver.libinput.enable = true;
   #services.xserver.libinput.touchpad.tapping = true; #tap
-  # Do nothing if AC on
 #  services.logind.lidSwitchExternalPower = "ignore";
-  #tlp
   services.tlp.enable = true;
-  #upower dbus
 #  services.upower.enable = true;
 #  powerManagement = {
 #    enable = true;
@@ -176,12 +171,6 @@
      git
      neofetch
      gh
-     zig
-     killall
-     gh
-     vim
-     wget
-     neofetch
      xdg-utils
      xdg-desktop-portal
      xdg-desktop-portal-gtk
@@ -200,6 +189,7 @@
      nwg-look
      mangohud
      gamescope
+     appimage-run
 #     build-essential
    ];
 

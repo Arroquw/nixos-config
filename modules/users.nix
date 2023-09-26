@@ -1,7 +1,5 @@
 { config, pkgs, lib, inputs, user, ... }:
 {
-
-
 # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${user} = {
     isNormalUser = true;
@@ -9,7 +7,7 @@
     extraGroups = [ "networkmanager" "wheel" "qemu-libvirtd" "libvirtd" "kvm" ];
     packages = with pkgs; [
      neovim
-     google-chrome-beta
+     firefox
      swaylock-effects swayidle wlogout swaybg  #Login etc..  
      waybar                                    #topbar 
      wayland-protocols
@@ -27,6 +25,7 @@
      gnome.file-roller
      gnome.gnome-font-viewer
      gnome.gnome-calculator
+     speedcrunch
      vlc                                       #Video player
      amberol                                   #Music player
      cava                                      #Sound Visualized
@@ -72,15 +71,10 @@
        desktopName = "Discord";
        icon = "${pkgs.tela-circle-icon-theme}/share/icons/Tela-circle/scalable/apps/discord.svg";
      })
-     playerctl
-     git
      spotify
-     konsole
-     pipewire
      feh
      swww
      ripgrep
-     firefox
      (pkgs.appimageTools.wrapType1 {
 	name = "prospect-mail";
 	src = pkgs.fetchurl {
