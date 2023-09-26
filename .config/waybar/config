@@ -48,7 +48,7 @@
 	},
 	"cpu": {
 		"tooltip": true,
-		"format": "{}%",
+		"format": "  {}%",
 		"states": {
 			"heavy": 70,
 			"full": 90
