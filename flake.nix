@@ -5,12 +5,12 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     hyprland.url = "github:hyprwm/Hyprland";
     home-manager.url = "github:nix-community/home-manager";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";   };
+    home-manager.inputs.nixpkgs.follows = "nixpkgs"; };
 
 
   outputs = { self, nixpkgs, hyprland, home-manager, ... }: 
     let
-      user = "justin";
+      user = "jusson";
       system = "x86_64-linux";
       pkgs = import nixpkgs {
        inherit system;
@@ -27,7 +27,6 @@
             hyprland.nixosModules.default
             {
               programs.hyprland.enable = true;
-              programs.hyprland.enableNvidiaPatches=true;
               programs.hyprland.xwayland.enable=true;
             }
             home-manager.nixosModules.home-manager
@@ -40,7 +39,12 @@
           ];
         };
       };
-    };
-  }
+};
+}
+
 #nixos-23.11
+
+
+
+
 

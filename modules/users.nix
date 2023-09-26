@@ -57,34 +57,20 @@
      gnome.zenity
      wine64Packages.waylandFull
      curl
-     (steam.override {
-      extraPkgs = pkgs: [ bumblebee glxinfo mangohud gamescope libgdiplus ];
-     }).run
      #########################
-     pulseaudio
-     primus
-     bumblebee
-     tela-circle-icon-theme
-     (pkgs.makeDesktopItem {
-       name = "discord";
-       exec = "${pkgs.discord}/bin/discord --use-gl=desktop";
-       desktopName = "Discord";
-       icon = "${pkgs.tela-circle-icon-theme}/share/icons/Tela-circle/scalable/apps/discord.svg";
-     })
-     spotify
-     feh
-     swww
      ripgrep
+     pulseaudio
+     tela-circle-icon-theme
      (pkgs.appimageTools.wrapType1 {
 	name = "prospect-mail";
 	src = pkgs.fetchurl {
 		url = "https://github.com/julian-alarcon/prospect-mail/releases/download/v0.5.1/Prospect-Mail-0.5.1.AppImage";
 		sha256 = "2b5d3a56423f8cf5a71eab1631600a6f34321b9af487e2f7b2e7e1e19c64a884";
 	};
-      }) 
+      })
     ];
   };
-  programs.gamemode.enable = true;
+  nixpkgs.config.allowUnfree = true;
   #swaylock pass verify
   security.pam.services.swaylock = {
     text = ''
@@ -103,13 +89,6 @@
   #gnome outside gnome
   programs.dconf.enable = lib.mkDefault true;
 
-  #Steam
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
-    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
-  };
-  
   #DIRS
     environment.etc."xdg/user-dirs.defaults".text= ''
     DESKTOP=$HOME/Desktop
@@ -132,6 +111,5 @@
       });
     })
     ];
-
-
+    
 }
