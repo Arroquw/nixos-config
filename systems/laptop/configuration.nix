@@ -4,6 +4,7 @@
   nix.settings = {
     substituters = ["https://hyprland.cachix.org"];
     trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
+    experimental-features = [ "nix-command" "flakes" ];
   };
 
 # Include the results of the hardware scan.
@@ -13,8 +14,23 @@
     ./modules/users.nix];
 
 
-  #ntfs support
-  boot.supportedFilesystems = [ "ntfs" ];
+  nixpkgs.config.allowUnfree = true;
+  
+ boot = {
+    supportedFilesystems = [ "ntfs" ];
+    loader = {
+      efi = {
+        canTouchEfiVariables = true;
+        efiSysMountPoint = "/boot";
+      };
+      systemd-boot = {
+        enable = true;
+        configurationLimit = 3;
+      };
+    };
+  };
+
+
   # Fonts
     fonts.packages = with pkgs; [
       font-awesome
@@ -22,15 +38,6 @@
      ];
   #emojis
     #services.gollum.emoji = true;
-
-
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.efi.efiSysMountPoint = "/boot";
-  # Boot entries limit
-  boot.loader.systemd-boot.configurationLimit = 3;
-
 
   # Define your hostname
   networking.hostName = "lnxclnt2840";
@@ -62,7 +69,7 @@
 
 
   # Set your time zone.
-  time.timeZone = "Asia/Kuwait";
+  time.timeZone = "Europe/Amsterdam";
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
   i18n.extraLocaleSettings = {
@@ -83,22 +90,15 @@
   };
 
   #Services
-  # Enable the X11 windowing system.
   services.xserver.enable = true;
-  # Flatpak
-  services.flatpak.enable = true;
-  # locate
+#  services.flatpak.enable = true;
   services.locate.enable = true;
-  # Enable CUPS to print documents.
   services.printing.enable = true;
   # Enable touchpad support (enabled default in most desktopManager).
   services.xserver.libinput.enable = true;
   services.xserver.libinput.touchpad.tapping = true; #tap
-  # Do nothing if AC on
   services.logind.lidSwitchExternalPower = "ignore";
-  #tlp
   services.tlp.enable = true;
-  #upower dbus
   services.upower.enable = true;
   powerManagement = {
     enable = true;
@@ -128,7 +128,6 @@
   #SystemPackages
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
   environment.systemPackages = with pkgs; [
  # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
      vim
@@ -139,6 +138,22 @@
      neofetch
      gh
      libusb
+     xdg-utils
+     xdg-desktop-portal
+     xdg-desktop-portal-gtk
+     xdg-desktop-portal-hyprland
+     xwayland
+     meson
+     busybox
+     gcc
+     konsole
+     dolphin
+     read-edid
+     cloud-utils
+     go
+     pkg-config
+     libpng
+     nwg-look
      appimage-run
   ];
 
@@ -156,7 +171,7 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.05"; # Did you read the comment?
+  system.stateVersion = "23.11"; # Did you read the comment?
 }
 
 
