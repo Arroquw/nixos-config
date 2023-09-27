@@ -97,7 +97,11 @@
   # Enable touchpad support (enabled default in most desktopManager).
   services.xserver.libinput.enable = true;
   services.xserver.libinput.touchpad.tapping = true; #tap
-  services.logind.lidSwitchExternalPower = "ignore";
+  services.logind = {
+	lidSwitchExternalPower = "ignore";
+ 	#lidSwitchDock = "ignore";
+  	lidSwitch = "hibernate";
+  };
   services.tlp.enable = true;
   services.upower.enable = true;
   powerManagement = {
@@ -141,7 +145,7 @@
      xdg-utils
      xdg-desktop-portal
      xdg-desktop-portal-gtk
-     xdg-desktop-portal-hyprland
+     #xdg-desktop-portal-hyprland
      xwayland
      meson
      busybox

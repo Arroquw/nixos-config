@@ -12,7 +12,6 @@
      waybar                                    #topbar 
      wayland-protocols
      wayland-utils
-     wlroots
      libsForQt5.qt5.qtwayland
      kanshi                                    #laptop dncies
      rofi mako rofimoji                        #Drawer + notifications
@@ -52,7 +51,7 @@
      dbus
      #gsettings-desktop-schemas
      #wrapGAppsHook
-     xdg-desktop-portal-hyprland
+     #xdg-desktop-portal-hyprland
      ####photoshop dencies####
      gnome.zenity
      wine64Packages.waylandFull
@@ -65,11 +64,20 @@
 	name = "prospect-mail";
 	src = pkgs.fetchurl {
 		url = "https://github.com/julian-alarcon/prospect-mail/releases/download/v0.5.1/Prospect-Mail-0.5.1.AppImage";
-		sha256 = "2b5d3a56423f8cf5a71eab1631600a6f34321b9af487e2f7b2e7e1e19c64a884";
+		sha256 = "sha256-K106VkI/jPWnHqsWMWAKbzQyG5r0h+L3sufh4ZxkqIQ=";
 	};
       })
+     (pkgs.appimageTools.wrapType1 {
+	name = "teams-for-linux";
+	src = pkgs.fetchurl {
+		url = "https://github.com/IsmaelMartinez/teams-for-linux/releases/download/v1.3.11/teams-for-linux-1.3.11.AppImage"; 
+		sha256 = "sha256-UmVU5/oKuR3Wx2YHqD5cWjS/PeE7PTNJYF2VoGVdPcs=";
+	};
+      })
+      wine
     ];
   };
+
   nixpkgs.config.allowUnfree = true;
   #swaylock pass verify
   security.pam.services.swaylock = {
@@ -77,6 +85,8 @@
       auth include login
     '';
   };
+
+  programs.xss-lock.enable = true;
 
   #thunar dencies
   programs.thunar.plugins = with pkgs.xfce; [
