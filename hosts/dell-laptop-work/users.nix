@@ -93,6 +93,11 @@
           sha256 = "sha256-UmVU5/oKuR3Wx2YHqD5cWjS/PeE7PTNJYF2VoGVdPcs=";
         };
       })
+      (pkgs.makeDesktopItem {
+        name = "allegro-free-viewer";
+        exec = "wine64 /home/${user}/Programs/17.2/tools/bin/allegro_free_viewer.exe";
+        desktopName = "AllegroFreeViewer";
+      })
       remmina
       libreoffice-qt
       hunspell
@@ -106,6 +111,7 @@
       okular
       cifs-utils
       keyutils
+      vscode
     ];
   };
 
