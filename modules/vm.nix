@@ -1,7 +1,4 @@
-{ config, pkgs, user, ... }:
-
-{
-
+{ config, pkgs, user, ... }: {
   # Enable dconf (System Management Tool) enabled in users.nix
   #programs.dconf.enable = true;
 
@@ -12,7 +9,8 @@
   environment.systemPackages = with pkgs; [
     virt-manager
     virt-viewer
-    spice spice-gtk
+    spice
+    spice-gtk
     spice-protocol
     win-virtio
     win-spice
@@ -33,5 +31,4 @@
     spiceUSBRedirection.enable = true;
   };
   services.spice-vdagentd.enable = true;
-
 }
