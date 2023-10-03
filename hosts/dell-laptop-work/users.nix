@@ -8,7 +8,7 @@
     packages = with pkgs; [
      neovim
      firefox
-     swaylock-effects swayidle wlogout swaybg  #Login etc..  
+     swaylock-effects wlogout swaybg  #Login etc..  
      waybar                                    #topbar 
      wayland-protocols
      wayland-utils
@@ -55,6 +55,20 @@
      ####photoshop dencies####
      gnome.zenity
      wine64Packages.waylandFull
+
+     # support both 32- and 64-bit applications
+     wineWowPackages.stable
+
+     # wine-staging (version with experimental features)
+     wineWowPackages.staging
+
+     # winetricks (all versions)
+     winetricks
+
+     # native wayland support (unstable)
+     wineWowPackages.waylandFull
+     wine
+     (wine.override { wineBuild = "wine64"; })
      curl
      #########################
      ripgrep
@@ -74,17 +88,29 @@
 		sha256 = "sha256-UmVU5/oKuR3Wx2YHqD5cWjS/PeE7PTNJYF2VoGVdPcs=";
 	};
       })
-      wine
+      remmina
+      libreoffice-qt
+      hunspell
+      hunspellDicts.nl_NL
+      openconnect
+      xss-lock
+      sshfs
+      spotify
+      cifs-utils
+      procps
+      okular
+      cifs-utils
+      keyutils
     ];
   };
 
   nixpkgs.config.allowUnfree = true;
   #swaylock pass verify
-  security.pam.services.swaylock = {
-    text = ''
-      auth include login
-    '';
-  };
+#  security.pam.services.swaylock = {
+#    text = ''
+#      auth include login
+#    '';
+#  };
 
   programs.xss-lock.enable = true;
 
@@ -99,6 +125,7 @@
   #gnome outside gnome
   programs.dconf.enable = lib.mkDefault true;
 
+  security.pam.services.swaylock = {};
   #DIRS
     environment.etc."xdg/user-dirs.defaults".text= ''
     DESKTOP=$HOME/Desktop
@@ -121,5 +148,5 @@
       });
     })
     ];
-    
+
 }

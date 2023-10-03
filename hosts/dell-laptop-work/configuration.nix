@@ -9,19 +9,14 @@
 
 # Include the results of the hardware scan.
     imports = [ ./hardware-configuration.nix 
-    ./modules/vm.nix
-    ./modules/shell.nix
-    ./modules/users.nix
-    ./modules/nvidia.nix];
+    ../../modules/vm.nix
+    ../../modules/shell.nix
+    ./users.nix];
+
 
   nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.nvidia.acceptLicense = true;
-
-  boot = {
-    initrd = {
-      kernelModules = [ "nvidia" ];
-    };
-    extraModulePackages = [ config.boot.kernelPackages.nvidia_x11 ];
+  
+ boot = {
     supportedFilesystems = [ "ntfs" ];
     loader = {
       efi = {
@@ -35,38 +30,12 @@
     };
   };
 
-  fileSystems = {
-    "/mnt/newvolume" =
-    { device = "/dev/disk/by-path/pci-0000:00:17.0-ata-2-part2";
-      fsType = "ntfs-3g";
-      options = [ "rw" "uid=1000" ];
-    };
 
-    "/mnt/brokenconn" =
-    { device = "/dev/disk/by-path/pci-0000:00:17.0-ata-4-part2";
-      fsType = "ntfs-3g";
-      options = [ "rw" "uid=1000" ];
-    };
-
-    "/mnt/hdd" =
-    { device = "/dev/disk/by-path/pci-0000:00:17.0-ata-6-part1";
-      fsType = "ntfs-3g";
-      options = [ "rw" "uid=1000" ];
-    };
-
-    "/mnt/intel-nvme" =
-    { device = "/dev/disk/by-path/pci-0000:03:00.0-nvme-1-part2";
-      fsType = "ntfs-3g";
-      options = [ "rw" "uid=1000" ];
-    };
-  
-    "/mnt/windows" =
-    { device = "/dev/disk/by-path/pci-0000:02:00.0-nvme-1-part2";
-      fsType = "ntfs-3g";
-      options = [ "rw" "uid=1000" ];
-    };
+fileSystems."/mnt/media" = {
+device = "//prodrive.nl/copydrive/data";
+fsType = "cifs";
+options = [ "rw,noauto,users,file_mode=0664,dir_mode=0775,noserverino,nohandlecache" ];
 };
-
 
   # Fonts
     fonts.packages = with pkgs; [
@@ -77,9 +46,10 @@
     #services.gollum.emoji = true;
 
   # Define your hostname
-  networking.hostName = "NixOS-justin";
+  networking.hostName = "lnxclnt2840";
   # Enable networking
-  networking.networkmanager.enable = true; 
+  networking.networkmanager.enable = true;
+  networking.wireless.userControlled.enable = true;
   # Bluethooth
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
@@ -104,6 +74,7 @@
   };
 
 
+
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";
   # Select internationalisation properties.
@@ -126,28 +97,32 @@
   };
 
   #Services
-  # Enable the X11 windowing system.
   services.xserver.enable = true;
 #  services.flatpak.enable = true;
-#  services.locate.enable = true;
-  # Enable CUPS to print documents.
+  services.locate.enable = true;
   services.printing.enable = true;
   # Enable touchpad support (enabled default in most desktopManager).
-  #services.xserver.libinput.enable = true;
-  #services.xserver.libinput.touchpad.tapping = true; #tap
-#  services.logind.lidSwitchExternalPower = "ignore";
+  services.xserver.libinput.enable = true;
+  services.xserver.libinput.touchpad.tapping = true; #tap
+  services.logind = {
+	lidSwitchExternalPower = "ignore";
+ 	#lidSwitchDock = "ignore";
+  	lidSwitch = "hibernate";
+  };
   services.tlp.enable = true;
-#  services.upower.enable = true;
-#  powerManagement = {
-#    enable = true;
-#    cpuFreqGovernor = "ondemand";
-# };
+  services.upower.enable = true;
+  powerManagement = {
+    enable = true;
+    cpuFreqGovernor = "powersave";
+ };
 
 
   #Display
   # Enable Gnome login
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.displayManager.gdm.wayland = true;
+  services.xserver.displayManager = {
+	gdm.enable = true;
+ 	gdm.wayland = true;
+  };
   #services.xserver.displayManager.gdm.settings = {};
  
   #xdg  
@@ -162,6 +137,9 @@
     wlr.enable = true;
   };
 
+  #SystemPackages
+  # List packages installed in system profile. To search, run:
+  # $ nix search wget
   environment.systemPackages = with pkgs; [
  # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
      vim
@@ -174,24 +152,19 @@
      xdg-utils
      xdg-desktop-portal
      xdg-desktop-portal-gtk
-     xdg-desktop-portal-hyprland
+     #xdg-desktop-portal-hyprland
      xwayland
      meson
      busybox
-     gcc
      konsole
      dolphin
      read-edid
      cloud-utils
      go
-     pkg-config
-     libpng
      nwg-look
-     mangohud
-     gamescope
      appimage-run
-#     build-essential
-   ];
+     mesa
+  ];
 
   #Firewall
   # Open ports in the firewall.
@@ -209,5 +182,4 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.11"; # Did you read the comment?
 }
-
 
