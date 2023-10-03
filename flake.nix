@@ -10,53 +10,37 @@
   outputs = { self, nixpkgs, hyprland, home-manager, ... }: 
     let
       system = "x86_64-linux";
-      pkgs = import nixpkgs {
-       inherit system;
-       config.allowUnfree = true;
-        };
-    in {
-      nixosConfigurations = {
-	lnxclnt2840 = nixpkgs.lib.nixosSystem {
+
+      buildSystem = { name, username }: 
+        nixpkgs.lib.nixosSystem {
           inherit system;
-	  specialArgs = {user = "jusson";};
+          specialArgs = { user = username; };
           modules = [
-	    ./hosts/dell-laptop-work/configuration.nix
+            ./hosts/${name}/configuration.nix
             hyprland.nixosModules.default
             {
-              programs.hyprland.enable = true;
-              programs.hyprland.xwayland.enable=true;
+              programs.hyprland = {
+		enable = true;
+              	xwayland.enable = true;
+	      };
             }
             home-manager.nixosModules.home-manager
             {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = {user = "jusson";};
-              home-manager.users.jusson = import ./modules/home.nix;
+              home-manager = {
+		useGlobalPkgs = true;
+                useUserPackages = true;
+                extraSpecialArgs = { user = username; };
+                users.${username} = import ./modules/home.nix;
+	      };
             }
           ];
-	  specialArgs = { inherit nixpkgs; };
-      };
-      NixOs-justin = nixpkgs.lib.nixosSystem {
-	inherit system;
-	specialArgs = {user = "justin";};
-	modules = [
-	  ./hosts/pc-i9_9900k-rtx3090/configuration.nix
-	  hyprland.nixosModules.default
-          {
-		programs.hyprland.enable = true;
-		programs.hyprland.xwayland.enable = true;
-	  }
-	  home-manager.nixosModules.home-manager
-	  {
-	    home-manager.useGlobalPkgs = true;
-	    home-manager.useUserPackages = true;
-	    home-manager.extraSpecialArgs = {user = "justin";};
-	    home-manager.users.justin = import ./modules/home.nix;
-	  }
-	];
-      };
+        };
+    in {
+	nixosConfigurations = {
+		lnxclnt2840 = buildSystem { name = "dell-laptop-work"; username = "jusson";};
+		NixOs-justin = buildSystem { name = "pc-i9_9900k-rtx3090"; username = "justin";};
+	};	
     };
-  };
 }
 
 #nixos-23.11
