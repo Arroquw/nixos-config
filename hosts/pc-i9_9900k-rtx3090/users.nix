@@ -108,6 +108,15 @@
           sha256 = "sha256-UmVU5/oKuR3Wx2YHqD5cWjS/PeE7PTNJYF2VoGVdPcs=";
         };
       })
+      (pkgs.appimageTools.wrapType1 {
+        name = "arduino";
+        src = pkgs.fetchurl {
+          url =
+            "https://downloads.arduino.cc/arduino-ide/nightly/arduino-ide_nightly-20231003_Linux_64bit.AppImage";
+          sha256 = "sha256-E+UjKnykCm/yoYj8kixknlcS3TJCf2FuMh2RHYoh+L4=";
+        };
+	extraPkgs = pkgs: [ libsecret ];
+      })
       remmina
       libreoffice-qt
       hunspell
