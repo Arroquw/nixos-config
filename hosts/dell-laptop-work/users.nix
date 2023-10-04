@@ -109,9 +109,12 @@
       cifs-utils
       procps
       okular
-      cifs-utils
-      keyutils
       vscode
+      telegram-desktop
+      grim
+      jq
+      slurp
+      minicom
     ];
   };
 

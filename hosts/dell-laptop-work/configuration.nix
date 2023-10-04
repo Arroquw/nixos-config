@@ -30,14 +30,20 @@
     };
   };
 
-  fileSystems."/mnt/media" = {
+  fileSystems."/mnt/pd-common/copydrive" = {
     device = "//prodrive.nl/copydrive/data";
     fsType = "cifs";
     options = [
-      "rw,noauto,users,file_mode=0664,dir_mode=0775,noserverino,nohandlecache"
+      "rw,noauto,users,file_mode=0664,dir_mode=0775,noserverino,nohandlecache,username=jusson,credentials=/etc/win-credentials"
     ];
   };
-
+  fileSystems."/mnt/pd-user/projects" = {
+    device = "//prodrive.nl/product";
+    fsType = "cifs";
+    options = [
+      "rw,noauto,users,file_mode=0664,dir_mode=0775,noserverino,nohandlecache,username=jusson,credentials=/etc/win-credentials"
+    ];
+  };
   # Fonts
   fonts.packages = with pkgs; [
     font-awesome
@@ -162,6 +168,9 @@
     nwg-look
     appimage-run
     mesa
+    cifs-utils
+    keyutils
+    minicom
   ];
 
   #Firewall

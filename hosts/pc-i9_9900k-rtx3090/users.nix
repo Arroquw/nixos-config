@@ -115,11 +115,9 @@
       openconnect
       xss-lock
       sshfs
-      cifs-utils
       procps
       okular
-      cifs-utils
-      keyutils
+      telegram-desktop
     ];
   };
   programs.gamemode.enable = true;
