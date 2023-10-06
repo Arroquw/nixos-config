@@ -115,7 +115,7 @@
             "https://downloads.arduino.cc/arduino-ide/nightly/arduino-ide_nightly-20231003_Linux_64bit.AppImage";
           sha256 = "sha256-E+UjKnykCm/yoYj8kixknlcS3TJCf2FuMh2RHYoh+L4=";
         };
-	extraPkgs = pkgs: [ libsecret ];
+        extraPkgs = pkgs: [ libsecret ];
       })
       remmina
       libreoffice-qt

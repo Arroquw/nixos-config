@@ -95,7 +95,8 @@
       })
       (pkgs.makeDesktopItem {
         name = "allegro-free-viewer";
-        exec = "wine64 /home/${user}/Programs/17.2/tools/bin/allegro_free_viewer.exe";
+        exec =
+          "wine64 /home/${user}/Programs/17.2/tools/bin/allegro_free_viewer.exe";
         desktopName = "AllegroFreeViewer";
       })
       remmina

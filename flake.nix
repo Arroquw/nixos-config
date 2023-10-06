@@ -38,8 +38,14 @@
     in {
       formatter.${system} = nixpkgs.legacyPackages.${system}.nixfmt;
       nixosConfigurations = {
-        lnxclnt2840 = buildSystem { name = "dell-laptop-work"; username = "jusson"; };
-        NixOs-justin = buildSystem { name = "pc-i9_9900k-rtx3090"; username = "justin"; };
+        lnxclnt2840 = buildSystem {
+          name = "dell-laptop-work";
+          username = "jusson";
+        };
+        NixOs-justin = buildSystem {
+          name = "pc-i9_9900k-rtx3090";
+          username = "justin";
+        };
       };
     };
 }
