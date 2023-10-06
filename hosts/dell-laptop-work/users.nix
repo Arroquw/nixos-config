@@ -115,6 +115,10 @@
       jq
       slurp
       minicom
+      dunst
+      hyprpicker
+      imagemagick
+      htop
     ];
   };
 

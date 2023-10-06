@@ -34,14 +34,14 @@
     device = "//prodrive.nl/copydrive/data";
     fsType = "cifs";
     options = [
-      "rw,noauto,users,file_mode=0664,dir_mode=0775,noserverino,nohandlecache,username=jusson,credentials=/etc/win-credentials"
+      "rw,noauto,users,file_mode=0664,dir_mode=0775,noserverino,nohandlecache,credentials=/etc/win-credentials"
     ];
   };
   fileSystems."/mnt/pd-user/projects" = {
     device = "//prodrive.nl/product";
     fsType = "cifs";
     options = [
-      "rw,noauto,users,file_mode=0664,dir_mode=0775,noserverino,nohandlecache,username=jusson,credentials=/etc/win-credentials"
+      "rw,noauto,users,file_mode=0664,dir_mode=0775,noserverino,nohandlecache,credentials=/etc/win-credentials"
     ];
   };
   # Fonts
