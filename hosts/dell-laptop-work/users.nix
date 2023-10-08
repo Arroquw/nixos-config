@@ -1,4 +1,4 @@
-{ config, pkgs, lib, inputs, user, ... }: {
+{ config, pkgs, lib, user, ... }: {
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${user} = {
     isNormalUser = true;
@@ -131,18 +131,19 @@
   #    '';
   #  };
 
-  programs.xss-lock.enable = true;
+  programs = {
+    xss-lock.enable = true;
 
-  #thunar dencies
-  programs.thunar.plugins = with pkgs.xfce; [
-    thunar-archive-plugin
-    thunar-volman
-  ];
-  services.gvfs.enable = true;
-  services.tumbler.enable = true;
+    #thunar dencies
+    thunar.plugins = with pkgs.xfce; [ thunar-archive-plugin thunar-volman ];
+    dconf.enable = lib.mkDefault true;
+  };
+  services = {
+    gvfs.enable = true;
+    tumbler.enable = true;
+  };
 
   #gnome outside gnome
-  programs.dconf.enable = lib.mkDefault true;
 
   security.pam.services.swaylock = { };
   #DIRS

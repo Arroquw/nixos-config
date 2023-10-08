@@ -1,4 +1,4 @@
-{ config, pkgs, lib, inputs, user, ... }: {
+{ config, pkgs, lib, user, ... }: {
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${user} = {
     isNormalUser = true;
@@ -83,7 +83,8 @@
       tela-circle-icon-theme
       (pkgs.makeDesktopItem {
         name = "discord";
-        exec = "${pkgs.discord}/bin/discord --use-gl=desktop";
+        exec =
+          "env -u NIXOS_OZONE_WL ${pkgs.discord}/bin/discord --use-gl=desktop";
         desktopName = "Discord";
         icon =
           "${pkgs.tela-circle-icon-theme}/share/icons/Tela-circle/scalable/apps/discord.svg";
@@ -127,9 +128,26 @@
       procps
       okular
       telegram-desktop
+      grim
+      jq
+      slurp
+      wireplumber
     ];
   };
-  programs.gamemode.enable = true;
+  programs = {
+    gamemode.enable = true;
+    xss-lock.enable = true;
+    thunar.plugins = with pkgs.xfce; [ thunar-archive-plugin thunar-volman ];
+    dconf.enable = lib.mkDefault true;
+    #Steam
+    steam = {
+      enable = true;
+      remotePlay.openFirewall =
+        true; # Open ports in the firewall for Steam Remote Play
+      dedicatedServer.openFirewall =
+        true; # Open ports in the firewall for Source Dedicated Server
+    };
+  };
 
   nixpkgs.config.allowUnfree = true;
   #swaylock pass verify
@@ -139,27 +157,12 @@
   #    '';
   #  };
 
-  programs.xss-lock.enable = true;
-
   #thunar dencies
-  programs.thunar.plugins = with pkgs.xfce; [
-    thunar-archive-plugin
-    thunar-volman
-  ];
+
   services.gvfs.enable = true;
   services.tumbler.enable = true;
 
   #gnome outside gnome
-  programs.dconf.enable = lib.mkDefault true;
-
-  #Steam
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall =
-      true; # Open ports in the firewall for Steam Remote Play
-    dedicatedServer.openFirewall =
-      true; # Open ports in the firewall for Source Dedicated Server
-  };
 
   security.pam.services.swaylock = { };
   #DIRS
