@@ -195,8 +195,6 @@
     pkg-config
     libpng
     nwg-look
-    mangohud
-    gamescope
     appimage-run
     #     build-essential
   ];
