@@ -1,18 +1,14 @@
-{ stdenv
-, fetchFromGitLab
-, cmake
-, pkg-config
-, extra-cmake-modules
-, qt5
-, libsForQt5
-}: stdenv.mkDerivation rec {
+{ stdenv, fetchFromGitLab, cmake, pkg-config, extra-cmake-modules, qt5
+, libsForQt5, pkgs }:
+stdenv.mkDerivation rec {
   pname = "xwaylandvideobridge";
   version = "unstable-2023-03-28";
   patches = [
-	(pkgs.fetchPath {
-		url = "https://aur.archlinux.org/cgit/aur.git/plain/cursor-mode.patch?h=xwaylandvideobridge-cursor-mode-2-git";
-		hash = "";
-	})
+    (pkgs.fetchpatch {
+      url =
+        "https://aur.archlinux.org/cgit/aur.git/plain/cursor-mode.patch?h=xwaylandvideobridge-cursor-mode-2-git";
+      hash = "";
+    })
   ];
   src = fetchFromGitLab {
     domain = "invent.kde.org";
@@ -22,11 +18,7 @@
     hash = "sha256-gfQkOIZegxdFQ9IV2Qp/lLRtfI5/g6bDD3XRBdLh4q0=";
   };
 
-  nativeBuildInputs = [
-    cmake
-    extra-cmake-modules
-    pkg-config
-  ];
+  nativeBuildInputs = [ cmake extra-cmake-modules pkg-config ];
 
   buildInputs = [
     qt5.qtbase
@@ -45,6 +37,5 @@
       };
     }))
   ];
-  
   dontWrapQtApps = true;
 }
