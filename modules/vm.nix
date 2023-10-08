@@ -1,4 +1,4 @@
-{ config, pkgs, user, ... }: {
+{ pkgs, user, ... }: {
   # Enable dconf (System Management Tool) enabled in users.nix
   #programs.dconf.enable = true;
 

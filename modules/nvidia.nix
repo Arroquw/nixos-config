@@ -1,4 +1,4 @@
-{ config, pkgs, lib, inputs, user, ... }: {
+{ config, ... }: {
   #Nvidia
   #Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -36,17 +36,23 @@
     '';
   };
 
-  hardware.opengl.enable = true;
-  hardware.opengl.driSupport = true;
-  hardware.opengl.driSupport32Bit = true;
-  hardware.nvidia.nvidiaSettings = true;
-  hardware.nvidia.powerManagement.enable = true;
-  hardware.nvidia.forceFullCompositionPipeline = true;
+  hardware = {
+    opengl = {
+      enable = true;
+      driSupport = true;
+      driSupport32Bit = true;
+    };
+    nvidia = {
+      nvidiaSettings = true;
+      powerManagement.enable = true;
+      forceFullCompositionPipeline = true;
+      # Optionally, you may need to select the appropriate driver version for your specific GPU.
+      package = config.boot.kernelPackages.nvidiaPackages.stable;
+      # nvidia-drm.modeset=1 is required for some wayland compositors, e.g. sway
+      modesetting.enable = true;
+    };
+  };
 
-  # Optionally, you may need to select the appropriate driver version for your specific GPU.
-  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
-  # nvidia-drm.modeset=1 is required for some wayland compositors, e.g. sway
-  hardware.nvidia.modesetting.enable = true;
   #Switch GPU
   #services.switcherooControl.enable = true;
 
