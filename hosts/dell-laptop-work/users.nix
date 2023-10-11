@@ -151,6 +151,7 @@ in {
       hyprpicker
       imagemagick
       htop
+      home-manager
     ];
   };
 
