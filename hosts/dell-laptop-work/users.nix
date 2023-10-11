@@ -1,9 +1,15 @@
-{ config, pkgs, lib, user, ... }: {
+{ config, pkgs, lib, user, ... }:
+let
+  xdg-utils-patched = pkgs.xdg-utils.overrideAttrs
+    (oldAttrs: { patches = oldAttrs.patches ++ [ ../../debug-1.patch ]; });
+  xdg-utils = xdg-utils-patched;
+in {
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${user} = {
     isNormalUser = true;
     description = "${user}";
     extraGroups = [ "networkmanager" "wheel" "qemu-libvirtd" "libvirtd" "kvm" ];
+
     packages = with pkgs; [
       neovim
       firefox
@@ -55,6 +61,8 @@
       #gsettings-desktop-schemas
       #wrapGAppsHook
       #xdg-desktop-portal-hyprland
+      xdg-utils
+      xdg-launch
       ####photoshop dencies####
       gnome.zenity
       wine64Packages.waylandFull
@@ -144,6 +152,9 @@
   };
 
   #gnome outside gnome
+  systemd.user.extraConfig = ''
+    DefaultEnvironment="PATH=/run/wrappers/bin:/home/jusson/.nix-profile/bin:/home/jusson/.local/state/nix/profile/bin:/etc/profiles/per-user/jusson/bin:/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin"
+  '';
 
   security.pam.services.swaylock = { };
   #DIRS

@@ -1,0 +1,78 @@
+diff --git a/scripts/xdg-open.in b/scripts/xdg-open.in
+index 93e8cc0..ae36b2d 100644
+--- a/scripts/xdg-open.in
++++ b/scripts/xdg-open.in
+@@ -270,6 +270,7 @@ open_flatpak()
+             --timeout 5 \
+             "" "$uri" {}
+     fi
++    echo open_flatpak
+ 
+     if [ $? -eq 0 ]; then
+         exit_success
+@@ -519,6 +520,8 @@ fi
+ 
+ detectDE
+ 
++DEBUG 2 "DE: $DE"
++
+ if [ x"$DE" = x"" ]; then
+     DE=generic
+ fi
+@@ -539,6 +542,8 @@ case "${BROWSER}" in
+         ;;
+ esac
+ 
++DEBUG 2 "selected DE $DE"
++
+ case "$DE" in
+     kde)
+     open_kde "$url"
+@@ -585,6 +590,7 @@ case "$DE" in
+     ;;
+ 
+     flatpak)
++	    echo "opening from flatpak"
+     open_flatpak "$url"
+     ;;
+ 
+diff --git a/scripts/xdg-utils-common.in b/scripts/xdg-utils-common.in
+index 0147527..b9c3e14 100644
+--- a/scripts/xdg-utils-common.in
++++ b/scripts/xdg-utils-common.in
+@@ -271,7 +271,7 @@ detectDE()
+ {
+     # see https://bugs.freedesktop.org/show_bug.cgi?id=34164
+     unset GREP_OPTIONS
+-
++DEBUG 2 "current desktop: $XDG_CURRENT_DESKTOP"
+     if [ -n "${XDG_CURRENT_DESKTOP}" ]; then
+       case "${XDG_CURRENT_DESKTOP}" in
+          # only recently added to menu-spec, pre-spec X- still in use
+@@ -339,7 +339,8 @@ detectDE()
+            ;;
+       esac
+     fi
+-
++DEBUG 2 "desktop session: $DESKTOP_SESSION"
++DEBUG 2 " DE: $DE"
+     if [ x"$DE" = x"" ]; then
+       # fallback to uname output for other platforms
+       case "$(uname 2>/dev/null)" in
+@@ -352,12 +353,15 @@ detectDE()
+       esac
+     fi
+ 
++echo DE: $DE
+     if [ x"$DE" = x"gnome" ]; then
+       # gnome-default-applications-properties is only available in GNOME 2.x
+       # but not in GNOME 3.x
+       command -v gnome-default-applications-properties > /dev/null || DE="gnome3"
+     fi
+-
++DEBUG 2 "DE: $DE"
++ls -alh "$XDG_RUNTIME_DIR"
++DEBUG 2 " runtime dir: $XDG_RUNTIME_DIR"
+     if [ -f "$XDG_RUNTIME_DIR/flatpak-info" ]; then
+       DE="flatpak"
+     fi
