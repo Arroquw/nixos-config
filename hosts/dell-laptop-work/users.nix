@@ -85,21 +85,44 @@ in {
       ripgrep
       pulseaudio
       tela-circle-icon-theme
-      (pkgs.appimageTools.wrapType1 {
-        name = "prospect-mail";
+      (let
+        pname = "prospect-mail";
+        version = "0.5.1";
+        name = "${pname}-${version}";
         src = pkgs.fetchurl {
           url =
-            "https://github.com/julian-alarcon/prospect-mail/releases/download/v0.5.1/Prospect-Mail-0.5.1.AppImage";
+            "https://github.com/julian-alarcon/prospect-mail/releases/download/v${version}/Prospect-Mail-${version}.AppImage";
           sha256 = "sha256-K106VkI/jPWnHqsWMWAKbzQyG5r0h+L3sufh4ZxkqIQ=";
         };
+        appimageContents =
+          pkgs.appimageTools.extractType1 { inherit name src; };
+      in pkgs.appimageTools.wrapType1 {
+        inherit name src;
+        extraPkgs = appimageTools.defaultFhsEnvArgs.multiPkgs;
+        extraInstallCommands = ''
+          		mv $out/bin/${name} $out/bin/${pname}
+          		install -m 444 -D ${appimageContents}/${pname}.desktop $out/share/applications/${pname}.desktop
+          		install -m 444 -D ${appimageContents}/${pname}.png $out/share/icons/hicolor/512x512/apps/${pname}.png
+          		substituteInPlace $out/share/applications/${pname}.desktop \
+              	--replace 'Exec=AppRun --no-sandbox %U' 'Exec=${pname} %U'
+          	'';
       })
-      (pkgs.appimageTools.wrapType1 {
-        name = "teams-for-linux";
+      (let
+        pname = "teams-for-linux";
+        version = "1.3.11";
+        name = "${pname}-${version}";
         src = pkgs.fetchurl {
           url =
             "https://github.com/IsmaelMartinez/teams-for-linux/releases/download/v1.3.11/teams-for-linux-1.3.11.AppImage";
           sha256 = "sha256-UmVU5/oKuR3Wx2YHqD5cWjS/PeE7PTNJYF2VoGVdPcs=";
         };
+        appimageContents =
+          pkgs.appimageTools.extractType1 { inherit name src; };
+      in pkgs.appimageTools.wrapType1 {
+        inherit name src;
+        extraPkgs = appimageTools.defaultFhsEnvArgs.multiPkgs;
+        extraInstallCommands =
+          "	mv $out/bin/${name} $out/bin/${pname}\n	install -m 444 -D ${appimageContents}/${pname}.desktop $out/share/applications/${pname}.desktop\n	install -m 444 -D ${appimageContents}/${pname}.png $out/share/icons/hicolor/512x512/apps/${pname}.png\n	substituteInPlace $out/share/applications/${pname}.desktop \\\n	    	--replace 'Exec=AppRun --no-sandbox %U' 'Exec=${pname} %U'\n";
       })
       (pkgs.makeDesktopItem {
         name = "allegro-free-viewer";
