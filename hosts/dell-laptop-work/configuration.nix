@@ -159,10 +159,9 @@
     git
     neofetch
     gh
-    xdg-utils
     xdg-desktop-portal
     xdg-desktop-portal-gtk
-    #xdg-desktop-portal-hyprland
+    xdg-desktop-portal-hyprland
     xwayland
     meson
     busybox
