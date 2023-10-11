@@ -22,7 +22,10 @@
       buildSystem = { username, name }:
         nixpkgs.lib.nixosSystem {
           inherit system;
-          specialArgs = { user = username; };
+          specialArgs = {
+            user = username;
+            inherit self;
+          };
           modules = [
             ./hosts/${name}/configuration.nix
             hyprland.nixosModules.default

@@ -1,4 +1,4 @@
-{ config, pkgs, ... }: {
+{ self, config, pkgs, ... }: {
   nix.settings = {
     substituters = [ "https://hyprland.cachix.org" ];
     trusted-public-keys =
@@ -176,6 +176,7 @@
     cifs-utils
     keyutils
     minicom
+    self.packages.${pkgs.system}.xwaylandvideobridge
   ];
 
   powerManagement = {

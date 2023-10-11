@@ -1,24 +1,26 @@
 { stdenv, fetchFromGitLab, cmake, pkg-config, extra-cmake-modules, qt5
 , libsForQt5, pkgs }:
-stdenv.mkDerivation rec {
+pkgs.libsForQt5.callPackage({mkDerivation}: mkDerivation) {} rec {
   pname = "xwaylandvideobridge";
-  version = "unstable-2023-03-28";
+  version = "master";
+  name = "${pname}-${version}";
+  src = fetchFromGitLab {
+    #https://invent.kde.org/system/xwaylandvideobridge.git
+    domain = "invent.kde.org";
+    owner = "system";
+    repo = "xwaylandvideobridge";
+    rev = "0698f6a95588222bb1ab6a9c5d760b1f6aaee5e0";
+    hash = "sha256-gKkkwBPUpy6eN5MWk/5ivynxHuaFRClPdQkWBJytijI=";
+  };
+
+  nativeBuildInputs = [ cmake extra-cmake-modules pkg-config ];
   patches = [
     (pkgs.fetchpatch {
       url =
         "https://aur.archlinux.org/cgit/aur.git/plain/cursor-mode.patch?h=xwaylandvideobridge-cursor-mode-2-git";
-      hash = "";
+      hash = "sha256-649kCs3Fsz8VCgGpZ952Zgl8txAcTgakLoMusaJQYa4=";
     })
   ];
-  src = fetchFromGitLab {
-    domain = "invent.kde.org";
-    owner = "davidedmundson";
-    repo = "xwaylandvideobridge";
-    rev = "b876b5f3ee5cc810c99b08e8f0ebb29553e45e47";
-    hash = "sha256-gfQkOIZegxdFQ9IV2Qp/lLRtfI5/g6bDD3XRBdLh4q0=";
-  };
-
-  nativeBuildInputs = [ cmake extra-cmake-modules pkg-config ];
 
   buildInputs = [
     qt5.qtbase
@@ -37,5 +39,4 @@ stdenv.mkDerivation rec {
       };
     }))
   ];
-  dontWrapQtApps = true;
 }
