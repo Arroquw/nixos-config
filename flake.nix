@@ -44,7 +44,6 @@
           ];
         };
     in rec {
-      formatter.${system} = nixpkgs.legacyPackages.${system}.nixfmt;
       nixosConfigurations = {
         lnxclnt2840 = buildSystem {
           name = "dell-laptop-work";
@@ -58,6 +57,7 @@
     } // eachDefaultSystem (system:
       let pkgs = nixpkgs.legacyPackages.${system};
       in {
+        formatter = pkgs.nixfmt;
         packages = import ./pkgs { inherit pkgs; };
         checks.pre-commit-check = pre-commit-hooks.lib.${system}.run {
           src = ./.;
