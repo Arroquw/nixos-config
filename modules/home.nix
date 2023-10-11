@@ -1,4 +1,5 @@
 { pkgs, user, lib, ... }: {
+  imports = [ ./xdg-mime-apps.nix ];
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home = {
@@ -42,8 +43,12 @@
     # the Home Manager release notes for a list of state version
     # changes in each release.
     stateVersion = "23.11";
-
   };
+
+  xsession.initExtra = ''
+    unset XDG_CURRENT_DESKTOP
+    unset DESKTOP_SESSION
+  '';
 
   #Gtk
   gtk = {
@@ -58,11 +63,11 @@
       package = pkgs.papirus-icon-theme;
     };
 
-    gtk3.extraConfig = {
-      Settings = ''
-        gtk-application-prefer-dark-theme=1
-      '';
-    };
+    #    gtk3.extraConfig = {
+    #      Settings = ''
+    #        gtk-application-prefer-dark-theme=1
+    #      '';
+    #    };
 
     gtk4.extraConfig = {
       Settings = ''
