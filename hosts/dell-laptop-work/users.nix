@@ -1,9 +1,5 @@
 { config, pkgs, lib, user, ... }:
-let
-  xdg-utils-patched = pkgs.xdg-utils.overrideAttrs
-    (oldAttrs: { patches = oldAttrs.patches ++ [ ../../debug-1.patch ]; });
-  xdg-utils = xdg-utils-patched;
-in {
+{
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${user} = {
     isNormalUser = true;
@@ -152,6 +148,7 @@ in {
       imagemagick
       htop
       home-manager
+      wl-clipboard
     ];
   };
 
