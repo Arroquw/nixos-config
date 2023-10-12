@@ -1,6 +1,6 @@
-{ stdenv, fetchFromGitLab, cmake, pkg-config, extra-cmake-modules, qt5
-, libsForQt5, pkgs }:
-pkgs.libsForQt5.callPackage({mkDerivation}: mkDerivation) {} rec {
+{ fetchFromGitLab, cmake, pkg-config, extra-cmake-modules, qt5, libsForQt5, pkgs
+}:
+pkgs.libsForQt5.callPackage ({ mkDerivation }: mkDerivation) { } rec {
   pname = "xwaylandvideobridge";
   version = "master";
   name = "${pname}-${version}";
