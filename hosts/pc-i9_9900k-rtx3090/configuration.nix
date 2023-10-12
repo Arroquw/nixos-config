@@ -11,6 +11,7 @@
     ./hardware-configuration.nix
     ../../modules/vm.nix
     ../../modules/shell.nix
+    ../../modules/common.nix
     ./users.nix
     ../../modules/nvidia.nix
   ];

@@ -1,5 +1,5 @@
 { pkgs, user, lib, ... }: {
-  imports = [ ./xdg-mime-apps.nix ];
+  imports = [ ./xdg-mime-apps.nix ./desktop/hyprland ];
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home = {
@@ -82,8 +82,6 @@
     git = {
       enable = true;
       package = pkgs.git;
-      userName = "justinvson-pd";
-      userEmail = "justin.van.son@prodrive-technologies.com";
       extraConfig = {
         merge.tool = "vscode";
         diff.tool = "vscode";
