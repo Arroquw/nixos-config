@@ -97,7 +97,7 @@
         thunar = "${pkgs.xfce.thunar}/bin/thunar";
         wlogout = "${pkgs.wlogout}/bin/wlogout";
         htop = "${pkgs.htop}/bin/htop";
-        rofimoji = "${pkgs.rofi}/bin/rofimoji";
+        rofimoji = "${pkgs.rofimoji}/bin/rofimoji";
         wpctl = "${pkgs.wireplumber}/bin/wpctl";
         speedcrunch = "${pkgs.speedcrunch}/bin/speedcrunch";
         spotify = "${pkgs.spotify}/bin/spotify";
@@ -105,7 +105,14 @@
         xdg-mime = "${pkgs.xdg-utils}/bin/xdg-mime";
         defaultApp = type: "${gtk-launch} $(${xdg-mime} query default ${type})";
         browser = defaultApp "x-scheme-handler/https";
-        brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
+        hyprpicker = pkgs.writeScriptBin "hyprpicker.sh"
+          (builtins.readFile ../../../scripts/hyprPicker.sh);
+        keybind = pkgs.writeScriptBin "keybind"
+          (builtins.readFile ../../../scripts/keybind);
+        hyprshot = pkgs.writeScriptBin "hyprshot"
+          (builtins.readFile ../../../scripts/hyprshot);
+        locker = pkgs.writeScriptBin "lock.bash"
+          (builtins.readFile ../../../scripts/lock.bash);
       in [
         "$mainMod,return,exec,${terminal}"
         "$mainMod,Q,killactive,"
@@ -117,11 +124,11 @@
         "$mainMod,G,togglesplit,"
         "$mainMod,S,togglegroup,"
         "$mainMod,F,fullscreen,1"
-        "$mainMod,F1,exec,~/.config/hypr/keybind"
-        "$mainMod SHIFT,C,exec,bash ~/.config/hypr/scripts/hyprPicker.sh"
+        "$mainMod,F1,exec,${keybind}/bin/keybind"
+        "$mainMod SHIFT,C,exec,${hyprpicker}/bin/hyprpicker.sh"
         "$mainMod SHIFT,F,fullscreen,0"
         "$mainMod,ESCAPE,exec,${wlogout}"
-        "$mainMod,SPACE,exec,~/.config/hypr/lock.bash lock"
+        "$mainMod,SPACE,exec,${locker}/bin/lock.bash lock"
         "$mainMod SHIFT,E,exec,${rofimoji} --keybinding-copy ctrl+c"
         "ALTCTRL,DELETE,exec,${htop}"
         "$mainMod,left,changegroupactive,b"
@@ -139,19 +146,15 @@
         "$mainMod SHIFT,L,movewindoworgroup,d"
         "$mainMod,mouse_down,workspace,e+1"
         "$mainMod,mouse_up,workspace,e-1"
-        ",XF86AudioRaiseVolume,exec,${wpctl} set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 2%+"
-        ",XF86AudioLowerVolume,exec,${wpctl} set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 2%-"
         ",XF86AudioMute,exec,${wpctl} set-mute @DEFAULT_AUDIO_SINK@ toggle"
         ",XF86AudioPlay,exec,${playerctl} play-pause -i firefox"
-        ",XF86AudioNext,exec,${playerctl} next -i firefox"
-        ",XF86AudioPrev,exec,${playerctl} previous -i firefox"
         ",XF86Explorer,exec,${thunar}"
         ",XF86HomePage,exec,${browser}"
         ",XF86Calculator,exec,${speedcrunch}"
         ",XF86Tools,exec,${spotify}"
         ",XF86AudioStop,exec,${playerctl} stop"
         "$mainMod SHIFT,Print,exec,${grimshot} --notify save active"
-        "SHIFT,Print,exec, ~/.config/hypr/scripts/hyprshot -m region --clipboard-only"
+        "SHIFT,Print,exec, ${hyprshot}/bin/hyprshot -m region --clipboard-only"
         "$mainMod SHIFT,RETURN,layoutmsg,swapwithmaster"
         "$mainMod,1,workspace,1"
         "$mainMod,2,workspace,2"
@@ -173,18 +176,26 @@
         "$mainMod SHIFT,8,movetoworkspacesilent,8"
         "$mainMod SHIFT,9,movetoworkspacesilent,9"
         "$mainMod SHIFT,0,movetoworkspacesilent,10"
-        ",XF86MonBrightnessUp,exec,${brightnessctl} set 10%+"
-        ",XF86MonBrightnessDown,exec,${brightnessctl} set 10%-"
       ];
 
       bindm =
         [ "$mainMod,mouse:272,movewindow" "$mainMod,mouse:273,resizewindow" ];
 
-      bindr = [
+      bindr = let
+        wpctl = "${pkgs.wireplumber}/bin/wpctl";
+        playerctl = "${pkgs.playerctl}/bin/playerctl";
+        brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
+      in [
         "$mainMod SHIFT,left,resizeactive,-40 0"
         "$mainMod SHIFT,right,resizeactive,40 0"
         "$mainMod SHIFT,up,resizeactive,0 -40"
         "$mainMod SHIFT,down,resizeactive,0 40"
+        ",XF86AudioRaiseVolume,exec,${wpctl} set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 2%+"
+        ",XF86AudioLowerVolume,exec,${wpctl} set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 2%-"
+        ",XF86AudioNext,exec,${playerctl} next -i firefox"
+        ",XF86AudioPrev,exec,${playerctl} previous -i firefox"
+        ",XF86MonBrightnessUp,exec,${brightnessctl} set 10%+"
+        ",XF86MonBrightnessDown,exec,${brightnessctl} set 10%-"
       ];
 
       monitor = map (m:
