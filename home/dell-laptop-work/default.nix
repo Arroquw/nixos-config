@@ -20,7 +20,6 @@ _: {
       x = 0;
       y = 1440;
       workspace = "1";
-      enabled = false;
     }
     {
       name = "DP-4";
