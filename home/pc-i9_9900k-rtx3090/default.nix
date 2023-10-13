@@ -8,6 +8,12 @@
     };
   };
 
+  home = {
+    sessionVariables = {
+      WLR_NO_HARDWARE_CURSORS = "1"; # if no cursor,uncomment this line
+      GBM_BACKEND = "nvidia-drm";
+    };
+  };
   #  -----    ------
   # | DP-1| | DP-2 |
   #  -----    ------
