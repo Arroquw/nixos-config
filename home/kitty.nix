@@ -32,7 +32,7 @@ in {
       inactive_tab_foreground = "#${colors.base04}";
       tab_bar_background = "#${colors.base01}";
       color0 = "#${colors.base00}";
-      color1 = "#${colors.base08}";
+      color1 = "#${colors.base0F}";
       color2 = "#${colors.base0B}";
       color3 = "#${colors.base0A}";
       color4 = "#${colors.base0D}";
