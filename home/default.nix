@@ -9,6 +9,7 @@ in {
     ./desktop/waybar.nix
     ./desktop/mako.nix
     ./kitty.nix
+    ./wlogout.nix
     inputs.nix-colors.homeManagerModule
   ] ++ (builtins.attrValues outputs.homeManagerModules);
   # Home Manager needs a bit of information about you and the
@@ -90,6 +91,7 @@ in {
   # Let Home Manager install and manage itself.
   programs = {
     home-manager.enable = true;
+    wlogout.enable = true;
     git = {
       enable = true;
       package = pkgs.git;
