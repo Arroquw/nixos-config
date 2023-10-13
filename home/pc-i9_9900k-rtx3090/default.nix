@@ -7,16 +7,28 @@
       userEmail = "justinvanson@outlook.com";
     };
   };
-  wayland.windowManager.hyprland = {
-    enable = true;
-    extraConfig = import ../desktop/hyprland/config.nix {
-      kb_variant = "";
-      kb_options = "";
-      monitor_config = ''
-        monitor=DP-1-1,2560x1440@60.0,2560x1080,1;
-        monitor=DP-1-2,2560x1440@60.0,0x1080,1;
-      '';
-    };
-  };
+
+  #  -----    ------
+  # | DP-1| | DP-2 |
+  #  -----    ------
+  monitors = [
+    {
+      name = "DP-1";
+      width = 2560;
+      height = 1440;
+      x = 0;
+      workspace = "1";
+      enabled = true;
+    }
+    {
+      name = "DP-2";
+      width = 2560;
+      height = 1440;
+      refreshRate = 165;
+      x = 2560;
+      workspace = "1";
+      primary = true;
+    }
+  ];
 
 }
