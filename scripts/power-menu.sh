@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Current Theme
-dir="~/.config/waybar/scripts/power-menu/"
+dir="~/.config/rofi/powermenu/"
 theme='style'
 
 # CMDs
