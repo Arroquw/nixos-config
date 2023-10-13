@@ -116,7 +116,7 @@
         "$mainMod,P,pseudo,"
         "$mainMod,G,togglesplit,"
         "$mainMod,S,togglegroup,"
-        "$mainMod,F,fullscreen,l"
+        "$mainMod,F,fullscreen,1"
         "$mainMod,F1,exec,~/.config/hypr/keybind"
         "$mainMod SHIFT,C,exec,bash ~/.config/hypr/scripts/hyprPicker.sh"
         "$mainMod SHIFT,F,fullscreen,0"
