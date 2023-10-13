@@ -16,13 +16,13 @@ in {
     textColor = "#${colors.base05}dd";
     layer = "overlay";
     extraConfig = ''
-      on-notify="exec canberra-gtk-play -i window-attention";
+      on-notify=exec canberra-gtk-play -i window-attention
       [app-name="prospect-mail"]
       invisible=1
       [app-name="Prospect Mail"]
       invisible=1
       [app-name="Spotify"]
-      on-notify=exec ":"
+      on-notify=exec :
     '';
   };
 }
