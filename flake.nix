@@ -92,7 +92,7 @@
           pkgs = pkgsFor.x86_64-linux;
           extraSpecialArgs = {
             user = "jusson";
-            users."jusson" = import home/dell-laptop-work;
+         #   users."jusson" = import home/dell-laptop-work;
             inherit inputs outputs;
           };
         };
