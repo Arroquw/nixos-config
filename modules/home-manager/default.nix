@@ -1,0 +1,1 @@
+{ monitors = import ./monitors.nix; }
