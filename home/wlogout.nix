@@ -1,7 +1,4 @@
-{ config, pkgs, ... }:
-let inherit (config.colorscheme) colors;
-in {
-
+_: {
   programs.wlogout = {
     enable = true;
     layout = [
