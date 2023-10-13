@@ -1,5 +1,16 @@
-{ pkgs, user, lib, ... }: {
-  imports = [ ./xdg-mime-apps.nix ./desktop/hyprland ];
+{ inputs, outputs, pkgs, user, lib, ... }:
+let
+  inherit (inputs.nix-colors) colorSchemes;
+  inherit user;
+in {
+  imports = [
+    ./xdg-mime-apps.nix
+    ./desktop/hyprland
+    ./desktop/waybar.nix
+    ./desktop/mako.nix
+    ./kitty.nix
+    inputs.nix-colors.homeManagerModule
+  ] ++ (builtins.attrValues outputs.homeManagerModules);
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home = {
@@ -8,7 +19,6 @@
     #Hyprland
     sessionVariables = {
       BROWSER = "firefox";
-      TERMINAL = "kitty";
       NIXOS_OZONE_WL = "1";
       QT_QPA_PLATFORMTHEME = "gtk3";
       QT_SCALE_FACTOR = "1";
@@ -76,6 +86,7 @@
     };
   };
 
+  colorscheme = lib.mkDefault colorSchemes.tokyo-night-storm;
   # Let Home Manager install and manage itself.
   programs = {
     home-manager.enable = true;
