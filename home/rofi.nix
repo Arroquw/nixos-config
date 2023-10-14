@@ -1,11 +1,12 @@
-{ config, pkgs, ...}: let
+{ config, pkgs, ... }:
+let
   background = "#20212CFF";
   background-alt = "#282B3CFF";
   foreground = "#C0CAF5";
   selected = "#7A95C9";
   active = "#414868";
   urgent = "#ECD3A0";
-inherit (config.lib.formats.rasi) mkLiteral;
+  inherit (config.lib.formats.rasi) mkLiteral;
 in {
   programs.rofi = {
     enable = true;
@@ -104,7 +105,8 @@ in {
         border-color = mkLiteral "@border-colour";
         background-color = mkLiteral "transparent";
         text-color = mkLiteral "@foreground-colour";
-        children = map mkLiteral [ "textbox-prompt-colon" "entry" "mode-switcher" ];
+        children =
+          map mkLiteral [ "textbox-prompt-colon" "entry" "mode-switcher" ];
       };
 
       "prompt" = {

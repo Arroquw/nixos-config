@@ -15,11 +15,11 @@ let
   playerctld = "${pkgs.playerctl}/bin/playerctld";
   pavucontrol = "${pkgs.pavucontrol}/bin/pavucontrol";
   wallpaper-script = pkgs.writeScriptBin "changewallpaper.sh"
-    (builtins.readFile ../../scripts/changewallpaper.sh);
+    (builtins.readFile ../../scripts/waybar/changewallpaper.sh);
   powermenu-script = pkgs.writeScriptBin "power-menu.sh"
-    (builtins.readFile ../../scripts/power-menu.sh);
+    (builtins.readFile ../../scripts/rofi/power-menu.sh);
   network-manager-script = pkgs.writeScriptBin "rofi-network-manager.sh"
-    (builtins.readFile ../../scripts/rofi-network-manager.sh);
+    (builtins.readFile ../../scripts/rofi/rofi-network-manager.sh);
   weather-py = pkgs.stdenv.mkDerivation {
     name = "weather-app";
     propagatedBuildInputs = [
@@ -28,7 +28,7 @@ let
     ];
     dontUnpack = true;
     installPhase =
-      "install -Dm755 ${../../scripts/weather.py} $out/bin/weather";
+      "install -Dm755 ${../../scripts/waybar/weather.py} $out/bin/weather";
   };
   # Function to simplify making waybar outputs
   jsonOutput = name:

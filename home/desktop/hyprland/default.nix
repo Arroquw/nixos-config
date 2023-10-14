@@ -105,14 +105,13 @@
         xdg-mime = "${pkgs.xdg-utils}/bin/xdg-mime";
         defaultApp = type: "${gtk-launch} $(${xdg-mime} query default ${type})";
         browser = defaultApp "x-scheme-handler/https";
+        swaylock = "${pkgs.swaylock}/bin/swaylock";
         hyprpicker = pkgs.writeScriptBin "hyprpicker.sh"
-          (builtins.readFile ../../../scripts/hyprPicker.sh);
+          (builtins.readFile ../../../scripts/hyprland/hyprPicker.sh);
         keybind = pkgs.writeScriptBin "keybind"
-          (builtins.readFile ../../../scripts/keybind);
+          (builtins.readFile ../../../scripts/hyprland/keybind);
         hyprshot = pkgs.writeScriptBin "hyprshot"
-          (builtins.readFile ../../../scripts/hyprshot);
-        locker = pkgs.writeScriptBin "lock.bash"
-          (builtins.readFile ../../../scripts/lock.bash);
+          (builtins.readFile ../../../scripts/hyprland/hyprshot);
       in [
         "$mainMod,return,exec,${terminal}"
         "$mainMod,Q,killactive,"
@@ -128,7 +127,7 @@
         "$mainMod SHIFT,C,exec,${hyprpicker}/bin/hyprpicker.sh"
         "$mainMod SHIFT,F,fullscreen,0"
         "$mainMod,ESCAPE,exec,${wlogout}"
-        "$mainMod,SPACE,exec,${locker}/bin/lock.bash lock"
+        "$mainMod,SPACE,exec,${swaylock} -fF"
         "$mainMod SHIFT,E,exec,${rofimoji} --keybinding-copy ctrl+c"
         "ALTCTRL,DELETE,exec,${htop}"
         "$mainMod,left,changegroupactive,b"
