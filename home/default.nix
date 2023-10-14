@@ -10,6 +10,7 @@ in {
     ./desktop/mako.nix
     ./kitty.nix
     ./wlogout.nix
+    ./rofi.nix
     inputs.nix-colors.homeManagerModule
   ] ++ (builtins.attrValues outputs.homeManagerModules);
   # Home Manager needs a bit of information about you and the
