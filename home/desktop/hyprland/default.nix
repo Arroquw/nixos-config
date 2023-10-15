@@ -1,4 +1,4 @@
-{ lib, pkgs, config, ... }: {
+{ lib, pkgs, config, self, ... }: {
   wayland.windowManager.hyprland = {
     enable = true;
 
@@ -82,11 +82,11 @@
       exec = [
         "${pkgs.wl-clipboard}/bin/wl-clipboard-history -t"
         "${pkgs.poweralertd}/bin/poweralertd"
-        "bash ~/.config/waybar/scripts/changewallpaper.sh"
+        #"bash ~/.config/waybar/scripts/changewallpaper.sh"
         "${pkgs.blueman}/bin/blueman-applet"
         "${pkgs.dbus}/bin/dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=Hyprland DBUS_SESSION_BUS_ADDRESS PATH"
         "${pkgs.systemd}/bin/systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP PATH"
-        "~/.config/hypr/start.sh"
+        #"~/.config/hypr/start.sh"
       ];
 
       bind = let
@@ -106,12 +106,9 @@
         defaultApp = type: "${gtk-launch} $(${xdg-mime} query default ${type})";
         browser = defaultApp "x-scheme-handler/https";
         swaylock = "${pkgs.swaylock}/bin/swaylock";
-        hyprpicker = pkgs.writeScriptBin "hyprpicker.sh"
-          (builtins.readFile ../../../scripts/hyprland/hyprPicker.sh);
-        keybind = pkgs.writeScriptBin "keybind"
-          (builtins.readFile ../../../scripts/hyprland/keybind);
-        hyprshot = pkgs.writeScriptBin "hyprshot"
-          (builtins.readFile ../../../scripts/hyprland/hyprshot);
+        keybind = "${self.packages.${pkgs.system}.hyprkeybinds}/bin/hyprland-keybinds";
+        hyprpicker = "${self.packages.${pkgs.system}.hyprpicker-script}/bin/hyprpicker-script";
+        hyprshot = "${self.packages.${pkgs.system}.hyprshot}/bin/hyprshot";
       in [
         "$mainMod,return,exec,${terminal}"
         "$mainMod,Q,killactive,"

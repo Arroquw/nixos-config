@@ -1,4 +1,4 @@
-{ config, pkgs, lib, user, ... }: {
+{ self, config, pkgs, lib, user, ... }: {
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${user} = {
     isNormalUser = true;
@@ -121,6 +121,10 @@
               	--replace 'Exec=AppRun --no-sandbox %U' 'Exec=${pname} %U'
           	'';
       })
+      self.packages.${pkgs.system}.xwaylandvideobridge
+      self.packages.${pkgs.system}.hyprpicker-script
+      self.packages.${pkgs.system}.hyprshot
+      self.packages.${pkgs.system}.hyprkeybinds
     ];
   };
 

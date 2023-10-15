@@ -92,7 +92,7 @@
           pkgs = pkgsFor.x86_64-linux;
           extraSpecialArgs = {
             user = "jusson";
-            inherit inputs outputs;
+            inherit self inputs outputs;
           };
         };
         "justin@NixOs-justin" = lib.homeManagerConfiguration {
@@ -100,7 +100,7 @@
           pkgs = pkgsFor.x86_64-linux;
           extraSpecialArgs = {
             user = "justin";
-            inherit inputs outputs;
+            inherit self inputs outputs;
           };
         };
       };
