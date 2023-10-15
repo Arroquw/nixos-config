@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ self, config, lib, pkgs, ... }:
 let
   # Dependencies
   cut = "${pkgs.coreutils}/bin/cut";
@@ -14,22 +14,10 @@ let
   playerctl = "${pkgs.playerctl}/bin/playerctl";
   playerctld = "${pkgs.playerctl}/bin/playerctld";
   pavucontrol = "${pkgs.pavucontrol}/bin/pavucontrol";
-  wallpaper-script = pkgs.writeScriptBin "changewallpaper.sh"
-    (builtins.readFile ../../scripts/waybar/changewallpaper.sh);
-  powermenu-script = pkgs.writeScriptBin "power-menu.sh"
-    (builtins.readFile ../../scripts/rofi/bin/power-menu.sh);
-  network-manager-script = pkgs.writeScriptBin "rofi-network-manager.sh"
-    (builtins.readFile ../../scripts/rofi/bin/rofi-network-manager.sh);
-  weather-py = pkgs.stdenv.mkDerivation {
-    name = "weather-app";
-    propagatedBuildInputs = [
-      (pkgs.python38.withPackages
-        (pythonPackages: with pythonPackages; [ consul six ]))
-    ];
-    dontUnpack = true;
-    installPhase =
-      "install -Dm755 ${../../scripts/waybar/weather.py} $out/bin/weather";
-  };
+  wallpaper-script = "${self.packages.${pkgs.system}.changewallpaper}/bin/changewallpaper";
+  powermenu-script = "${self.packages.${pkgs.system}.rofi-power-menu}/bin/rofi-power-menu";
+  network-manager-script = "${self.packages.${pkgs.system}.rofi-network-manager}/bin/rofi-network-manager";
+  weather-py = "${self.packages.${pkgs.system}.waybar-weather}/bin/waybar-weather";
   # Function to simplify making waybar outputs
   jsonOutput = name:
     { pre ? "", text ? "", tooltip ? "", alt ? "", class ? "", percentage ? ""
@@ -139,7 +127,7 @@ in {
             {ipaddr}/{cidr}
             Up: {bandwidthUpBits}
             Down: {bandwidthDownBits}'';
-          on-click = "${network-manager-script}/bin/rofi-network-manager.sh";
+          on-click = "${network-manager-script}";
         };
         "custom/hostname" = { exec = "echo $USER@$HOSTNAME"; };
         "custom/gamemode" = {
@@ -229,7 +217,7 @@ in {
           on-click = "${playerctl} play-pause";
         };
         "custom/weather" = {
-          exec = "nix-shell ${weather-py}/bin/weather";
+          exec = "nix-shell ${weather-py}";
           restart-interval = 300;
           return-type = "json";
         };
@@ -246,11 +234,11 @@ in {
         };
         "custom/wallpaper" = {
           format = " 󰔉 ";
-          on-click = "${wallpaper-script}/bin/changewallpaper.sh";
+          on-click = "${wallpaper-script}";
         };
         "custom/power-menu" = {
           format = " ⏻ ";
-          on-click = "${powermenu-script}/bin/power-menu.sh &";
+          on-click = "${powermenu-script} &";
         };
       };
     };

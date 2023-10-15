@@ -125,6 +125,10 @@
       self.packages.${pkgs.system}.hyprpicker-script
       self.packages.${pkgs.system}.hyprshot
       self.packages.${pkgs.system}.hyprkeybinds
+      self.packages.${pkgs.system}.changewallpaper
+      self.packages.${pkgs.system}.waybar-weather
+      self.packages.${pkgs.system}.rofi-power-menu
+      self.packages.${pkgs.system}.rofi-network-manager
     ];
   };
 
