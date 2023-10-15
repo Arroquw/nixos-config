@@ -180,6 +180,13 @@
     self.packages.${pkgs.system}.xwaylandvideobridge
   ];
 
+  environment.loginShellInit = ''
+    if [ -e $HOME/.profile ]
+    then
+      . $HOME/.profile
+    fi
+  '';
+
   powerManagement = {
     enable = true;
     cpuFreqGovernor = "powersave";

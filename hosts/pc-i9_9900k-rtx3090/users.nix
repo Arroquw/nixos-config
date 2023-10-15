@@ -14,14 +14,12 @@
         };
         extraPkgs = pkgs: [ libsecret ];
       })
-      wireplumber
       (discord.override { withOpenASAR = true; })
       self.packages.${pkgs.system}.krisp-patch
     ];
   };
   programs = {
     gamemode.enable = true;
-    #Steam
     steam = {
       enable = true;
       remotePlay.openFirewall =

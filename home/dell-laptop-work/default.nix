@@ -8,6 +8,10 @@ _: {
     };
   };
 
+  home.sessionVariables = {
+    WLR_DRM_DEVICES = "/dev/dri/by-path/pci-0000:00:02.0-card";
+  };
+
   #  ------   -----   ------
   # |  DP-5  | |  DP-4  |
   #            |eDP-1|
