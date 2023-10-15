@@ -5,11 +5,7 @@ stdenv.mkDerivation rec {
 
   src = ../scripts/hyprland/hyprPicker.sh;
   dontUnpack = true;
-  buildInputs = with pkgs; [
-    dunst
-    imagemagick
-    hyprpicker
-  ];
+  buildInputs = with pkgs; [ dunst imagemagick hyprpicker ];
 
   buildPhase = ''
     patchShebangs $src

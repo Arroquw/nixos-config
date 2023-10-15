@@ -11,9 +11,7 @@ in {
   programs.rofi = {
     enable = true;
     font = "JetBrains Mono Nerd Font 11.6";
-    extraConfig = {
-      modes = "window,drun,run,filebrowser";
-    };
+    extraConfig = { modes = "window,drun,run,filebrowser"; };
     theme = {
       "configuration" = {
         show-icons = true;

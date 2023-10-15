@@ -14,10 +14,15 @@ let
   playerctl = "${pkgs.playerctl}/bin/playerctl";
   playerctld = "${pkgs.playerctl}/bin/playerctld";
   pavucontrol = "${pkgs.pavucontrol}/bin/pavucontrol";
-  wallpaper-script = "${self.packages.${pkgs.system}.changewallpaper}/bin/changewallpaper";
-  powermenu-script = "${self.packages.${pkgs.system}.rofi-power-menu}/bin/rofi-power-menu";
-  network-manager-script = "${self.packages.${pkgs.system}.rofi-network-manager}/bin/rofi-network-manager";
-  weather-py = "${self.packages.${pkgs.system}.waybar-weather}/bin/waybar-weather";
+  wallpaper-script =
+    "${self.packages.${pkgs.system}.changewallpaper}/bin/changewallpaper";
+  powermenu-script =
+    "${self.packages.${pkgs.system}.rofi-power-menu}/bin/rofi-power-menu";
+  network-manager-script = "${
+      self.packages.${pkgs.system}.rofi-network-manager
+    }/bin/rofi-network-manager";
+  weather-py =
+    "${self.packages.${pkgs.system}.waybar-weather}/bin/waybar-weather";
   # Function to simplify making waybar outputs
   jsonOutput = name:
     { pre ? "", text ? "", tooltip ? "", alt ? "", class ? "", percentage ? ""

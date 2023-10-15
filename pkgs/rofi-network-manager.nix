@@ -2,7 +2,7 @@
 
 stdenv.mkDerivation rec {
   name = "rofi-network-manager";
-  
+
   src = fetchFromGitHub {
     owner = "P3rf";
     repo = "rofi-network-manager";

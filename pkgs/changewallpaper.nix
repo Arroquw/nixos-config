@@ -5,11 +5,6 @@ stdenv.mkDerivation rec {
 
   src = ../scripts/waybar/changewallpaper.sh;
   dontUnpack = true;
-  buildInputs = with pkgs; [
-    dunst
-    imagemagick
-    hyprpicker
-  ];
 
   buildPhase = ''
     patchShebangs $src

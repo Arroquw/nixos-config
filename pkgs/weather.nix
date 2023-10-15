@@ -6,7 +6,7 @@ stdenv.mkDerivation rec {
   src = ../scripts/waybar/weather.py;
   propagatedBuildInputs = [
     (pkgs.python38.withPackages
-      (pythonPackages: with pythonPackages; [ consul six]))
+      (pythonPackages: with pythonPackages; [ consul six ]))
   ];
   dontUnpack = true;
 

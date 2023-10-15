@@ -106,8 +106,11 @@
         defaultApp = type: "${gtk-launch} $(${xdg-mime} query default ${type})";
         browser = defaultApp "x-scheme-handler/https";
         swaylock = "${pkgs.swaylock}/bin/swaylock";
-        keybind = "${self.packages.${pkgs.system}.hyprkeybinds}/bin/hyprland-keybinds";
-        hyprpicker = "${self.packages.${pkgs.system}.hyprpicker-script}/bin/hyprpicker-script";
+        keybind =
+          "${self.packages.${pkgs.system}.hyprkeybinds}/bin/hyprland-keybinds";
+        hyprpicker = "${
+            self.packages.${pkgs.system}.hyprpicker-script
+          }/bin/hyprpicker-script";
         hyprshot = "${self.packages.${pkgs.system}.hyprshot}/bin/hyprshot";
       in [
         "$mainMod,return,exec,${terminal}"

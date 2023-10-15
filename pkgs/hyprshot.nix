@@ -2,7 +2,7 @@
 
 stdenv.mkDerivation rec {
   name = "hyprshot";
-  
+
   src = fetchFromGitHub {
     owner = "Gustash";
     repo = "Hyprshot";
@@ -10,11 +10,7 @@ stdenv.mkDerivation rec {
     hash = "sha256-+LCQDilin6yKzfXjUV4MIhNHA/VXhuoh81rq0f0Wkso=";
   };
 
-  buildInputs = with pkgs; [
-    slurp
-    grim
-    jq
-  ];
+  buildInputs = with pkgs; [ slurp grim jq ];
 
   buildPhase = ''
     ls -alh
