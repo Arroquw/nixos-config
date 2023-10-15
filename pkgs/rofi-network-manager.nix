@@ -1,4 +1,4 @@
-{ stdenv, pkgs, fetchFromGitHub, ... }:
+{ stdenv, fetchFromGitHub, ... }:
 
 stdenv.mkDerivation rec {
   name = "rofi-network-manager";

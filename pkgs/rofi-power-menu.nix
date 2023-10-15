@@ -1,4 +1,4 @@
-{ stdenv, pkgs, ... }:
+{ stdenv, ... }:
 
 stdenv.mkDerivation rec {
   name = "rofi-power-menu";

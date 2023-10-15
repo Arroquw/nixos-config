@@ -1,7 +1,4 @@
-{ writeShellApplication
-, rizin
-, discord-canary
-}:
+{ writeShellApplication, rizin, discord-canary }:
 
 writeShellApplication rec {
   name = "krisp-patch";

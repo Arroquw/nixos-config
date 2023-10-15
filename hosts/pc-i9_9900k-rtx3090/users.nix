@@ -1,4 +1,4 @@
-{ pkgs, user, ... }: {
+{ self, pkgs, user, ... }: {
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${user} = {
     isNormalUser = true;
@@ -16,6 +16,7 @@
       })
       wireplumber
       (discord.override { withOpenASAR = true; })
+      self.packages.${pkgs.system}.krisp-patch
     ];
   };
   programs = {
