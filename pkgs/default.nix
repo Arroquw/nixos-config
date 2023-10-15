@@ -8,4 +8,5 @@ with pkgs; {
   rofi-network-manager = callPackage ./rofi-network-manager.nix { };
   rofi-power-menu = callPackage ./rofi-power-menu.nix { };
   waybar-weather = callPackage ./weather.nix { };
+  krisp-patch = callPackage ./krisp-patch.nix { };
 }
