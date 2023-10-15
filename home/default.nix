@@ -18,6 +18,11 @@ in {
   home = {
     username = "${user}";
     homeDirectory = "/home/${user}";
+    file.".config/rofi/rofi-network-manager.rasi".source = ../scripts/rofi/share/rofi-network-manager.rasi;
+    file.".config/rofi/rofi-network-manager.conf".source = ../scripts/rofi/share/rofi-network-manager.conf;
+    file.".config/rofi/powermenu/style.rasi".source = ../scripts/rofi/share/style.rasi;
+    file.".config/rofi/powermenu/shared".source = ../scripts/rofi/share/shared;
+    file."Desktop/wallpapers".source = ../wallpapers;
     #Hyprland
     sessionVariables = {
       BROWSER = "firefox";

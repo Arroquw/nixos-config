@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Current Theme
-dir="~/.config/rofi/powermenu/"
+dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 theme='style'
 
 # CMDs

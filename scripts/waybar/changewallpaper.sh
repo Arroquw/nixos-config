@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 DIR=$HOME/Desktop/wallpapers
-PICS=($(find ${DIR} -maxdepth 1 -type f -exec basename {} \;))
+PICS=($(find -L ${DIR} -maxdepth 1 -type f -exec basename {} \;))
+echo "PICS: ${PICS}" > /home/jusson/1.log
 
 RANDOMPICS=${PICS[ $RANDOM % ${#PICS[@]} ]}
 

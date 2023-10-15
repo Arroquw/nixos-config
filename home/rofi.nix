@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 let
   background = "#20212CFF";
   background-alt = "#282B3CFF";
@@ -11,9 +11,11 @@ in {
   programs.rofi = {
     enable = true;
     font = "JetBrains Mono Nerd Font 11.6";
+    extraConfig = {
+      modes = "window,drun,run,filebrowser";
+    };
     theme = {
       "configuration" = {
-        modi = "drun,run,filebrowser,window";
         show-icons = true;
         icon-theme = "Papirus";
         display-drun = " ";

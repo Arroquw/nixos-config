@@ -17,9 +17,9 @@ let
   wallpaper-script = pkgs.writeScriptBin "changewallpaper.sh"
     (builtins.readFile ../../scripts/waybar/changewallpaper.sh);
   powermenu-script = pkgs.writeScriptBin "power-menu.sh"
-    (builtins.readFile ../../scripts/rofi/power-menu.sh);
+    (builtins.readFile ../../scripts/rofi/bin/power-menu.sh);
   network-manager-script = pkgs.writeScriptBin "rofi-network-manager.sh"
-    (builtins.readFile ../../scripts/rofi/rofi-network-manager.sh);
+    (builtins.readFile ../../scripts/rofi/bin/rofi-network-manager.sh);
   weather-py = pkgs.stdenv.mkDerivation {
     name = "weather-app";
     propagatedBuildInputs = [
