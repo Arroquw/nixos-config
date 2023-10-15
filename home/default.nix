@@ -23,9 +23,9 @@ in {
         ../scripts/rofi/share/rofi-network-manager.rasi;
       ".config/rofi/rofi-network-manager.conf".source =
         ../scripts/rofi/share/rofi-network-manager.conf;
-      ".config/rofi/powermenu/style.rasi".source =
+      ".config/rofi/style.rasi".source =
         ../scripts/rofi/share/style.rasi;
-      ".config/rofi/powermenu/shared".source = ../scripts/rofi/share/shared;
+      ".config/rofi/shared".source = ../scripts/rofi/share/shared;
       "Desktop/wallpapers".source = ../wallpapers;
       ".config/wlogout" = {
         source = ../.config/wlogout;

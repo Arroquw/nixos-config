@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Current Theme
-dir="${XDG_CONFIG_HOME:-$HOME/.config}/rofi/powermenu"
+dir="${XDG_CONFIG_HOME:-$HOME/.config}/rofi"
 theme='style'
 
 # CMDs
