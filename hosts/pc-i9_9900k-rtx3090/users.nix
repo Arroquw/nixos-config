@@ -15,6 +15,7 @@
         extraPkgs = pkgs: [ libsecret ];
       })
       wireplumber
+      (discord.override { withOpenASAR = true; })
     ];
   };
   programs = {
