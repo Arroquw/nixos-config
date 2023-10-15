@@ -197,6 +197,10 @@
     libpng
     nwg-look
     appimage-run
+    mangohud
+    gamescope
+    primus
+    bumblebee
     #     build-essential
   ];
 

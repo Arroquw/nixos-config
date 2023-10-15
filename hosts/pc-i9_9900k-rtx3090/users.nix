@@ -5,6 +5,30 @@
     description = "${user}";
     extraGroups = [ "networkmanager" "wheel" "qemu-libvirtd" "libvirtd" "kvm" ];
     packages = with pkgs; [
+      mangohud
+      gamescope
+      bumblebee
+      glxinfo
+      primus
+      (steam.override {
+        extraPkgs = pkgs: [
+          bumblebee
+          glxinfo
+          mangohud
+          gamescope
+          libgdiplus
+          primus
+        ];
+      }).run
+      #########################
+      (pkgs.makeDesktopItem {
+        name = "discord";
+        exec =
+          "env -u NIXOS_OZONE_WL ${pkgs.discord}/bin/discord --use-gl=desktop";
+        desktopName = "Discord";
+        icon =
+          "${pkgs.tela-circle-icon-theme}/share/icons/Tela-circle/scalable/apps/discord.svg";
+      })
       (pkgs.appimageTools.wrapType1 {
         name = "arduino";
         src = pkgs.fetchurl {
