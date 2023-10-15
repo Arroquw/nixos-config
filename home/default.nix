@@ -23,6 +23,11 @@ in {
     file.".config/rofi/powermenu/style.rasi".source = ../scripts/rofi/share/style.rasi;
     file.".config/rofi/powermenu/shared".source = ../scripts/rofi/share/shared;
     file."Desktop/wallpapers".source = ../wallpapers;
+    file.".config/wlogout" = {
+      source = ../.config/wlogout;
+      recursive = true;
+      executable = true;
+    };
     #Hyprland
     sessionVariables = {
       BROWSER = "firefox";
