@@ -23,8 +23,7 @@ in {
         ../scripts/rofi/share/rofi-network-manager.rasi;
       ".config/rofi/rofi-network-manager.conf".source =
         ../scripts/rofi/share/rofi-network-manager.conf;
-      ".config/rofi/style.rasi".source =
-        ../scripts/rofi/share/style.rasi;
+      ".config/rofi/style.rasi".source = ../scripts/rofi/share/style.rasi;
       ".config/rofi/shared".source = ../scripts/rofi/share/shared;
       "Desktop/wallpapers".source = ../wallpapers;
       ".config/wlogout" = {

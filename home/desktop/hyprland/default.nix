@@ -107,7 +107,7 @@
         xdg-mime = "${pkgs.xdg-utils}/bin/xdg-mime";
         defaultApp = type: "${gtk-launch} $(${xdg-mime} query default ${type})";
         browser = defaultApp "x-scheme-handler/https";
-        swaylock = "${pkgs.swaylock}/bin/swaylock";
+        swaylock = "${pkgs.swaylock-effects}/bin/swaylock";
         keybind =
           "${self.packages.${pkgs.system}.hyprkeybinds}/bin/hyprland-keybinds";
         hyprpicker = "${

@@ -5,22 +5,6 @@
     description = "${user}";
     extraGroups = [ "networkmanager" "wheel" "qemu-libvirtd" "libvirtd" "kvm" ];
     packages = with pkgs; [
-      mangohud
-      gamescope
-      bumblebee
-      glxinfo
-      primus
-      (steam.override {
-        extraPkgs = pkgs: [
-          bumblebee
-          glxinfo
-          mangohud
-          gamescope
-          libgdiplus
-          primus
-        ];
-      }).run
-      #########################
       (pkgs.makeDesktopItem {
         name = "discord";
         exec =

@@ -153,7 +153,7 @@
   systemd.user.services."lock-on-hibernate" = {
     wantedBy = [ "hibernate.target" ];
     serviceConfig = {
-      ExecStart = "${pkgs.swaylock}/bin/swaylock -fF";
+      ExecStart = "${pkgs.swaylock-effects}/bin/swaylock -fF";
       Type = "oneshot";
     };
   };
