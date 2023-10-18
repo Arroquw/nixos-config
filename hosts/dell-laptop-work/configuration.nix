@@ -178,6 +178,8 @@
     keyutils
     minicom
     self.packages.${pkgs.system}.xwaylandvideobridge
+    curl
+    libusb1
   ];
 
   environment.loginShellInit = ''
