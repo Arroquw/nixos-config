@@ -9,18 +9,11 @@ pkgs.libsForQt5.callPackage ({ mkDerivation }: mkDerivation) { } rec {
     domain = "invent.kde.org";
     owner = "system";
     repo = "xwaylandvideobridge";
-    rev = "0698f6a95588222bb1ab6a9c5d760b1f6aaee5e0";
-    hash = "sha256-gKkkwBPUpy6eN5MWk/5ivynxHuaFRClPdQkWBJytijI=";
+    rev = "5fc478055607748bdca5f4f0e3b6441900cf2b75";
+    hash = "sha256-2AMssUaQoAPEL7yppWkw0Wp9l2ep7SOL7byNCTyuNBY=";
   };
 
   nativeBuildInputs = [ cmake extra-cmake-modules pkg-config ];
-  patches = [
-    (pkgs.fetchpatch {
-      url =
-        "https://aur.archlinux.org/cgit/aur.git/plain/cursor-mode.patch?h=xwaylandvideobridge-cursor-mode-2-git";
-      hash = "sha256-649kCs3Fsz8VCgGpZ952Zgl8txAcTgakLoMusaJQYa4=";
-    })
-  ];
 
   buildInputs = [
     qt5.qtbase
