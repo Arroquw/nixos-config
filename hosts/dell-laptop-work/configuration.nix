@@ -143,7 +143,6 @@
     extraPortals = with pkgs; [
       xdg-desktop-portal-gtk
       #xdg-desktop-portal-hyprland
-      xdg-desktop-portal-wlr
     ];
     wlr.enable = true;
   };
@@ -160,7 +159,6 @@
     git
     neofetch
     gh
-    xdg-desktop-portal
     xdg-desktop-portal-gtk
     xdg-desktop-portal-hyprland
     xwayland
