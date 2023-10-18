@@ -8,9 +8,15 @@
     };
   };
 
+  wayland.windowManager.hyprland = {
+    enableNvidiaPatches = true;
+    extraConfig = ''
+      env=WLR_NO_HARDWARE_CURSORS,1
+    '';
+  };
+
   home = {
     sessionVariables = {
-      WLR_NO_HARDWARE_CURSORS = "1"; # if no cursor,uncomment this line
       GBM_BACKEND = "nvidia-drm";
       WLR_DRM_DEVICES = "/dev/dri/by-path/pci-0000:01:00.0-card";
     };
