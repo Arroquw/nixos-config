@@ -217,4 +217,11 @@ in {
       debug = true;
     };
   };
+
+  services.screen-locker = {
+    enable = true;
+    lockCmd = "${pkgs.swaylock-effects}/bin/swaylock -fF";
+    xss-lock = { extraOptions = [ "-v" ]; };
+    xautolock.enable = false;
+  };
 }

@@ -150,14 +150,6 @@
     DefaultEnvironment="PATH=/run/wrappers/bin:/home/jusson/.nix-profile/bin:/home/jusson/.local/state/nix/profile/bin:/etc/profiles/per-user/jusson/bin:/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin"
   '';
 
-  systemd.user.services."lock-on-hibernate" = {
-    wantedBy = [ "hibernate.target" ];
-    serviceConfig = {
-      ExecStart = "${pkgs.swaylock-effects}/bin/swaylock -fF";
-      Type = "oneshot";
-    };
-  };
-
   security.pam.services.swaylock = { };
   #DIRS
   environment.etc."xdg/user-dirs.defaults".text = ''
