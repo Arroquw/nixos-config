@@ -13,15 +13,15 @@ _: {
   };
 
   #  ------   -----   ------
-  # |  DP-5  | |  DP-4  |
-  #            |eDP-1|
+  # | DP-5/7 | | DP-4/6 |
+  #              |eDP-1|
   #  ------   -----   ------
   monitors = [
     {
       name = "eDP-1";
       width = 1920;
       height = 1080;
-      x = 0;
+      x = 1920;
       y = 1440;
       workspace = "1";
     }
@@ -36,6 +36,21 @@ _: {
     }
     { # TODO: fix 1440p not working in docked mode
       name = "DP-5";
+      width = 1920;
+      height = 1200;
+      x = 0;
+      workspace = "3";
+    }
+    {
+      name = "DP-6";
+      width = 2560;
+      height = 1440;
+      refreshRate = 60;
+      x = 1920;
+      workspace = "2";
+    }
+    { # TODO: fix 1440p not working in docked mode
+      name = "DP-7";
       width = 1920;
       height = 1200;
       x = 0;
