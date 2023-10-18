@@ -2,10 +2,6 @@
   wayland.windowManager.hyprland = {
     enable = true;
 
-    # monitor=edp-1,1920x1080@60.0,1920x1440,1
-    # monitor=dp-5,highres,0x0,1
-    # monitor=dp-4,2560x1440@60.0,1920x0,1
-
     settings = {
       "$mainMod" = "SUPER";
       input = {
