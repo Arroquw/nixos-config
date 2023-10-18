@@ -160,7 +160,7 @@
         ",XF86Tools,exec,${spotify}"
         ",XF86AudioStop,exec,${playerctl} stop"
         "$mainMod SHIFT,Print,exec,${grimshot} --notify save active"
-        "SHIFT,Print,exec, ${hyprshot}/bin/hyprshot -m region --clipboard-only"
+        "SHIFT,Print,exec, ${hyprshot} -m region --clipboard-only"
         "$mainMod SHIFT,RETURN,layoutmsg,swapwithmaster"
         "$mainMod,1,workspace,1"
         "$mainMod,2,workspace,2"
