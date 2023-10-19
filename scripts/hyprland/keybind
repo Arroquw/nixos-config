@@ -1,4 +1,0 @@
-config_file=~/.config/hypr/hyprland.conf
-keybinds=$(grep -P '(?<=bind).*=.*' $config_file)
-keybinds=$(echo "$keybinds" | sed 's/bind.*=//g' | sed 's/,\([^,]\)/ = \1/2' | sed 's/exec,//g' | sed 's/^,//g' | sed 's/$,//g')
-rofi -dmenu -p "Keybinds" -theme custom <<< "$keybinds"

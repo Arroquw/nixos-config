@@ -106,7 +106,7 @@
         browser = defaultApp "x-scheme-handler/https";
         swaylock = "${pkgs.swaylock-effects}/bin/swaylock";
         keybind =
-          "${self.packages.${pkgs.system}.hyprkeybinds}/bin/hyprland-keybinds";
+          "${self.packages.${pkgs.system}.hyprkeybinds}/bin/hyprkeybinds";
         hyprpicker = "${
             self.packages.${pkgs.system}.hyprpicker-script
           }/bin/hyprpicker-script";
@@ -122,8 +122,8 @@
         "$mainMod,G,togglesplit,"
         "$mainMod,S,togglegroup,"
         "$mainMod,F,fullscreen,1"
-        "$mainMod,F1,exec,${keybind}/bin/keybind"
-        "$mainMod SHIFT,C,exec,${hyprpicker}/bin/hyprpicker.sh"
+        "$mainMod,F1,exec,${keybind}"
+        "$mainMod SHIFT,C,exec,${hyprpicker}"
         "$mainMod SHIFT,F,fullscreen,0"
         "$mainMod,ESCAPE,exec,${wlogout}"
         "$mainMod,SPACE,exec,${swaylock} -fF"
