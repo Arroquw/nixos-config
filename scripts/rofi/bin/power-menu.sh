@@ -5,15 +5,14 @@ dir="${XDG_CONFIG_HOME:-$HOME/.config}/rofi"
 theme='style'
 
 # CMDs
-uptime="`uptime -p | sed -e 's/up //g'`"
-host=`hostname`
+uptime="$(uptime -p | sed -e 's/up //g')"
 
 # Options
 shutdown=''
 reboot=''
 lock=''
-suspend=' '
-logout=' '
+suspend=' '
+logout="\Uf0343"
 yes=' '
 no=''
 
@@ -22,7 +21,7 @@ rofi_cmd() {
 	rofi -dmenu \
 		-p "Uptime: $uptime" \
 		-mesg "Uptime: $uptime" \
-		-theme ${dir}/${theme}.rasi
+		-theme "${dir}/${theme}.rasi"
 }
 
 # Confirmation CMD
@@ -35,7 +34,7 @@ confirm_cmd() {
 		-dmenu \
 		-p 'Confirmation' \
 		-mesg 'Are you Sure?' \
-		-theme ${dir}/${theme}.rasi
+		-theme "${dir}/${theme}.rasi"
 }
 
 # Ask for confirmation
@@ -80,24 +79,26 @@ run_cmd() {
 
 # Actions
 chosen="$(run_rofi)"
-case ${chosen} in
-    $shutdown)
+case "${chosen}" in
+    "$shutdown")
 		run_cmd --shutdown
         ;;
-    $reboot)
+    "$reboot")
 		run_cmd --reboot
         ;;
-    $lock)
-		if [[ -x '/usr/bin/betterlockscreen' ]]; then
-			betterlockscreen -l
-		elif [[ -x '/usr/bin/i3lock' ]]; then
-			i3lock
-		fi
+    "$lock")
+	if [ "$(command -v betterlockscreen)" ]; then
+		betterlockscreen -l
+	elif [ "$(command -v i3lock)" ]; then
+		i3lock
+	elif [ "$(command -v swaylock)" ]; then
+		swaylock -fF
+	fi
         ;;
-    $suspend)
+    "$suspend")
 		run_cmd --suspend
         ;;
-    $logout)
+    "$logout")
 		run_cmd --logout
         ;;
 esac
