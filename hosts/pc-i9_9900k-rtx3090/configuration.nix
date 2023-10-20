@@ -107,7 +107,7 @@
       #jack.enable = true;
 
       #isDefault
-      wireplumber.enable= true;
+      wireplumber.enable = true;
 
       # use the example session manager (no others are packaged yet so this is enabled by default,
       # no need to redefine it in your config for now)
@@ -163,9 +163,10 @@
   xdg.portal = {
     enable = true;
     xdgOpenUsePortal = true;
-    extraPortals = with pkgs; [
-      #xdg-desktop-portal-hyprland
-    ];
+    extraPortals = with pkgs;
+      [
+        #xdg-desktop-portal-hyprland
+      ];
     wlr.enable = true;
   };
 

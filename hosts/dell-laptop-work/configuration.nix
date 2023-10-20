@@ -140,10 +140,11 @@
   xdg.portal = {
     enable = true;
     xdgOpenUsePortal = true;
-    extraPortals = with pkgs; [
-      xdg-desktop-portal-gtk
-      #xdg-desktop-portal-hyprland
-    ];
+    extraPortals = with pkgs;
+      [
+        xdg-desktop-portal-gtk
+        #xdg-desktop-portal-hyprland
+      ];
     wlr.enable = true;
   };
 

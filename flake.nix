@@ -115,6 +115,9 @@
             nixfmt.enable = true;
             deadnix.enable = true;
             statix.enable = true;
+            nil.enable = true;
+            shellcheck.enable = true;
+            pyright.enable = true;
           };
           settings = {
             deadnix.edit = true;
