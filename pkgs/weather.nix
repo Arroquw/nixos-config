@@ -4,10 +4,11 @@ stdenv.mkDerivation rec {
   name = "waybar-weather";
 
   src = ../scripts/waybar/weather.py;
-  propagatedBuildInputs = [
-    (pkgs.python38.withPackages
-      (pythonPackages: with pythonPackages; [ consul six ]))
+  nativeBuildInputs = [
+    (pkgs.python310.withPackages
+      (pythonPackages: with pythonPackages; [ datetime requests ]))
   ];
+
   dontUnpack = true;
 
   installPhase = ''
