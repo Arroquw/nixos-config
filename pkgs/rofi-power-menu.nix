@@ -1,6 +1,6 @@
 { stdenv, ... }:
 
-stdenv.mkDerivation rec {
+stdenv.mkDerivation {
   name = "rofi-power-menu";
 
   src = ../scripts/rofi/bin/power-menu.sh;

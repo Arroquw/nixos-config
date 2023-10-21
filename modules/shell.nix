@@ -1,4 +1,4 @@
-{ programs, ... }: {
+_: {
   programs.bash.shellAliases = {
     switch = "sudo nixos-rebuild switch --flake .#";
     switchu = "sudo nixos-rebuild switch --upgrade --flake .#";

@@ -1,6 +1,5 @@
 _: {
-  imports = [ ../default.nix ];
-
+  imports = [ ../../home ];
   programs = {
     git = {
       userName = "justinvson-pd";

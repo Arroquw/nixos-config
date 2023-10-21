@@ -1,6 +1,6 @@
 { writeShellApplication, rizin, discord-canary }:
 
-writeShellApplication rec {
+writeShellApplication {
   name = "krisp-patch";
 
   runtimeInputs = [ rizin ];

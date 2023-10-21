@@ -1,4 +1,4 @@
-{ self, config, pkgs, ... }: {
+{ self, pkgs, ... }: {
   nix.settings = {
     substituters = [ "https://hyprland.cachix.org" ];
     trusted-public-keys =

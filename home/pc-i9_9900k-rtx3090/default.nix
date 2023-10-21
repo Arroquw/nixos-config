@@ -1,5 +1,5 @@
-{ ... }: {
-  imports = [ ../default.nix ];
+_: {
+  imports = [ ../../home ];
 
   programs = {
     git = {

@@ -1,6 +1,6 @@
 { stdenv, pkgs, ... }:
 
-stdenv.mkDerivation rec {
+stdenv.mkDerivation {
   name = "waybar-weather";
 
   src = ../scripts/waybar/weather.py;

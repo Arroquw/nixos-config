@@ -8,7 +8,7 @@ let
     ${pkgs.imagemagick}/bin/convert -size 100x100 xc:$(${wl-paste}) /tmp/color.png
     ${pkgs.dunst}/bin/dunstify --icon=/tmp/color.png "$(${wl-paste})"  "Copied to your clipboard!"
   '';
-in stdenv.mkDerivation rec {
+in stdenv.mkDerivation {
   name = "hyprpicker-script";
   src = hyprpickerScript;
   phases = "installPhase";

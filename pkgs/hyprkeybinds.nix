@@ -7,7 +7,7 @@ let
     keybinds=$(${pkgs.busybox}/bin/echo "$keybinds" | ${gnused} 's/bind.*=//g' | ${gnused} 's/,\([^,]\)/ = \1/2' | ${gnused} 's/exec,//g' | ${gnused} 's/^,//g' | ${gnused} 's/$,//g')
     ${pkgs.rofi}/bin/rofi -dmenu -p "Keybinds" -theme custom <<< "$keybinds"
   '';
-in stdenv.mkDerivation rec {
+in stdenv.mkDerivation {
   name = "hyprkeybinds";
   src = keybindScript;
   phases = "installPhase";

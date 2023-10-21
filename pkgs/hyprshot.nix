@@ -1,6 +1,6 @@
 { stdenv, pkgs, fetchFromGitHub, ... }:
 
-stdenv.mkDerivation rec {
+stdenv.mkDerivation {
   name = "hyprshot";
 
   src = fetchFromGitHub {
