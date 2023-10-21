@@ -1,10 +1,11 @@
-{ inputs, outputs, pkgs, user, lib, ... }:
+{ inputs, outputs, pkgs, user, lib, nixvim, ... }:
 let
   inherit (inputs.nix-colors) colorSchemes;
   inherit user;
 in {
   imports = [
-    ./xdg-mime-apps.nix
+    inputs.nixvim.homeManagerModules.nixvim
+    inputs.nix-colors.homeManagerModule
     ./desktop/hyprland
     ./desktop/waybar.nix
     ./desktop/mako.nix
@@ -13,6 +14,7 @@ in {
     ./rofi.nix
     inputs.nix-colors.homeManagerModule
   ] ++ (builtins.attrValues outputs.homeManagerModules);
+
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home = {
@@ -32,6 +34,7 @@ in {
         executable = true;
       };
     };
+    shellAliases."v" = "nvim";
     #Hyprland
     sessionVariables = {
       BROWSER = "firefox";
@@ -55,6 +58,7 @@ in {
       XDG_CONFIG_HOME = "\${HOME}/.config";
       XDG_BIN_HOME = "\${HOME}/.local/bin";
       XDG_DATA_HOME = "\${HOME}/.local/share";
+      EDITOR = "nvim";
     };
     # This value determines the Home Manager release that your
     # configuration is compatible with. This helps avoid breakage

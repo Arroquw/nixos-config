@@ -5,7 +5,6 @@
     description = "${user}";
     extraGroups = [ "networkmanager" "wheel" "qemu-libvirtd" "libvirtd" "kvm" ];
     packages = with pkgs; [
-      neovim
       firefox
       swaylock-effects
       wlogout
@@ -135,7 +134,14 @@
   nixpkgs.config.allowUnfree = true;
   programs = {
     xss-lock.enable = true;
-
+    neovim = {
+      enable = true;
+      defaultEditor = true;
+      viAlias = false;
+      vimAlias = false;
+      withRuby = false;
+      withNodeJs = false;
+    };
     #thunar dencies
     thunar.plugins = with pkgs.xfce; [ thunar-archive-plugin thunar-volman ];
     dconf.enable = lib.mkDefault true;

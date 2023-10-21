@@ -29,7 +29,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
-
+    nixvim = { url = "github:pta2002/nixvim"; };
   };
 
   outputs = { self, nixpkgs, hyprland, home-manager, flake-utils
