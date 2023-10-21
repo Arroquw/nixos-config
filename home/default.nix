@@ -6,13 +6,14 @@ in {
   imports = [
     inputs.nixvim.homeManagerModules.nixvim
     inputs.nix-colors.homeManagerModule
+    ./xdg-mime-apps
     ./desktop/hyprland
     ./desktop/waybar.nix
     ./desktop/mako.nix
-    ./kitty.nix
-    ./wlogout.nix
-    ./rofi.nix
-    inputs.nix-colors.homeManagerModule
+    ./kitty
+    ./wlogout
+    ./rofi
+    ./nvim
   ] ++ (builtins.attrValues outputs.homeManagerModules);
 
   # Home Manager needs a bit of information about you and the
@@ -70,6 +71,8 @@ in {
     # changes in each release.
     stateVersion = "23.11";
   };
+
+  #xdg.configFile."nvim/spell/en.utf-8.add".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix-config/home/nixvim/spell.utf-8.add";
 
   xsession.initExtra = ''
     unset XDG_CURRENT_DESKTOP

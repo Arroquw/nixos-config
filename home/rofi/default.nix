@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, ... }:
 let
   background = "#20212CFF";
   background-alt = "#282B3CFF";
