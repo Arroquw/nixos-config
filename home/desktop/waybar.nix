@@ -179,7 +179,7 @@ in {
           exec = jsonOutput "currentplayer" {
             pre = ''
               player="$(${playerctl} status -f "{{playerName}}" 2>/dev/null || echo "No player active" | ${cut} -d '.' -f1)"
-              count="$(${playerctl} -l | ${wc} -l)"
+              count="$(${playerctl} -l 2> /dev/null | ${wc} -l)"
               if ((count > 1)); then
                 more=" +$((count - 1))"
               else
@@ -207,9 +207,9 @@ in {
           on-click-right = "${playerctld} unshift";
         };
         "custom/player" = {
-          exec-if = "${playerctl} status";
+          exec-if = "${playerctl} status 2> /dev/null";
           exec = ''
-            ${playerctl} metadata --format '{"text": "{{title}} - {{artist}}", "alt": "{{status}}", "tooltip": "{{title}} - {{artist}} ({{album}})"}' '';
+            ${playerctl} metadata --format '{"text": "{{title}} - {{artist}}", "alt": "{{status}}", "tooltip": "{{title}} - {{artist}} ({{album}})"}' 2> /dev/null'';
           return-type = "json";
           interval = 2;
           max-length = 30;
