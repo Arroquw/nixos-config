@@ -1,4 +1,4 @@
-{ config, ... }:
+{ pkgs, config, ... }:
 let inherit (config.colorscheme) colors;
 in {
   services.mako = {
@@ -16,7 +16,7 @@ in {
     textColor = "#${colors.base05}dd";
     layer = "overlay";
     extraConfig = ''
-      on-notify=exec canberra-gtk-play -i window-attention
+      on-notify=exec ${pkgs.libcanberra-gtk3}/bin/canberra-gtk-play -i window-attention
       [app-name="prospect-mail"]
       invisible=1
       [app-name="Prospect Mail"]
