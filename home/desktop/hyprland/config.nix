@@ -30,7 +30,7 @@ _: ''
   windowrulev2 = float,class:^(xdg-desktop-portal-gtk)$
   windowrulev2 = float,class:^(geeqie)$
   windowrulev2 = tile,class:^(neovide)$
-
+  windowrulev2 = idleinhibit,fullscreen:1
   # Increase the opacity 
   windowrule=opacity 0.92,thunar
   windowrule=opacity 0.96,discord
@@ -39,7 +39,7 @@ _: ''
   windowrule=opacity 0.7,neovide
 
   #w
-  windowrule=opacity 1,neovim
+  windowrule=opacity 0.85,neovim
   bindm=SUPER,mouse:272,movewindow
   bindm=SUPER,mouse:273,resizewindow
 
