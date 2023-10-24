@@ -40,9 +40,8 @@ let
           '{text:$text,tooltip:$tooltip,alt:$alt,class:$class,percentage:$percentage}'
       ''
     }/bin/waybar-${name}";
-  pythonEnv = pkgs.python311.withPackages (ps: with ps; [ pyyaml ]);
 in {
-  home.packages = with pkgs; [ pythonEnv ];
+  home.packages = with pkgs; [ yq ];
   programs.waybar = {
     enable = true;
     package = pkgs.waybar.overrideAttrs (oa: {
@@ -210,8 +209,8 @@ in {
         };
         "custom/player" = {
           exec-if = "${playerctl} status 2> /dev/null";
-          exec = ''
-            ${playerctl} metadata --format '{"text": "{{title}} - {{artist}}", "alt": "{{status}}", "tooltip": "{{title}} - {{artist}} ({{album}})"}' 2> /dev/null | sed -r 's/\"//g' | ${pythonEnv}/bin/python -c 'import yaml; import sys; a=yaml.load(sys.stdin, yaml.SafeLoader); print(a)' | sed -r "s/'/\"/g"'';
+          exec =
+            "${playerctl} metadata --format '{text: {{title}} - {{artist}}, alt: {{status}}, tooltip: {{title}} - {{artist}} ({{album}})}' 2> /dev/null | ${pkgs.yq}/bin/yq | ${jq} -c";
           return-type = "json";
           interval = 2;
           max-length = 30;
