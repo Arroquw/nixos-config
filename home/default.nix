@@ -60,6 +60,7 @@ in {
       XDG_BIN_HOME = "\${HOME}/.local/bin";
       XDG_DATA_HOME = "\${HOME}/.local/share";
       EDITOR = "nvim";
+
     };
     # This value determines the Home Manager release that your
     # configuration is compatible with. This helps avoid breakage
@@ -109,7 +110,23 @@ in {
   # Let Home Manager install and manage itself.
   programs = {
     home-manager.enable = true;
-    bash.enable = true;
+    bash = {
+      enable = true;
+      bashrcExtra = ''
+        TF_PYTHONIOENCODING=$PYTHONIOENCODING;
+        export TF_SHELL=bash;
+        export TF_ALIAS=fuck;
+        export TF_SHELL_ALIASES=$(alias);
+        export TF_HISTORY=$(fc -ln -10);
+        export PYTHONIOENCODING=utf-8;
+        TF_CMD=$(
+          thefuck THEFUCK_ARGUMENT_PLACEHOLDER "$@"
+        ) && eval "$TF_CMD";
+        unset TF_HISTORY;
+        export PYTHONIOENCODING=$TF_PYTHONIOENCODING;
+        history -s $TF_CMD;
+      '';
+    };
     wlogout.enable = true;
     git = {
       enable = true;

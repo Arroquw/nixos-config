@@ -128,6 +128,7 @@
       self.packages.${pkgs.system}.waybar-weather
       self.packages.${pkgs.system}.rofi-power-menu
       self.packages.${pkgs.system}.rofi-network-manager
+      thefuck
     ];
   };
 
