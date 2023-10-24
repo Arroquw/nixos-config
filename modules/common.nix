@@ -1,4 +1,33 @@
 { self, pkgs, lib, user, ... }: {
+  nix.settings = {
+    substituters = [ "https://hyprland.cachix.org" ];
+    trusted-public-keys =
+      [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
+    experimental-features = [ "nix-command" "flakes" ];
+  };
+
+  environment.systemPackages = with pkgs; [
+    # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    vim
+    zig
+    wget
+    killall
+    git
+    neofetch
+    gh
+    xdg-utils
+    xdg-desktop-portal
+    xdg-desktop-portal-gtk
+    xdg-desktop-portal-hyprland
+    xwayland
+    meson
+    busybox
+    cloud-utils
+    go
+    nwg-look
+    cargo
+    gcc
+  ];
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${user} = {
     isNormalUser = true;
@@ -132,6 +161,9 @@
     ];
   };
 
+  sound.enable = true;
+  security.rtkit.enable = true;
+
   nixpkgs.config.allowUnfree = true;
   programs = {
     xss-lock.enable = true;
@@ -147,9 +179,52 @@
     thunar.plugins = with pkgs.xfce; [ thunar-archive-plugin thunar-volman ];
     dconf.enable = lib.mkDefault true;
   };
+
+  # Fonts
+  fonts.packages = with pkgs; [
+    font-awesome
+    (nerdfonts.override { fonts = [ "FiraCode" "JetBrainsMono" "Iosevka" ]; })
+  ];
+
   services = {
     gvfs.enable = true;
     tumbler.enable = true;
+    blueman.enable = true;
+    xserver = {
+      enable = true;
+      layout = "us";
+      xkbVariant = "";
+      displayManager = {
+        autoLogin = {
+          enable = true;
+          user = "${user}";
+        };
+        gdm = {
+          enable = true;
+          wayland = true;
+        };
+      };
+    };
+    locate.enable = true;
+    printing.enable = true;
+    pipewire = {
+      enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
+      # If you want to use JACK applications, uncomment this
+      #jack.enable = true;
+      wireplumber.enable = true;
+    };
+    tlp.enable = true;
+    upower.enable = true;
+  };
+
+  xdg.portal = {
+    enable = true;
+    xdgOpenUsePortal = true;
+    extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
+    wlr.enable = true;
   };
 
   #gnome outside gnome
@@ -169,6 +244,34 @@
     PICTURES=$HOME/Photos
     VIDEOS=$HOME/Video
   '';
+
+  # Set your time zone.
+  time.timeZone = "Europe/Amsterdam";
+  # Select internationalisation properties.
+  i18n.defaultLocale = "en_US.UTF-8";
+  i18n.extraLocaleSettings = {
+    LC_ADDRESS = "nl_NL.UTF-8";
+    LC_IDENTIFICATION = "nl_NL.UTF-8";
+    LC_MEASUREMENT = "nl_NL.UTF-8";
+    LC_MONETARY = "nl_NL.UTF-8";
+    LC_NAME = "nl_NL.UTF-8";
+    LC_NUMERIC = "nl_NL.UTF-8";
+    LC_PAPER = "nl_NL.UTF-8";
+    LC_TELEPHONE = "nl_NL.UTF-8";
+    LC_TIME = "nl_NL.UTF-8";
+  };
+
+  environment.loginShellInit = ''
+    if [ -e $HOME/.profile ]
+    then
+      . $HOME/.profile
+    fi
+  '';
+
+  hardware = {
+    bluetooth.enable = true;
+    pulseaudio.enable = false;
+  };
 
   #Overlays
   #Waybar wlr/Workspaces
