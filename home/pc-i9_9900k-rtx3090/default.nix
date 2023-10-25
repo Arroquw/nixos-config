@@ -13,6 +13,15 @@ _: {
     extraConfig = ''
       env=WLR_NO_HARDWARE_CURSORS,1
     '';
+    misc.mouse_move_enables_dpms = false;
+  };
+
+  services.swayidle = {
+    timeouts = [{
+      timeout = 5;
+      command =
+        "if ${pkgs.procps}/bin/pgrep -x swaylock; then ${pkgs.hyprland}/bin/hyprctl dispatch dpms off; fi";
+    }];
   };
 
   home = {

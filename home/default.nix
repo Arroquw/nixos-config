@@ -170,12 +170,6 @@ in {
     package = pkgs.swayidle;
     timeouts = [
       {
-        timeout = 5;
-        command =
-          "if ${pkgs.procps}/bin/pgrep -x swaylock; then ${pkgs.hyprland}/bin/hyprctl dispatch dpms off; fi";
-        resumeCommand = "${pkgs.hyprland}/bin/hyprctl dispatch dpms on";
-      }
-      {
         timeout = 300;
         command = "${pkgs.swaylock-effects}/bin/swaylock -fF";
       }

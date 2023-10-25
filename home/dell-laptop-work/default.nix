@@ -7,14 +7,26 @@ _: {
     };
   };
 
+  wayland.windowManager.hyprland = { misc.mouse_move_enables_dpms = true; };
+
   home.sessionVariables = {
     WLR_DRM_DEVICES = "/dev/dri/by-path/pci-0000:00:02.0-card";
+  };
+
+  services.swayidle = {
+    timeouts = [{
+      timeout = 5;
+      command =
+        "if ${pkgs.procps}/bin/pgrep -x swaylock; then ${pkgs.hyprland}/bin/hyprctl dispatch dpms off; fi";
+      resumeCommand = "${pkgs.hyprland}/bin/hyprctl dispatch dpms on";
+    }];
   };
 
   #  ------   -----   ------
   # | DP-5/7 | | DP-4/6 |
   #              |eDP-1|
   #  ------   -----   ------
+  # TODO: use desc rather than whatever the fuck this is
   monitors = [
     {
       name = "eDP-1";
