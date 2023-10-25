@@ -47,10 +47,12 @@
     '';
   };
   # Define a user account. Don't forget to set a password with ‘passwd’.
+  users.groups.plugdev = { };
   users.users.${user} = {
     isNormalUser = true;
     description = "${user}";
-    extraGroups = [ "networkmanager" "wheel" "qemu-libvirtd" "libvirtd" "kvm" ];
+    extraGroups =
+      [ "networkmanager" "wheel" "qemu-libvirtd" "libvirtd" "kvm" "plugdev" ];
     packages = with pkgs; [
       firefox
       swaylock-effects
@@ -176,6 +178,10 @@
       self.packages.${pkgs.system}.rofi-power-menu
       self.packages.${pkgs.system}.rofi-network-manager
       thefuck
+      self.packages.${pkgs.system}.dcpl2530dwlpr
+      self.packages.${pkgs.system}.dcpl2530dwlpr-scan
+      self.packages.${pkgs.system}.sf100linux
+      self.packages.${pkgs.system}.em100
     ];
   };
 
