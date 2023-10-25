@@ -6,28 +6,46 @@
     experimental-features = [ "nix-command" "flakes" ];
   };
 
-  environment.systemPackages = with pkgs; [
-    # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    vim
-    zig
-    wget
-    killall
-    git
-    neofetch
-    gh
-    xdg-utils
-    xdg-desktop-portal
-    xdg-desktop-portal-gtk
-    xdg-desktop-portal-hyprland
-    xwayland
-    meson
-    busybox
-    cloud-utils
-    go
-    nwg-look
-    cargo
-    gcc
-  ];
+  environment = {
+    systemPackages = with pkgs; [
+      # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+      vim
+      zig
+      wget
+      killall
+      git
+      neofetch
+      gh
+      xdg-utils
+      xdg-desktop-portal
+      xdg-desktop-portal-gtk
+      xdg-desktop-portal-hyprland
+      xwayland
+      meson
+      busybox
+      cloud-utils
+      go
+      nwg-look
+      cargo
+      gcc
+    ];
+    loginShellInit = ''
+      if [ -e $HOME/.profile ]
+      then
+        . $HOME/.profile
+      fi
+    '';
+    etc."xdg/user-dirs.defaults".text = ''
+      DESKTOP=$HOME/Desktop
+      DOWNLOAD=$HOME/Downloads
+      TEMPLATES=$HOME/Templates
+      PUBLICSHARE=$HOME/Public
+      DOCUMENTS=$HOME/Documents
+      MUSIC=$HOME/Music
+      PICTURES=$HOME/Photos
+      VIDEOS=$HOME/Video
+    '';
+  };
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${user} = {
     isNormalUser = true;
@@ -233,17 +251,6 @@
   '';
 
   security.pam.services.swaylock = { };
-  #DIRS
-  environment.etc."xdg/user-dirs.defaults".text = ''
-    DESKTOP=$HOME/Desktop
-    DOWNLOAD=$HOME/Downloads
-    TEMPLATES=$HOME/Templates
-    PUBLICSHARE=$HOME/Public
-    DOCUMENTS=$HOME/Documents
-    MUSIC=$HOME/Music
-    PICTURES=$HOME/Photos
-    VIDEOS=$HOME/Video
-  '';
 
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";
@@ -260,13 +267,6 @@
     LC_TELEPHONE = "nl_NL.UTF-8";
     LC_TIME = "nl_NL.UTF-8";
   };
-
-  environment.loginShellInit = ''
-    if [ -e $HOME/.profile ]
-    then
-      . $HOME/.profile
-    fi
-  '';
 
   hardware = {
     bluetooth.enable = true;
