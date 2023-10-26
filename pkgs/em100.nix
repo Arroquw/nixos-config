@@ -15,9 +15,9 @@ stdenv.mkDerivation (finalAttrs: rec {
   outputs = [ "out" "etc" ];
 
   installPhase = ''
-    mkdir -p $etc $out
-  	install -Dm 644 60-dediprog-em100pro.rules $etc/udev/rules.d/60-dediprog-em100pro.rules
-  	install -Dm 740 em100 $out/bin/em100
+      mkdir -p $etc $out
+    	install -Dm 644 60-dediprog-em100pro.rules $etc/udev/rules.d/60-dediprog-em100pro.rules
+    	install -Dm 740 em100 $out/bin/em100
   '';
 
   meta = {
