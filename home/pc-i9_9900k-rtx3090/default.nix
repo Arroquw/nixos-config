@@ -1,4 +1,4 @@
-_: {
+{ pkgs, ... }: {
   imports = [ ../../home ];
 
   programs = {
@@ -13,14 +13,15 @@ _: {
     extraConfig = ''
       env=WLR_NO_HARDWARE_CURSORS,1
     '';
-    misc.mouse_move_enables_dpms = false;
+    settings.misc.mouse_move_enables_dpms = false;
   };
 
   services.swayidle = {
     timeouts = [{
       timeout = 5;
       command =
-        "if ${pkgs.procps}/bin/pgrep -x swaylock; then ${pkgs.hyprland}/bin/hyprctl dispatch dpms off; fi";
+        "if ${pkgs.procps}/bin/pgrep -x swaylock && [ ! -f /tmp/swaylock.lock ]; then ${pkgs.hyprland}/bin/hyprctl dispatch dpms off; ${pkgs.busybox}/bin/touch /tmp/swaylock.lock; fi";
+      resumeCommand = "${pkgs.busybox}/bin/rm -rf /tmp/swaylock.lock";
     }];
   };
 
