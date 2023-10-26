@@ -242,6 +242,11 @@
     };
     tlp.enable = true;
     upower.enable = true;
+    openssh = {
+      enable = true;
+      settings.PasswordAuthentication = false;
+      settings.KbdInteractiveAuthentication = false;
+    };
   };
 
   xdg.portal = {
