@@ -1,4 +1,4 @@
-_: {
+{ pkgs, ... }: {
   imports = [ ../../home ];
   programs = {
     git = {
@@ -7,7 +7,9 @@ _: {
     };
   };
 
-  wayland.windowManager.hyprland = { misc.mouse_move_enables_dpms = true; };
+  wayland.windowManager.hyprland.settings = {
+    misc.mouse_move_enables_dpms = true;
+  };
 
   home.sessionVariables = {
     WLR_DRM_DEVICES = "/dev/dri/by-path/pci-0000:00:02.0-card";
