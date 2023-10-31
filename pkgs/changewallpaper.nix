@@ -2,7 +2,8 @@
 let
   wallpaperScript = pkgs.writeShellScriptBin "changewallpaper" ''
     DIR=$HOME/Desktop/wallpapers
-    PICS=($(find -L ''${DIR} -maxdepth 1 -type f -exec basename {} \;))
+    CURRENT=$(${pkgs.procps}/bin/pgrep -a swaybg | sed -r 's/.*\-i\ (.*)/\1/g' | xargs basename 2>/dev/null)
+    PICS=($(find -L "''${DIR}" -maxdepth 1 ! -name "''${CURRENT}" -type f -exec basename {} \;))
 
     RANDOMPICS=''${PICS[ $RANDOM % ''${#PICS[@]} ]}
 
