@@ -71,6 +71,7 @@ in {
           "tray"
           "battery"
           "backlight"
+          "idle_inhibitor"
           "clock"
           "custom/wallpaper"
           "custom/power-menu"

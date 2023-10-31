@@ -182,6 +182,7 @@
       self.packages.${pkgs.system}.dcpl2530dwlpr-scan
       self.packages.${pkgs.system}.sf100linux
       self.packages.${pkgs.system}.em100
+      self.packages.${pkgs.system}.sway-idle-audio-inhibit
     ];
   };
 

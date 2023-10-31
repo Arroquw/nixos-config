@@ -14,4 +14,5 @@ with pkgs; {
   dcpl2530dwlpr-scan = callPackage ./printer-scan.nix { };
   sf100linux = callPackage ./sf100linux.nix { };
   em100 = callPackage ./em100.nix { };
+  sway-idle-audio-inhibit = callPackage ./idleinhibit.nix { };
 }
