@@ -16,14 +16,14 @@ stdenv.mkDerivation (finalAttrs: rec {
 
   buildInputs = [ libusb1 ];
 
-  outputs = [ "out" "share" "etc" ];
+  outputs = [ "out" "etc" ];
 
   installPhase = ''
-      mkdir -p $out/bin $share/DediProg
+      mkdir -p $out/bin $out/share/DediProg
       mkdir -p $etc/udev/rules.d
     	install -Dm 0755 dpcmd $out/bin/dpcmd
     	strip $out/bin/dpcmd
-    	install -Dm 0644 ChipInfoDb.dedicfg $share/DediProg/ChipInfoDb.dedicfg
+    	install -Dm 0644 ChipInfoDb.dedicfg $out/share/DediProg/ChipInfoDb.dedicfg
     	install -Dm 0644 60-dediprog.rules $etc/udev/rules.d/60-dediprog.rules
   '';
 
