@@ -63,8 +63,8 @@ WEATHER_CODES = {
 data = {}
 
 
-weather = requests.get("https://wttr.in/netherlands?format=j1").json()
-
+weather = requests.get("https://wttr.in/Haarsteeg?format=j1").json()
+#print(weather)
 
 def format_time(time):
     """
@@ -73,14 +73,14 @@ def format_time(time):
     return time.replace("00", "").zfill(2)
 
 
-def format_temp(temp):
+def format_temp(field):
     """
     Format temperature.
     """
-    return temp + (hour["FeelsLikeC"] + "°").ljust(3)
+    return (hour[field] + "°").ljust(3)
 
 
-def format_chances(xhour):
+def format_chances(hour):
     """
     Format chances.
     """
@@ -95,9 +95,10 @@ def format_chances(xhour):
         "chanceofwindy": "Wind",
     }
     conditions = []
-    for event, chance in chances.items():
-        if int(xhour[event]) > 0:
-            conditions.append(f"{chance} {xhour[event]}")
+    for key, value in chances.items():
+        if int(hour[key]) > 0:
+            conditions.append(value+" "+hour[key] +"%")
+    return ", ".join(conditions)
 
 
 data["text"] = (
@@ -132,8 +133,9 @@ for i, day in enumerate(weather["weather"]):
                 continue
         data["tooltip"] += (
             f"{format_time(hour['time'])} "
-            f"{WEATHER_CODES[hour['weatherCode']]}"
-            f"{format_temp(hour['FeelsLikeC'])} "
+            f"{WEATHER_CODES[hour['weatherCode']]} "
+            f"{format_temp('tempC')} "
+            f"{format_temp('FeelsLikeC')} "
             f"{hour['weatherDesc'][0]['value']}, "
             f"{format_chances(hour)}\n"
         )
