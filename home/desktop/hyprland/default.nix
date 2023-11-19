@@ -76,7 +76,7 @@
         allow_session_lock_restore = true;
       };
 
-      exec = let
+      exec-once = let
         wallpaper-script =
           "${self.packages.${pkgs.system}.changewallpaper}/bin/changewallpaper";
       in [
@@ -84,8 +84,6 @@
         "${pkgs.poweralertd}/bin/poweralertd"
         "${wallpaper-script}"
         "${pkgs.blueman}/bin/blueman-applet"
-        "${pkgs.dbus}/bin/dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=Hyprland DBUS_SESSION_BUS_ADDRESS PATH"
-        "${pkgs.systemd}/bin/systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP PATH"
       ];
 
       bind = let
