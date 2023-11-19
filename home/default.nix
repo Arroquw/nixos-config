@@ -183,8 +183,8 @@ in {
     ];
   };
 
-  systemd.user.services.swayidle.Install.WantedBy =
-    lib.mkForce [ "hyprland-session.target" ];
+#  systemd.user.services.swayidle.Install.WantedBy =
+#    lib.mkForce [ "hyprland-session.target" ];
   programs.swaylock = {
     enable = true;
     package = pkgs.swaylock-effects;
@@ -238,10 +238,10 @@ in {
     };
   };
 
-  services.screen-locker = {
-    enable = true;
-    lockCmd = "${pkgs.swaylock-effects}/bin/swaylock -fF";
-    xss-lock = { extraOptions = [ "-v" ]; };
-    xautolock.enable = false;
-  };
+#  services.screen-locker = {
+#    enable = true;
+#    lockCmd = "${pkgs.swaylock-effects}/bin/swaylock -fF";
+#    xss-lock = { extraOptions = [ "-v" ]; };
+#    xautolock.enable = false;
+#  };
 }
