@@ -8,17 +8,6 @@
 
     config = ''
       Section "Device"
-          Identifier  "Intel Graphics"
-          Driver      "intel"
-          #Option      "AccelMethod"  "sna" # default
-          #Option      "AccelMethod"  "uxa" # fallback
-          Option      "TearFree"        "true"
-          Option      "SwapbuffersWait" "true"
-          BusID       "PCI:0:2:0"
-          #Option      "DRI" "2"             # DRI3 is now default
-      EndSection
-
-      Section "Device"
           Identifier "nvidia"
           Driver "nvidia"
           BusID "PCI:1:0:0"
@@ -44,7 +33,7 @@
     };
     nvidia = {
       nvidiaSettings = true;
-      powerManagement.enable = true;
+      powerManagement.enable = false;
       forceFullCompositionPipeline = true;
       # Optionally, you may need to select the appropriate driver version for your specific GPU.
       package = config.boot.kernelPackages.nvidiaPackages.stable;
