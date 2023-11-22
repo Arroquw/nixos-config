@@ -46,6 +46,7 @@
       VIDEOS=$HOME/Video
     '';
   };
+  environment.shells = with pkgs; [ zsh ];
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.groups.plugdev = { };
   users.users.${user} = {
@@ -201,6 +202,7 @@
       withNodeJs = false;
     };
     #thunar dencies
+    zsh.enable = true;
     thunar.plugins = with pkgs.xfce; [ thunar-archive-plugin thunar-volman ];
     dconf.enable = lib.mkDefault true;
   };
