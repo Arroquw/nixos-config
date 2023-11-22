@@ -6,7 +6,6 @@ stdenv.mkDerivation {
   src = ../scripts/rofi/bin/power-menu.sh;
   dontUnpack = true;
   buildPhase = ''
-    ls -alh
     patchShebangs $src
   '';
 
