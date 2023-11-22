@@ -1,4 +1,4 @@
-{ lib, gnumake, libusb1, pkg-config, stdenv, gcc, fetchFromGitHub }:
+{ lib, gnumake, libusb1, pkg-config, stdenv, gcc, coreutils, fetchFromGitHub }:
 stdenv.mkDerivation (finalAttrs: rec {
   pname = "SF100Linux";
   version = "master";
@@ -10,21 +10,17 @@ stdenv.mkDerivation (finalAttrs: rec {
     hash = "sha256-aho9MOnUXNZBMYoWhPY+252QYnY+V9Ex0/kNju5sFco=";
   };
 
-  patches = [ ./sf100linux-remove-unpermitted-commands.patch ];
-
-  nativeBuildInputs = [ gnumake pkg-config gcc ];
+  nativeBuildInputs = [ gnumake pkg-config gcc coreutils ];
 
   buildInputs = [ libusb1 ];
 
-  outputs = [ "out" "etc" ];
-
   installPhase = ''
       mkdir -p $out/bin $out/share/DediProg
-      mkdir -p $etc/udev/rules.d
-    	install -Dm 0755 dpcmd $out/bin/dpcmd
+      mkdir -p $out/etc/udev/rules.d
+    	install -v -Dm 0755 dpcmd $out/bin/dpcmd
     	strip $out/bin/dpcmd
-    	install -Dm 0644 ChipInfoDb.dedicfg $out/share/DediProg/ChipInfoDb.dedicfg
-    	install -Dm 0644 60-dediprog.rules $etc/udev/rules.d/60-dediprog.rules
+    	install -v -Dm 0644 ChipInfoDb.dedicfg $out/share/DediProg/ChipInfoDb.dedicfg
+    	install -v -Dm 0644 60-dediprog.rules $out/etc/udev/rules.d/60-dediprog.rules
   '';
 
   meta = {

@@ -215,6 +215,7 @@
   ];
 
   services = {
+    udev.packages = [ self.packages.${pkgs.system}.sf100linux ];
     gvfs.enable = true;
     tumbler.enable = true;
     blueman.enable = true;
