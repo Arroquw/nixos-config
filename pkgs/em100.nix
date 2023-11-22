@@ -1,4 +1,4 @@
-{ lib, gnumake, libusb1, pkg-config, stdenv, gcc, curl, fetchgit, pkgs }:
+{ lib, gnumake, libusb1, pkg-config, stdenv, gcc, curl, fetchgit }:
 stdenv.mkDerivation (finalAttrs: rec {
   pname = "em100";
   version = "main";
