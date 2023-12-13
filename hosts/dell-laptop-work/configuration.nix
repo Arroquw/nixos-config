@@ -62,6 +62,12 @@
     logind = {
       lidSwitchExternalPower = "ignore";
       lidSwitch = "hibernate";
+      rebootKey = "ignore";
+      rebootKeyLongPress = "poweroff";
+      suspendKey = "ignore";
+      suspendKeyLongPress = "ignore";
+      hibernateKey = "ignore";
+      hibernateKeyLongPress = "ignore";
     };
   };
 
