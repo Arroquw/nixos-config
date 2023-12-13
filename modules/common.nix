@@ -185,6 +185,7 @@
         self.packages.${pkgs.system}.sf100linux
         self.packages.${pkgs.system}.em100
         self.packages.${pkgs.system}.sway-idle-audio-inhibit
+        self.packages.${pkgs.system}.realvnc
       ];
     };
   };
