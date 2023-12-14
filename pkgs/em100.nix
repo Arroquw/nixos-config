@@ -12,11 +12,9 @@ stdenv.mkDerivation (finalAttrs: rec {
   nativeBuildInputs = [ gnumake pkg-config gcc ];
   buildInputs = [ libusb1 curl ];
 
-  outputs = [ "out" "etc" ];
-
   installPhase = ''
       mkdir -p $etc $out
-    	install -Dm 644 60-dediprog-em100pro.rules $etc/udev/rules.d/60-dediprog-em100pro.rules
+    	install -Dm 644 60-dediprog-em100pro.rules $out/etc/udev/rules.d/60-dediprog-em100pro.rules
     	install -Dm 740 em100 $out/bin/em100
   '';
 
