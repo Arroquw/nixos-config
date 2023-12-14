@@ -213,7 +213,7 @@ in {
           exec =
             #"${playerctl} metadata --format '{text: {{title}} - {{artist}}, alt: {{status}}, tooltip: {{title}} - {{artist}} ({{album}})}' 2> /dev/null | ${pkgs.yq}/bin/yq | ${jq} -c";
             ''
-              ${playerctl} metadata --format '{{title}}|{{artist}}|{{status}}|{{album}}' | sed -r 's@\"@\\\"@g' | awk -F '|' '{printf "{\"text\": \"%s - %s\", \"alt\": \"%s\", \"tooltip\": \"%s - %s (%s)\"}",$1,$2,$3,$1,$2,$4}' | ${jq} -c'';
+              echo -e `${playerctl} metadata --format '{{markup_escape(title)}}\x255{{markup_escape(artist)}}\x255{{status}}\x255{{markup_escape(album)}}'` | sed -r 's@\"@\\\"@g' | awk -F '\x255' '{printf "{\"text\": \"%s - %s\", \"alt\": \"%s\", \"tooltip\": \"%s - %s (%s)\"}",$1,$2,$3,$1,$2,$4}' | ${jq} -c'';
           return-type = "json";
           interval = 2;
           max-length = 30;
