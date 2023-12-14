@@ -6,7 +6,7 @@ in {
     font = "TeX Gyre Adventor 10";
     iconPath = "${config.gtk.iconTheme.package}/share/icons/Papirus-Dark";
     padding = "10,20";
-    anchor = "top-center";
+    anchor = "top-right";
     width = 400;
     height = 150;
     borderSize = 0;
