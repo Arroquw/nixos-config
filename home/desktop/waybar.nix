@@ -210,10 +210,9 @@ in {
         };
         "custom/player" = {
           exec-if = "${playerctl} status 2> /dev/null";
-          exec =
-            #"${playerctl} metadata --format '{text: {{title}} - {{artist}}, alt: {{status}}, tooltip: {{title}} - {{artist}} ({{album}})}' 2> /dev/null | ${pkgs.yq}/bin/yq | ${jq} -c";
-            ''
-              echo -e `${playerctl} metadata --format '{{markup_escape(title)}}\x255{{markup_escape(artist)}}\x255{{status}}\x255{{markup_escape(album)}}'` | sed -r 's@\"@\\\"@g' | awk -F '\x255' '{printf "{\"text\": \"%s - %s\", \"alt\": \"%s\", \"tooltip\": \"%s - %s (%s)\"}",$1,$2,$3,$1,$2,$4}' | ${jq} -c'';
+          exec = ''
+            ${playerctl} metadata --format '{"text": "{{markup_escape(title)}} - {{markup_escape(artist)}}", "alt": "{{status}}", "tooltip": "Now {{markup_escape(status)}}: {{markup_escape(title)}} - {{markup_escape(artist)}} (album {{markup_escape(album)}})"}' | ${jq} -c
+          '';
           return-type = "json";
           interval = 2;
           max-length = 30;
