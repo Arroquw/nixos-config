@@ -27,106 +27,100 @@
     pre-commit-hooks = {
       url = "github:cachix/pre-commit-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-utils.follows = "flake-utils";
     };
     nixvim = { url = "github:pta2002/nixvim"; };
+    sops-nix = {
+      url = "github:mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs-stable.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, hyprland, home-manager, flake-utils
-    , pre-commit-hooks, ... }@inputs:
+  outputs = inputs@{ self, nixpkgs, home-manager, pre-commit-hooks, ... }:
     let
       inherit (self) outputs;
-      inherit (flake-utils.lib) eachDefaultSystem;
       lib = nixpkgs.lib // home-manager.lib;
-      systems = [ "x86_64-linux" "aarch64-linux" ];
+      systems = [ "x86_64-linux" ];
+      forEachSystem = f:
+        lib.genAttrs systems (system: f system pkgsFor.${system});
       pkgsFor = lib.genAttrs systems (system:
         import nixpkgs {
           inherit system;
           config.allowUnfree = true;
         });
-    in rec {
-      inherit lib;
+      addPreCommitCheck = system: {
+        pre-commit-check = pre-commit-hooks.lib.${system}.run {
+          src = ./.;
+          hooks = {
+            deadnix.enable = true;
+            statix.enable = true;
+            nixfmt.enable = true;
+            nil.enable = true;
+            shellcheck.enable = true;
+            black.enable = true;
+          };
+          settings = {
+            deadnix = {
+              edit = true;
+              noLambdaArg = true;
+              exclude = [ "hardware-configuration.nix" ];
+            };
+            statix.ignore = [ "hardware-configuration.nix" ];
+          };
+        };
+      };
+    in {
+      nixosModules = builtins.listToAttrs (map (x: {
+        name = x;
+        value = import (./modules/nixos + "/${x}");
+      }) (builtins.attrNames (builtins.readDir ./modules/nixos)));
+
       homeManagerModules = import ./modules/home-manager;
+      checks = forEachSystem (system: pkgs: addPreCommitCheck system);
+      packages = forEachSystem (system: pkgs: import ./pkgs { inherit pkgs; });
+      devShells = forEachSystem
+        (system: pkgs: import ./shell.nix { inherit self system pkgs; });
+
+      formatter = forEachSystem (syste4m: pkgs: pkgs.nixfmt);
 
       nixosConfigurations = {
+        # Main desktop
+        gecko = lib.nixosSystem {
+          modules = [
+            ./hosts/gecko
+            { imports = builtins.attrValues self.nixosModules; }
+          ];
+          specialArgs = { inherit self inputs outputs; };
+        };
         # Work laptop
         lnxclnt2840 = lib.nixosSystem {
           modules = [
-            ./hosts/dell-laptop-work/configuration.nix
-            hyprland.nixosModules.default
-            {
-              programs.hyprland = {
-                enable = true;
-                xwayland.enable = true;
-              };
-            }
+            ./hosts/lnxclnt2840
+            { imports = builtins.attrValues self.nixosModules; }
           ];
-          specialArgs = {
-            user = "jusson";
-            inherit self inputs outputs;
-          };
-        };
-        # Main desktop
-        NixOs-justin = lib.nixosSystem {
-          modules = [
-            ./hosts/pc-i9_9900k-rtx3090/configuration.nix
-            hyprland.nixosModules.default
-            {
-              programs.hyprland = {
-                enable = true;
-                xwayland.enable = true;
-              };
-            }
-          ];
-          specialArgs = {
-            user = "justin";
-            inherit self inputs outputs;
-          };
+          specialArgs = { inherit self inputs outputs; };
         };
       };
 
       homeConfigurations = {
         # Desktops
         "jusson@lnxclnt2840" = lib.homeManagerConfiguration {
-          modules = [ ./home/dell-laptop-work ];
+          modules = [ ./home/lnxclnt2840 ];
           pkgs = pkgsFor.x86_64-linux;
+          specialArgs = { user = "jusson"; };
           extraSpecialArgs = {
-            user = "jusson";
             inherit self inputs outputs;
+            user = "jusson";
           };
         };
-        "justin@NixOs-justin" = lib.homeManagerConfiguration {
-          modules = [ ./home/pc-i9_9900k-rtx3090 ];
+        "justin@gecko" = lib.homeManagerConfiguration {
+          modules = [ ./home/gecko ];
           pkgs = pkgsFor.x86_64-linux;
           extraSpecialArgs = {
-            user = "justin";
             inherit self inputs outputs;
+            user = "justin";
           };
         };
       };
-    } // eachDefaultSystem (system:
-      let pkgs = nixpkgs.legacyPackages.${system};
-      in {
-        formatter = pkgs.nixfmt;
-        packages = import ./pkgs { inherit pkgs; };
-        checks.pre-commit-check = pre-commit-hooks.lib.${system}.run {
-          src = ./.;
-          hooks = {
-            nixfmt.enable = true;
-            deadnix.enable = true;
-            statix.enable = true;
-            nil.enable = true;
-            shellcheck.enable = true;
-            pyright.enable = true;
-          };
-          settings = {
-            deadnix.edit = true;
-            deadnix.noLambdaArg = true;
-          };
-
-        };
-        devShells.default = pkgs.mkShell {
-          inherit (self.checks.${system}.pre-commit-check) shellHook;
-        };
-      });
+    };
 }

@@ -1,0 +1,14 @@
+keys:
+  - &admin_justin age1rj8pdlg2c32sld2mnxp6djmclhtzvwkqknad5uzn6tc3lkx92vvqf7hwy6
+  - &host_gecko age1rl4l8xjnn0knf09xa3a3ljcys47h8cud2wysaz4er24hyx5gwynsaxjmjg 
+creation_rules:
+  - path_regex: hosts/gecko/secrets.ya?ml$
+    key_groups:
+      - age:
+        - *host_gecko
+        - *admin_justin
+  - path_regex: hosts/common/secrets.ya?ml$
+    key_groups:
+      - age:
+        - *host_gecko
+        - *admin_justin

@@ -64,7 +64,8 @@ data = {}
 
 
 weather = requests.get("https://wttr.in/Haarsteeg?format=j1").json()
-#print(weather)
+# print(weather)
+
 
 def format_time(time):
     """
@@ -97,7 +98,7 @@ def format_chances(hour):
     conditions = []
     for key, value in chances.items():
         if int(hour[key]) > 0:
-            conditions.append(value+" "+hour[key] +"%")
+            conditions.append(value + " " + hour[key] + "%")
     return ", ".join(conditions)
 
 

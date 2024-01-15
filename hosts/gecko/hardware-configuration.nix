@@ -3,7 +3,7 @@
 # to /etc/nixos/configuration.nix instead.
 { config, lib, modulesPath, ... }: {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
-
+  nixpkgs.config.allowUnfree = true;
   boot = {
     initrd = {
       availableKernelModules =
@@ -11,7 +11,8 @@
       kernelModules = [ ];
     };
     kernelModules = [ "kvm-intel" ];
-    extraModulePackages = [ ];
+    kernelParams = [ "nvidia_drm.modeset=1" ];
+    extraModulePackages = [ config.boot.kernelPackages.nvidia_x11 ];
   };
 
   fileSystems."/" = {
@@ -35,7 +36,7 @@
   # networking.interfaces.enp4s0.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
+  powerManagement.cpuFreqGovernor = lib.mkDefault "performance";
   hardware.cpu.intel.updateMicrocode =
     lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

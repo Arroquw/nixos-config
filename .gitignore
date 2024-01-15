@@ -1,1 +1,3 @@
 .pre-commit-config.yaml
+secrets.yaml
+ssh_host_*

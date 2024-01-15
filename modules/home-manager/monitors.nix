@@ -1,13 +1,18 @@
 { lib, config, ... }:
-
 let inherit (lib) mkOption types;
 in {
   options.monitors = mkOption {
     type = types.listOf (types.submodule {
       options = {
         name = mkOption {
-          type = types.str;
+          type = types.nullOr types.str;
           example = "DP-1";
+          default = null;
+        };
+        desc = mkOption {
+          type = types.nullOr types.str;
+          example = "LG Display 0x068B";
+          default = null;
         };
         primary = mkOption {
           type = types.bool;
@@ -33,6 +38,10 @@ in {
           type = types.int;
           default = 0;
         };
+        transform = mkOption {
+          type = types.int;
+          default = 0;
+        };
         enabled = mkOption {
           type = types.bool;
           default = true;
@@ -46,10 +55,19 @@ in {
     default = [ ];
   };
   config = {
-    assertions = [{
-      assertion = ((lib.length config.monitors) != 0)
-        -> ((lib.length (lib.filter (m: m.primary) config.monitors)) == 1);
-      message = "Exactly one monitor must be set to primary.";
-    }];
+    assertions = [
+      {
+        assertion = ((lib.length config.monitors) != 0)
+          -> ((lib.length (lib.filter (m: m.primary) config.monitors)) == 1);
+        message = "Exactly one monitor must be set to primary.";
+      }
+      {
+        assertion = ((lib.length config.monitors) != 0) -> ((lib.length
+          (lib.filter (m: builtins.isNull m.name && builtins.isNull m.desc)
+            config.monitors)) == 0);
+        message =
+          "At least one of the following fields is required: name, desc.";
+      }
+    ];
   };
 }

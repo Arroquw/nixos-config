@@ -15,7 +15,7 @@ let
     ${pkgs.swaybg}/bin/swaybg -m fill -i ''${DIR}/''${RANDOMPICS}
     ${pkgs.libcanberra-gtk3}/bin/canberra-gtk-play -i window-attention
   '';
-in stdenv.mkDerivation rec {
+in stdenv.mkDerivation {
   name = "changewallpaper";
   src = wallpaperScript;
   phases = "installPhase";

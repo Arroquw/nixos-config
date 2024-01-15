@@ -3,7 +3,7 @@
 let
   version = "4.0.0";
   model = "dcpl2530dw";
-in stdenv.mkDerivation rec {
+in stdenv.mkDerivation {
   pname = "${model}-cupswrapper";
   inherit version;
 

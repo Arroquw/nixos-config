@@ -19,6 +19,6 @@ stdenv.mkDerivation (finalAttrs: {
     description = "";
     homepage = "";
     license = lib.licenses.gpl3;
-    maintainers = with lib.maintainers; [ ];
+    maintainers = with lib.maintainers; [ arroquw ];
   };
 })
