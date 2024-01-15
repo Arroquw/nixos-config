@@ -8,12 +8,15 @@
     };
   };
 
-  wayland.windowManager.hyprland = {
-    enableNvidiaPatches = true;
-    extraConfig = ''
-      env=WLR_NO_HARDWARE_CURSORS,1
-    '';
-    settings.misc.mouse_move_enables_dpms = false;
+  arroquw = {
+    hyprland = {
+      enable = true;
+      nvidiaPatches = true;
+      mouseEnablesDpms = false;
+      extraConfig = ''
+        env=WLR_NO_HARDWARE_CURSORS,1
+      '';
+    };
   };
 
   services.swayidle = {

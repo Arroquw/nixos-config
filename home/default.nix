@@ -1,4 +1,4 @@
-{ inputs, outputs, pkgs, user, lib, nixvim, ... }:
+{ inputs, outputs, pkgs, user, lib, ... }:
 let
   inherit (inputs.nix-colors) colorSchemes;
   inherit user;
@@ -6,14 +6,15 @@ in {
   imports = [
     inputs.nixvim.homeManagerModules.nixvim
     inputs.nix-colors.homeManagerModule
-    ./xdg-mime-apps
+    ./programs/xdg-mime-apps
     ./desktop/hyprland
     ./desktop/waybar.nix
     ./desktop/mako.nix
-    ./kitty
-    ./wlogout
-    ./rofi
-    ./nvim
+    ./programs/kitty
+    ./programs/wlogout
+    ./programs/rofi
+    ./programs/nvim
+    ./shell
   ] ++ (builtins.attrValues outputs.homeManagerModules);
 
   # Home Manager needs a bit of information about you and the
@@ -60,7 +61,10 @@ in {
       XDG_BIN_HOME = "\${HOME}/.local/bin";
       XDG_DATA_HOME = "\${HOME}/.local/share";
       EDITOR = "nvim";
-
+      LIBVA_DRIVER_NAME = "nvidia";
+      __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+      __GL_GSYNC_ALLOWED = "0";
+      __GL_VRR_ALLOWED = "0";
     };
     # This value determines the Home Manager release that your
     # configuration is compatible with. This helps avoid breakage
@@ -129,53 +133,7 @@ in {
         }
       '';
     };
-    zsh = {
-      enable = true;
-      shellAliases = {
-        ll = "ls -l";
-        update = "sudo nixos-rebuild switch";
-      };
-      oh-my-zsh = {
-        enable = true;
-        plugins = [ "git" "thefuck" ];
-        theme = "robbyrussell";
-      };
-    };
     wlogout.enable = true;
-    git = {
-      enable = true;
-      package = pkgs.git;
-      extraConfig = {
-        merge.tool = "vscode";
-        diff.tool = "vscode";
-        core.editor = "vim";
-        mergeTool = {
-          keepBackup = false;
-          vscode.cmd = "code --wait --new-window --diff $LOCAL $REMOTE";
-        };
-      };
-      aliases = {
-        co = "checkout";
-        br = "branch";
-        st = "status --short --branch";
-        sts = "status";
-        unstage = "reset HEAD -- ";
-        rh = "reset --hard";
-        a = "add .";
-        cam = "commit --amend";
-        camn = "commit --amend --no-edit";
-        cm = "commit -m";
-        cb = "checkout -B";
-        alias = "config --get-regexp ^alias\\.";
-        ec = "config --global -e";
-        pushu = "!git push -u origin `git symbolic-ref --short HEAD`";
-        cauthor = "commit --amend --reset-author --no-edit";
-        logdiff = "log --pretty=oneline HEAD..";
-        slog = "log --pretty=oneline";
-        hist =
-          "log --pretty=format:'%C(yellow)[%ad]%C(reset) %C(green)[%h]%C(reset) | %C(red)%s %C(bold red){{%an}}%C(reset) %C(blue)%d%C(reset)' --graph --date=short";
-      };
-    };
   };
 
   services.swayidle = {
