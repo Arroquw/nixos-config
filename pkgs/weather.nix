@@ -1,12 +1,13 @@
-{ stdenv, pkgs, ... }:
+{ stdenv, pkgs, nix, ... }:
 
 stdenv.mkDerivation {
   name = "waybar-weather";
 
   src = ../scripts/waybar/weather.py;
-  nativeBuildInputs = [
+  buildInputs = [
+    nix
     (pkgs.python310.withPackages
-      (pythonPackages: with pythonPackages; [ datetime requests ]))
+      (pythonPackages: with pythonPackages; [ hjson requests ]))
   ];
 
   dontUnpack = true;

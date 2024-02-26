@@ -1,10 +1,11 @@
-{ pkgs, stdenv, procps, ... }:
+{ pkgs, stdenv, procps, gnused, ... }:
 let
   powerMenuScript = pkgs.writeShellScriptBin "rofi-power-menu" ''
+    #!${pkgs.bash}/bin/bash
     dir="~/.config/rofi"
     theme='style'
     # CMDs
-    uptime="$(${pkgs.procps}/bin/uptime -p | sed -e 's/up //g')"
+    uptime="$(${pkgs.procps}/bin/uptime -p | ${pkgs.gnused}/bin/sed -e 's/up //g')"
     # Options
     shutdown=''
     reboot=''
@@ -54,8 +55,8 @@ let
     		elif [[ $1 == '--reboot' ]]; then
     			systemctl reboot
     		elif [[ $1 == '--suspend' ]]; then
-    			mpc -q pause
-    			amixer set Master mute
+    			${pkgs.playerctl}/bin/playerctl pause
+    			${pkgs.alsa-utils}/bin/amixer set Master mute
     			systemctl suspend
     		elif [[ $1 == '--logout' ]]; then
                 if [[ "$DESKTOP_SESSION" == 'openbox' ]]; then
@@ -90,7 +91,7 @@ let
     	elif [ "$(command -v i3lock)" ]; then
     		i3lock
     	elif [ "$(command -v swaylock)" ]; then
-    		swaylock -fF
+    		${pkgs.swaylock-effects}/bin/swaylock -fF
     	fi
             ;;
         "$suspend")

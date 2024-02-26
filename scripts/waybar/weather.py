@@ -1,5 +1,5 @@
 #!/usr/bin/env nix-shell
-#!nix-shell -i python -p python3 python310Packages.hjson python310Packages.requests
+#!nix-shell -i python -p python310 python310Packages.hjson python310Packages.requests
 
 """
 Weather script for Waybar.
