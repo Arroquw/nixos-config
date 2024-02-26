@@ -57,19 +57,28 @@ in {
     };
 
     # Enable networkmanager
-    networking.networkmanager.enable = true;
+    networking = {
+      networkmanager.enable = true;
 
-    # Define the hostname
-    networking.hostName = cfg.hostname;
+      extraHosts = ''
+        192.168.178.61  gecko
+        192.168.178.185 thomeserver
+        192.168.178.217 lnxclnt2840
+      '';
 
+      # Define the hostname
+      hostName = cfg.hostname;
+    };
     services = {
       xserver = {
         # Enable the X11 windowing system.
         enable = true;
 
         # Configure keymap in X11
-        layout = "us";
-        xkbVariant = "";
+        xkb = {
+          layout = "us";
+          variant = "";
+        };
       };
 
       # Enable CUPS to print documents.
