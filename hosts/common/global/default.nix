@@ -9,6 +9,7 @@
     ./podman.nix
     ./sops.nix
     ./zsh.nix
+    ./blueman.nix
   ];
 
   #  home-manager.extraSpecialArgs = {inherit inputs outputs;};
@@ -43,7 +44,7 @@
       VIDEOS=$HOME/Video
     '';
 
-    systemPackages = with pkgs; [ vim git ];
+    systemPackages = with pkgs; [ vim git coreutils procps busybox ];
   };
 
   # Set your time zone.

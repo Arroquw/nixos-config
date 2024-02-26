@@ -14,9 +14,7 @@
         autohint = true;
         style = "full";
       };
-
       subpixel.lcdfilter = "default";
-
     };
   };
 }
