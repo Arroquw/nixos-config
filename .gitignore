@@ -1,3 +1,3 @@
 .pre-commit-config.yaml
-secrets.yaml
 ssh_host_*
+!ssh_host_*.pub
