@@ -9,6 +9,7 @@
       extraGroups = [ "networkmanager" "wheel" "plugdev" "kvm" ];
       hashedPasswordFile = config.sops.secrets.password-justin.path;
       packages = with pkgs; [
+        vesktop
         (pkgs.makeDesktopItem {
           name = "discord";
           exec =
@@ -29,6 +30,72 @@
         (discord.override { withOpenASAR = true; })
         self.packages.${pkgs.system}.krisp-patch
         pkgs.home-manager
+        busybox
+        procps
+        coreutils
+        blueman
+        haruna
+        nomacs
+        hyprpicker
+        imagemagick
+        htop
+        grim
+        jq
+        slurp
+        cifs-utils
+        okular
+        telegram-desktop
+        gnome.zenity
+        wine64Packages.waylandFull
+        wineWowPackages.stable
+        wineWowPackages.staging
+        winetricks
+        wineWowPackages.waylandFull
+        wine
+        (wine.override { wineBuild = "wine64"; })
+        curl
+        pulseaudio
+        tela-circle-icon-theme
+        spotify
+        ripgrep
+        remmina
+        libreoffice-qt
+        hunspell
+        hunspellDicts.nl_NL
+        xdg-utils
+        xdg-launch
+        rofimoji # Drawer + notifications
+        jellyfin-ffmpeg # multimedia libs
+        viewnior # image viewr
+        pavucontrol # Volume control
+        xfce.thunar # filemanager
+        xfce.xfconf
+        gnome-text-editor
+        gnome.file-roller
+        gnome.gnome-font-viewer
+        gnome.gnome-calculator
+        speedcrunch
+        wlogout
+        swaybg
+        thefuck
+        playerctl
+        lutris
+        wl-clipboard
+        self.packages.${pkgs.system}.hyprshot
+        self.packages.${pkgs.system}.hyprkeybinds
+        self.packages.${pkgs.system}.changewallpaper
+        self.packages.${pkgs.system}.waybar-weather
+        self.packages.${pkgs.system}.rofi-power-menu
+        self.packages.${pkgs.system}.rofi-network-manager
+        thefuck
+        self.packages.${pkgs.system}.dcpl2530dwlpr
+        self.packages.${pkgs.system}.dcpl2530dwlpr-scan
+        self.packages.${pkgs.system}.sf100linux
+        self.packages.${pkgs.system}.em100
+        self.packages.${pkgs.system}.sway-idle-audio-inhibit
+        self.packages.${pkgs.system}.realvnc
+        haruna
+        nomacs
       ];
     };
   };
