@@ -1,0 +1,12 @@
+#!/bin/sh
+
+rofi \
+	-show "$1" \
+	-modi run,drun,window,filebrowser \
+	-no-lazy-grab \
+	-scroll-method 0 \
+	-drun-match-fields all \
+	-drun-display-format "{name}" \
+	-no-drun-show-actions \
+  -kb-cancel Escape \
+	-theme "$HOME/.config/rofi/launcher.rasi"

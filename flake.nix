@@ -105,7 +105,7 @@
       homeConfigurations = {
         # Desktops
         "jusson@lnxclnt2840" = lib.homeManagerConfiguration {
-          modules = [ ./home/lnxclnt2840 ];
+          modules = [ ./home/justin/gecko.nix ];
           pkgs = pkgsFor.x86_64-linux;
           specialArgs = { user = "jusson"; };
           extraSpecialArgs = {
@@ -114,7 +114,7 @@
           };
         };
         "justin@gecko" = lib.homeManagerConfiguration {
-          modules = [ ./home/gecko ];
+          modules = [ ./home/justin/gecko.nix ];
           pkgs = pkgsFor.x86_64-linux;
           extraSpecialArgs = {
             inherit self inputs outputs;
