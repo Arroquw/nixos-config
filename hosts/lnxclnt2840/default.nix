@@ -5,7 +5,7 @@
   imports = [
     ./hardware-configuration.nix
     ../common/global
-    ../common/users/justin
+    ../common/users/jusson
     ../common/optional/hyprland.nix
     ../common/optional/pipewire.nix
   ];

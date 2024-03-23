@@ -1,14 +1,21 @@
 keys:
   - &admin_justin age1rj8pdlg2c32sld2mnxp6djmclhtzvwkqknad5uzn6tc3lkx92vvqf7hwy6
-  - &host_gecko age1rl4l8xjnn0knf09xa3a3ljcys47h8cud2wysaz4er24hyx5gwynsaxjmjg 
+  - &host_gecko age1rl4l8xjnn0knf09xa3a3ljcys47h8cud2wysaz4er24hyx5gwynsaxjmjg
+  - &host_lnxclnt2840 age1zc70s7rk2xmghjhk3ywrapm2pfgc6s6sazgdcxse699sp9n7pdusmpw4ms
 creation_rules:
   - path_regex: hosts/gecko/secrets.ya?ml$
     key_groups:
       - age:
         - *host_gecko
         - *admin_justin
+  - path_regex: hosts/lnxclnt2840/secrets.ya?ml$
+    key_groups:
+      - age:
+        - *host_lnxclnt2840
+        - *admin_justin
   - path_regex: hosts/common/secrets.ya?ml$
     key_groups:
       - age:
         - *host_gecko
+        - *host_lnxclnt2840
         - *admin_justin

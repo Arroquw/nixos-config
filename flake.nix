@@ -107,7 +107,6 @@
         "jusson@lnxclnt2840" = lib.homeManagerConfiguration {
           modules = [ ./home/justin/gecko.nix ];
           pkgs = pkgsFor.x86_64-linux;
-          specialArgs = { user = "jusson"; };
           extraSpecialArgs = {
             inherit self inputs outputs;
             user = "jusson";

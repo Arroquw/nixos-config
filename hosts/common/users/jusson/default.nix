@@ -1,12 +1,12 @@
-{ pkgs, config, ... }: {
+{ pkgs, config, lib, ... }: {
   users = {
     mutableUsers = false;
+    defaultUserShell = pkgs.zsh;
     users.jusson = {
-      defaultUserShell = pkgs.zsh;
       isNormalUser = true;
       description = "Justin van Son";
       extraGroups = [ "networkmanager" "wheel" "plugdev" "kvm" ];
-      hashedPasswordFile = config.sops.secrets.password-justin.path;
+      hashedPasswordFile = config.sops.secrets.password-jusson.path;
       packages = with pkgs; [
         (let
           pname = "teams-for-linux";
@@ -20,7 +20,7 @@
           appimageContents =
             pkgs.appimageTools.extractType1 { inherit pname name src; };
         in pkgs.appimageTools.wrapType1 {
-          inherit appimageContents name pname;
+          inherit name pname src;
           extraPkgs = appimageTools.defaultFhsEnvArgs.multiPkgs;
           extraInstallCommands =
             "	mv $out/bin/${name} $out/bin/${pname}\n	install -m 444 -D ${appimageContents}/${pname}.desktop $out/share/applications/${pname}.desktop\n	install -m 444 -D ${appimageContents}/${pname}.png $out/share/icons/hicolor/512x512/apps/${pname}.png\n	substituteInPlace $out/share/applications/${pname}.desktop \\\n	    	--replace 'Exec=AppRun --no-sandbox %U' 'Exec=${pname} %U'\n";
@@ -36,12 +36,14 @@
       ];
     };
   };
-  home-manager.users.jusson =
-    import home/jusson/${config.networking.hostName}.nix;
+  #home-manager.users.jusson =
+  #  import home/${config.networking.hostName};
 
-  sops.secrets.password-justin = {
+  sops.secrets.password-jusson = {
     sopsFile = ../../secrets.yaml;
     neededForUsers = true;
   };
   security.pam.services.swaylock.text = "auth include login";
+  nixpkgs.config.allowUnfreePredicate = pkg:
+    builtins.elem (lib.getName pkg) [ "vscode" ];
 }

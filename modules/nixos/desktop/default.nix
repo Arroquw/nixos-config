@@ -50,7 +50,7 @@ in {
           # https://github.com/AdisonCavani/distro-grub-themes
           url =
             "https://github.com/AdisonCavani/distro-grub-themes/raw/master/themes/nixos.tar";
-          hash = "sha256-KQAXNK6sWnUVwOvYzVfolYlEtzFobL2wmDvO8iESUYE=";
+          hash = "sha256-ivi68lkV2mypf99BOEnRiTpc4bqupfGJR7Q0Fm898kM=";
           stripRoot = false;
         };
       };
