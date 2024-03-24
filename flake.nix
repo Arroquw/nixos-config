@@ -52,20 +52,22 @@
         pre-commit-check = pre-commit-hooks.lib.${system}.run {
           src = ./.;
           hooks = {
-            deadnix.enable = true;
-            statix.enable = true;
             nixfmt.enable = true;
             nil.enable = true;
             shellcheck.enable = true;
             black.enable = true;
-          };
-          settings = {
             deadnix = {
-              edit = true;
-              noLambdaArg = true;
-              exclude = [ "hardware-configuration.nix" ];
+              enable = true;
+              settings = {
+                edit = true;
+                noLambdaArg = true;
+                exclude = [ "hardware-configuration.nix" ];
+              };
             };
-            statix.ignore = [ "hardware-configuration.nix" ];
+            statix = {
+              enable = true;
+              settings = { ignore = [ "hardware-configuration.nix" ]; };
+            };
           };
         };
       };
