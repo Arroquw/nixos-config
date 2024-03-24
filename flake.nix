@@ -90,7 +90,10 @@
             ./hosts/gecko
             { imports = builtins.attrValues self.nixosModules; }
           ];
-          specialArgs = { inherit self inputs outputs; };
+          specialArgs = {
+            inherit self inputs outputs;
+            user = "justin";
+          };
         };
         # Work laptop
         lnxclnt2840 = lib.nixosSystem {
@@ -98,14 +101,17 @@
             ./hosts/lnxclnt2840
             { imports = builtins.attrValues self.nixosModules; }
           ];
-          specialArgs = { inherit self inputs outputs; };
+          specialArgs = {
+            inherit self inputs outputs;
+            user = "jusson";
+          };
         };
       };
 
       homeConfigurations = {
         # Desktops
         "jusson@lnxclnt2840" = lib.homeManagerConfiguration {
-          modules = [ ./home/justin/gecko.nix ];
+          modules = [ ./home/jusson/lnxclnt2840.nix ];
           pkgs = pkgsFor.x86_64-linux;
           extraSpecialArgs = {
             inherit self inputs outputs;
