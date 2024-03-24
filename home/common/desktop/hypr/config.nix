@@ -85,7 +85,7 @@
     "${pkgs.poweralertd}/bin/poweralertd"
     "${wallpaper-script}"
     "${pkgs.blueman}/bin/blueman-applet"
-    "${discord}"
+    "env -u NIXOS_OZONE_WL ${discord} --use-gl=desktop"
     "${steam}"
   ];
 

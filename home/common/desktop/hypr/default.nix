@@ -5,7 +5,7 @@
   wayland.windowManager.hyprland = {
     enable = true;
     xwayland.enable = true;
-    nvidiaPatches = true; # TODO: only if on nvidia
+    #    nvidiaPatches = true; # TODO: only if on nvidia
 
     settings = import ./config.nix { inherit config self pkgs lib; };
     extraConfig = ''
