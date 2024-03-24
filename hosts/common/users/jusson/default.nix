@@ -1,4 +1,5 @@
 { pkgs, config, lib, ... }: {
+  imports = [ ../common.nix ];
   users = {
     mutableUsers = false;
     defaultUserShell = pkgs.zsh;
