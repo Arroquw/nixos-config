@@ -1,15 +1,15 @@
 { pkgs, ... }: {
   gtk = {
     enable = true;
-
+    font.name = "TeX Gyre Adventor 10";
     iconTheme = {
-      name = "WhiteSur";
-      package = pkgs.whitesur-icon-theme;
+      name = "Papirus-Dark";
+      package = pkgs.papirus-icon-theme;
     };
 
     theme = {
-      name = "tokyo-night-gtk";
-      package = pkgs.tokyo-night-gtk;
+      name = "Juno";
+      package = pkgs.juno-theme;
     };
 
     gtk3.extraConfig = {
