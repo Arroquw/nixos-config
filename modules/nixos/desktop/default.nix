@@ -117,6 +117,7 @@ in {
       WLR_RENDERER = "vulkan";
       WLR_NO_HARDWARE_CURSORS = "1";
       CLUTTER_BACKEND = "wayland";
+      XDG_SESSION_TYPE = "wayland";
     };
 
     programs = {
