@@ -82,7 +82,7 @@
         self.packages.${pkgs.system}.sway-idle-audio-inhibit
       }/bin/sway-idle-audio-inhibit";
   in [
-    "${idle-inhibit}"
+    "${idle-inhibit} &"
     "${pkgs.poweralertd}/bin/poweralertd"
     "${wallpaper-script}"
     "${pkgs.blueman}/bin/blueman-applet"
