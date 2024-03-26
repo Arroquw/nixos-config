@@ -18,7 +18,7 @@
       windowrule=tile,title:^(kitty)$
       windowrule=float,title:^(fly_is_kitty)$
 
-
+      env = WLR_DRM_NO_ATOMIC,1
 
       windowrulev2 = float,class:^(google-chrome-beta)$,title:^(Save File)$
       windowrulev2 = float,class:^(google-chrome-beta)$,title:^(Open File)$

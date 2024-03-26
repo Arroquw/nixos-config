@@ -29,6 +29,7 @@
     "col.active_border" = "0xff5e81ac";
     "col.inactive_border" = "0x66333333";
     apply_sens_to_raw = 0;
+    allow_tearing = true;
   };
 
   decoration = {
