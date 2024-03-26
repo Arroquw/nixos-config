@@ -81,14 +81,17 @@
     idle-inhibit = "${
         self.packages.${pkgs.system}.sway-idle-audio-inhibit
       }/bin/sway-idle-audio-inhibit";
+    gecko = if config.home.username == "justin" then [
+      "env -u NIXOS_OZONE_WL ${discord} --use-gl=desktop"
+      "${steam}"
+    ] else
+      [ ];
   in [
     "${idle-inhibit} &"
     "${pkgs.poweralertd}/bin/poweralertd"
     "${wallpaper-script}"
     "${pkgs.blueman}/bin/blueman-applet"
-    "env -u NIXOS_OZONE_WL ${discord} --use-gl=desktop"
-    "${steam}"
-  ];
+  ] ++ gecko;
 
   bind = let
     playerctl = "${pkgs.playerctl}/bin/playerctl";
