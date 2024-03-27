@@ -3,8 +3,8 @@ stdenv.mkDerivation {
   name = "realvnc-viewer";
   src = fetchurl {
     url =
-      "https://downloads.realvnc.com/download/file/viewer.files/VNC-Viewer-7.8.0-Linux-x64";
-    sha256 = "sha256-mFWdM6kYO0LZxF0vsEn4LRBj2hgzgvUqiWDEzMfwBzE=";
+      "https://downloads.realvnc.com/download/file/viewer.files/VNC-Viewer-7.10.0-Linux-x64";
+    sha256 = "sha256-e37+9r7kusTcQAiinVuWAbrJivFYUTSXDRdm5A6t0BU=";
   };
   dontUnpack = true;
   buildInputs = [ xorg.libX11 xorg.libXext patchelf makeWrapper ];

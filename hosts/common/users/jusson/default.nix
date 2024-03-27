@@ -1,4 +1,4 @@
-{ pkgs, config, lib, ... }: {
+{ self, pkgs, config, ... }: {
   imports = [ ../common.nix ];
   users = {
     mutableUsers = false;
@@ -31,9 +31,14 @@
           exec =
             "wine64 /home/jusson/Programs/17.2/tools/bin/allegro_free_viewer.exe";
           desktopName = "AllegroFreeViewer";
+          icon = "/home/jusson/Programs/17.2/share/output.ico";
         })
         vscode
         telegram-desktop
+        openconnect
+        sshfs
+        self.packages.${pkgs.system}.sf100linux
+        self.packages.${pkgs.system}.em100
       ];
     };
   };
@@ -45,6 +50,4 @@
     neededForUsers = true;
   };
   security.pam.services.swaylock.text = "auth include login";
-  nixpkgs.config.allowUnfreePredicate = pkg:
-    builtins.elem (lib.getName pkg) [ "vscode" ];
 }
