@@ -95,7 +95,7 @@
 
   bind = let
     playerctl = "${pkgs.playerctl}/bin/playerctl";
-    grimshot = "${pkgs.sway-contrib.grimshot}/bin/grimshot";
+    #grimshot = "${pkgs.sway-contrib.grimshot}/bin/grimshot";
     terminal = "${pkgs.kitty}/bin/kitty";
     rofi = "${pkgs.rofi}/bin/rofi";
     thunar = "${pkgs.xfce.thunar}/bin/thunar";
@@ -159,7 +159,11 @@
     ",XF86Calculator,exec,${speedcrunch}"
     ",XF86Tools,exec,${spotify}"
     ",XF86AudioStop,exec,${playerctl} stop"
-    "$mainMod SHIFT,Print,exec,${grimshot} --notify save active"
+    "$mainMod ALT,Print,exec, ${hyprshot} -m active -m output"
+    "$mainMod SHIFT,Print,exec, ${hyprshot} -m region"
+    "$mainMod,Print,exec, ${hyprshot} -m active -m window"
+    "ALTSHIFT,Print,exec, ${hyprshot} -m active -m output --clipboard-only"
+    "CTRLSHIFT,Print,exec, ${hyprshot} -m active -m window --clipboard-only"
     "SHIFT,Print,exec, ${hyprshot} -m region --clipboard-only"
     "$mainMod SHIFT,RETURN,layoutmsg,swapwithmaster"
     "$mainMod,1,workspace,1"

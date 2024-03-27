@@ -10,7 +10,7 @@ stdenv.mkDerivation {
     hash = "sha256-+LCQDilin6yKzfXjUV4MIhNHA/VXhuoh81rq0f0Wkso=";
   };
 
-  buildInputs = with pkgs; [ slurp grim jq ];
+  buildInputs = with pkgs; [ slurp grim jq wl-clipboard ];
 
   buildPhase = ''
     ls -alh

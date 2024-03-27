@@ -7,9 +7,9 @@
     # ./xdg.nix
   ];
 
-  nixpkgs.config.permittedInsecurePackages = [
-    "electron-25.9.0" # FIXME: Necessary for Obsidian, remove after new major update
-  ];
+  #  nixpkgs.config.permittedInsecurePackages = [
+  #    "electron-25.9.0" # FIXME: Necessary for Obsidian, remove after new major update
+  #  ];
 
   home.packages = with pkgs; [
     vim

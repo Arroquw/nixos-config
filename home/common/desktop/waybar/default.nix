@@ -261,7 +261,7 @@ in {
         };
       };
     };
-    style = let inherit (config.colorscheme) colors;
+    style = let inherit (config.colorscheme) palette;
     in ''
       * {
         /* `otf-font-awesome` is required to be installed for icons */
@@ -288,8 +288,8 @@ in {
       }
 
       #custom-hostname {
-        background-color: #${colors.base05};
-        color: #${colors.base00};
+        background-color: #${palette.base05};
+        color: #${palette.base00};
         padding-left: 15px;
         padding-right: 22px;
         margin: 0;
