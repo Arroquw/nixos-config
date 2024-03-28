@@ -32,6 +32,7 @@
         self.packages.${pkgs.system}.krisp-patch
         self.packages.${pkgs.system}.dcpl2530dwlpr
         self.packages.${pkgs.system}.dcpl2530dwlpr-scan
+        droidcam
       ];
     };
   };
@@ -40,4 +41,5 @@
     neededForUsers = true;
   };
   security.pam.services.swaylock.text = "auth include login";
+  programs.adb.enable = true;
 }

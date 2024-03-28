@@ -32,11 +32,14 @@ in {
     initrd = {
       availableKernelModules =
         [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" ];
-      kernelModules = [ ];
+      kernelModules = [ "v4l2loopback" ];
     };
     kernelModules = [ "kvm-intel" ];
     kernelParams = [ "nvidia_drm.modeset=1" ];
-    extraModulePackages = [ nvidiaPackage ];
+    extraModulePackages = with config.boot.kernelPackages; [
+      nvidiaPackage
+      v4l2loopback
+    ];
   };
 
   fileSystems."/" = {
