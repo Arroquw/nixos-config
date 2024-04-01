@@ -92,11 +92,14 @@ in {
 
     xdg.portal = {
       enable = true;
-      extraPortals = with pkgs; [
-        xdg-desktop-portal-gtk
-        xdg-desktop-portal-wlr
-      ];
+      xdgOpenUsePortal = true;
+      extraPortals = with pkgs;
+        [
+          xdg-desktop-portal-gtk
+          #xdg-desktop-portal-wlr
+        ];
       wlr.enable = true;
+      config.common.default = [ "*" ];
     };
 
     # TODO: decide what to do with this
