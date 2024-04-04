@@ -212,11 +212,14 @@
       resolution =
         "${toString m.width}x${toString m.height}@${toString m.refreshRate}";
       position = "${toString m.x}x${toString m.y}";
-    in "${m.name},${
+      screen = if m.name == null then "desc:${m.desc}" else "${m.name}";
+    in "${screen},${
       if m.enabled then "${resolution},${position},1" else "disable"
     }") config.monitors;
 
-  workspace = map (m: "${m.name},${m.workspace}")
+  workspace = map (m:
+    let screen = if m.name == null then "desc:${m.desc}" else "${m.name}";
+    in "${screen},${m.workspace}")
     (lib.filter (m: m.enabled && m.workspace != null) config.monitors);
 
 }
