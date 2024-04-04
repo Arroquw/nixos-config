@@ -13,44 +13,34 @@
   # | DP-5/7 | | DP-4/6 |
   #              |eDP-1|
   #  ------   -----   ------
-  # TODO: use desc rather than whatever the fuck this is
   monitors = [
     {
       name = "eDP-1";
       width = 1920;
       height = 1080;
+      refreshRate = 60;
       x = 1920;
       y = 1440;
       workspace = "1";
     }
     {
-      name = "DP-4";
+      name = null;
+      #name = "DP-4";
+      desc = "Lenovo Group Limited LEN T27q-20 VNA77HCM";
       width = 2560;
       height = 1440;
       refreshRate = 60;
-      x = 1920;
+      x = 2560;
       workspace = "2";
       primary = true;
     }
-    { # TODO: fix 1440p not working in docked mode
-      name = "DP-5";
-      width = 1920;
-      height = 1200;
-      x = 0;
-      workspace = "3";
-    }
     {
-      name = "DP-6";
+      name = null;
+      #name = "DP-5";
+      desc = "Lenovo Group Limited LEN T27q-20 VNA77HC8";
       width = 2560;
       height = 1440;
       refreshRate = 60;
-      x = 1920;
-      workspace = "2";
-    }
-    { # TODO: fix 1440p not working in docked mode
-      name = "DP-7";
-      width = 1920;
-      height = 1200;
       x = 0;
       workspace = "3";
     }

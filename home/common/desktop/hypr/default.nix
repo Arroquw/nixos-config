@@ -2,10 +2,14 @@
 
   home.packages = with pkgs; [ swww ];
 
-  wayland.windowManager.hyprland = {
+  wayland.windowManager.hyprland = let
+    modifiers = if config.home.username == "jusson" then
+      "env = WLR_DRM_NO_MODIFIERS,1"
+    else
+      "";
+  in {
     enable = true;
     xwayland.enable = true;
-    #    nvidiaPatches = true; # TODO: only if on nvidia
 
     settings = import ./config.nix { inherit config self pkgs lib; };
     extraConfig = ''
@@ -48,6 +52,6 @@
       windowrulev2 = nofocus,class:^(xwaylandvideobridge)$
       windowrulev2 = noinitialfocus,class:^(xwaylandvideobridge)$
       bind = ,mouse:276, pass, ^discord$
-    '';
+    '' + modifiers;
   };
 }
