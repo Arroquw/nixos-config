@@ -81,11 +81,10 @@
     idle-inhibit = "${
         self.packages.${pkgs.system}.sway-audio-idle-inhibit
       }/bin/sway-audio-idle-inhibit";
-    gecko = if config.home.username == "justin" then [
+    gecko = lib.optionals (config.home.username == "justin") [
       "env -u NIXOS_OZONE_WL ${discord} --use-gl=desktop"
       "${steam}"
-    ] else
-      [ ];
+    ];
   in [
     "${idle-inhibit} &"
     "systemctl --user import-environment PATH && systemctl --user restart xdg-desktop-portal.service"
