@@ -149,7 +149,6 @@
     "$mainMod SHIFT,K,movewindow,r"
     "$mainMod SHIFT,H,movewindow,u"
     "$mainMod SHIFT,L,movewindow,d"
-
     "$mainMod,mouse_down,workspace,e+1"
     "$mainMod,mouse_up,workspace,e-1"
     ",XF86AudioMute,exec,${wpctl} set-mute @DEFAULT_AUDIO_SINK@ toggle"
@@ -186,6 +185,7 @@
     "$mainMod SHIFT,8,movetoworkspacesilent,8"
     "$mainMod SHIFT,9,movetoworkspacesilent,9"
     "$mainMod SHIFT,0,movetoworkspacesilent,10"
+    ",mouse:276, pass, ^discord$"
   ];
 
   bindm = [ "$mainMod,mouse:272,movewindow" "$mainMod,mouse:273,resizewindow" ];
@@ -221,5 +221,31 @@
     let screen = if m.name == null then "desc:${m.desc}" else "${m.name}";
     in "${screen},${m.workspace}")
     (lib.filter (m: m.enabled && m.workspace != null) config.monitors);
+
+  windowrule = [
+    "animation,1,4,overshot,slide,^(rofi)$"
+    "float,Rofi"
+    "float,pavucontrol"
+    "size 200,200,title:^(float_kitty)$"
+    "float,title:^(full_kitty)$"
+    "tile,title:^(kitty)$"
+    "float,title:^(fly_is_kitty)$"
+    "opacity 0.92,thunar"
+    "opacity 0.96,discord"
+    "opacity 0.88,obsidian"
+    "opacity 0.85,neovim"
+  ];
+
+  windowrulev2 = [
+    "float,class:^(blueman-manager)$"
+    "float,class:^(org.twosheds.iwgtk)$"
+    "float,class:^(blueberry.py)$"
+    "float,class:^(xdg-desktop-portal-gtk)$"
+    "idleinhibit,fullscreen:1"
+    "opacity 0.0 override 0.0 override,class:^(org.kde.xwaylandvideobridge)$"
+    "noanim,class:^(xwaylandvideobridge)$"
+    "nofocus,class:^(xwaylandvideobridge)$"
+    "noinitialfocus,class:^(xwaylandvideobridge)$"
+  ];
 
 }
