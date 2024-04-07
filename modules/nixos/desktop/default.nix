@@ -103,7 +103,11 @@ in {
     };
 
     # TODO: decide what to do with this
-    environment.variables = {
+    environment.variables = let
+      modifiers = lib.optionalAttrs (cfg.hostname == "lnxclnt2840") {
+        WLR_DRM_NO_MODIFIERS = "1";
+      };
+    in {
       BROWSER = "firefox";
       NIXOS_OZONE_WL = "1";
       DISABLE_QT5_COMPAT = "0";
@@ -121,7 +125,7 @@ in {
       WLR_NO_HARDWARE_CURSORS = "1";
       CLUTTER_BACKEND = "wayland";
       XDG_SESSION_TYPE = "wayland";
-    };
+    } // modifiers;
 
     programs = {
       thunar = {
