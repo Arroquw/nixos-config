@@ -79,8 +79,8 @@
     discord = "${pkgs.discord}/bin/discord";
     steam = "${pkgs.steam}/bin/steam";
     idle-inhibit = "${
-        self.packages.${pkgs.system}.sway-idle-audio-inhibit
-      }/bin/sway-idle-audio-inhibit";
+        self.packages.${pkgs.system}.sway-audio-idle-inhibit
+      }/bin/sway-audio-idle-inhibit";
     gecko = if config.home.username == "justin" then [
       "env -u NIXOS_OZONE_WL ${discord} --use-gl=desktop"
       "${steam}"
