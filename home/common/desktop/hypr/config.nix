@@ -88,6 +88,7 @@
       [ ];
   in [
     "${idle-inhibit} &"
+    "systemctl --user import-environment PATH && systemctl --user restart xdg-desktop-portal.service"
     "${pkgs.poweralertd}/bin/poweralertd"
     "${wallpaper-script}"
     "${pkgs.blueman}/bin/blueman-applet"
