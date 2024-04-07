@@ -1,7 +1,7 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-_: {
+{ pkgs, ... }: {
   imports = [
     ./hardware-configuration.nix
     ../common/global
@@ -17,6 +17,18 @@ _: {
       gfxmodeEfi = "2560x1440";
     };
     nvidia.enable = true;
+  };
+
+  services = {
+    printing = {
+      enable = true;
+      drivers = [ pkgs.brlaser ];
+    };
+    avahi = {
+      enable = true;
+      nssmdns4 = true;
+      openFirewall = true;
+    };
   };
 
   fileSystems = {
