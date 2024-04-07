@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 let
   background = "#20212CFF";
   background-alt = "#282B3CFF";
@@ -10,6 +10,7 @@ let
 in {
   programs.rofi = {
     enable = true;
+    package = pkgs.rofi-wayland;
     font = "JetBrains Mono Nerd Font 11.6";
     extraConfig = { modes = "window,drun,run,filebrowser"; };
     theme = {
