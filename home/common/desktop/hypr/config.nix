@@ -246,6 +246,8 @@
     "noanim,class:^(xwaylandvideobridge)$"
     "nofocus,class:^(xwaylandvideobridge)$"
     "noinitialfocus,class:^(xwaylandvideobridge)$"
+    "stayfocused, title:^()$,class:^(steam)$"
+    "minsize 1 1, title:^()$,class:^(steam)$"
   ];
 
 }

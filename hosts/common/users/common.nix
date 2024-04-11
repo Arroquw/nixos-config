@@ -101,6 +101,8 @@
         self.packages.${pkgs.system}.rofi-network-manager
         self.packages.${pkgs.system}.sway-audio-idle-inhibit
         self.packages.${pkgs.system}.realvnc
+        hyprlock
+        hypridle
       ];
     };
   };
