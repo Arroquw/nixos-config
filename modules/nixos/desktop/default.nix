@@ -65,7 +65,12 @@ in {
         192.168.178.185 thomeserver
         192.168.178.217 lnxclnt2840
       '';
-
+      firewall = {
+        enable = true;
+        allowedTCPPorts = [ 80 443 21 22 25 53 110 143 445 3389 5900 ];
+        extraCommands =
+          "iptables -t raw -A OUTPUT -p udp -m udp --dport 137 -j CT --helper netbios-ns";
+      };
       # Define the hostname
       hostName = cfg.hostname;
     };
