@@ -1,7 +1,5 @@
 { pkgs }:
 with pkgs; {
-  xwaylandvideobridge =
-    pkgs.libsForQt5.callPackage ./xwaylandvideobridge.nix { };
   hyprkeybinds = callPackage ./hyprkeybinds.nix { };
   hyprpicker-script = callPackage ./hyprpicker-script.nix { };
   hyprshot = callPackage ./hyprshot.nix { };

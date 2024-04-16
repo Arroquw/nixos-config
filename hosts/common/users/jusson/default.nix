@@ -39,6 +39,9 @@
         sshfs
         self.packages.${pkgs.system}.sf100linux
         self.packages.${pkgs.system}.em100
+        python3
+        rubber
+        krb5
       ];
     };
   };

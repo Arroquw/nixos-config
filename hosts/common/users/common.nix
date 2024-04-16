@@ -91,7 +91,6 @@
         thefuck
         haruna
         nomacs
-        self.packages.${pkgs.system}.xwaylandvideobridge
         self.packages.${pkgs.system}.hyprpicker-script
         self.packages.${pkgs.system}.hyprshot
         self.packages.${pkgs.system}.hyprkeybinds
@@ -103,6 +102,8 @@
         self.packages.${pkgs.system}.realvnc
         hyprlock
         hypridle
+        wayvnc
+        xwaylandvideobridge
       ];
     };
   };
