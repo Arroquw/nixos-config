@@ -127,6 +127,7 @@
     "$mainMod,F,fullscreen,1"
     "$mainMod,F1,exec,${keybind}"
     "$mainMod SHIFT,C,exec,${hyprpicker}"
+    ''$mainMod SHIFT,P,exec,sh -c "hyprprop >> /tmp/hyprprop.log"''
     "$mainMod SHIFT,F,fullscreen,0"
     "$mainMod,ESCAPE,exec,${wlogout}"
     "$mainMod,SPACE,exec,${swaylock} -fF"

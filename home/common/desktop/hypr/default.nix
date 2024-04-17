@@ -1,6 +1,9 @@
-{ lib, self, config, pkgs, ... }: {
+{ lib, self, config, pkgs, inputs, ... }: {
 
-  home.packages = with pkgs; [ swww ];
+  home.packages = with pkgs; [
+    swww
+    inputs.hyprwm-contrib.packages.${pkgs.system}.hyprprop
+  ];
 
   wayland.windowManager.hyprland = {
     enable = true;
