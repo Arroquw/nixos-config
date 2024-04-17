@@ -50,6 +50,10 @@ in {
           type = types.nullOr types.str;
           default = null;
         };
+        vrr = mkOption {
+          type = types.int;
+          default = 0;
+        };
       };
     });
     default = [ ];
@@ -67,6 +71,12 @@ in {
             config.monitors)) == 0);
         message =
           "At least one of the following fields is required: name, desc.";
+      }
+      {
+        assertion = ((lib.length config.monitors) != 0) -> ((lib.length
+          (lib.filter (m: m.vrr < 0 || m.vrr > 2) config.monitors)) == 0);
+        message =
+          "vrr must be a value between 0 (off), 1 (always on) 2 (only in fullscreen)";
       }
     ];
   };

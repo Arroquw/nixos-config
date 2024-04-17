@@ -25,6 +25,7 @@
       refreshRate = 165;
       x = 2560;
       primary = true;
+      vrr = 2;
     }
   ];
 }
