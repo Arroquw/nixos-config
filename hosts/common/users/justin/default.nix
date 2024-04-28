@@ -14,7 +14,7 @@
         (pkgs.makeDesktopItem {
           name = "discord";
           exec =
-            "env -u NIXOS_OZONE_WL ${pkgs.discord}/bin/discord --use-gl=desktop";
+            "env -u NIXOS_OZONE_WL ${pkgs.discord}/bin/discord --use-gl=desktop --enable-gpu-rasterization";
           desktopName = "Discord";
           icon =
             "${pkgs.tela-circle-icon-theme}/share/icons/Tela-circle/scalable/apps/discord.svg";
