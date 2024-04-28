@@ -213,9 +213,9 @@
       resolution =
         "${toString m.width}x${toString m.height}@${toString m.refreshRate}";
       position = "${toString m.x}x${toString m.y}";
-      screen = if m.name == null then "desc:${m.desc}" else "${m.name}";
+      monitorString = if m.name == null then "desc:${m.desc}" else "${m.name}";
       vrr = if m.vrr != null then ",vrr,${toString m.vrr}" else "";
-    in "${screen},${
+    in "${monitorString},${
       if m.enabled then "${resolution},${position},1${vrr}" else "disable"
     }") config.monitors;
 
