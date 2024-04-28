@@ -47,8 +47,9 @@ in {
           default = true;
         };
         workspace = mkOption {
-          type = types.nullOr types.str;
-          default = null;
+          type = types.listOf types.str;
+          example = [ "1" "2" "Hello" "7" ];
+          default = [ ];
         };
         vrr = mkOption {
           type = types.int;

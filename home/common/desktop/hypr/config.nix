@@ -219,9 +219,17 @@
       if m.enabled then "${resolution},${position},1${vrr}" else "disable"
     }") config.monitors;
 
-  workspace = map (m:
-    let screen = if m.name == null then "desc:${m.desc}" else "${m.name}";
-    in "${screen},${m.workspace}")
+  #  workspace as string instead of list: (only allows one workspace per monitor to be specified)
+  #  workspace = map (m:
+  #    let monitorString = if m.name == null then "desc:${m.desc}" else "${m.name}";
+  #    in "${m.workspace},monitor:${monitorString}")
+  #    (lib.filter (m: m.enabled && m.workspace != null) config.monitors);
+
+  # Gotta concat to take the double list into account
+  workspace = builtins.concatMap (m:
+    let
+      monitorString = if m.name == null then "desc:${m.desc}" else "${m.name}";
+    in map (w: "${w},monitor:${monitorString}") m.workspace)
     (lib.filter (m: m.enabled && m.workspace != null) config.monitors);
 
   windowrule = [
