@@ -17,6 +17,7 @@
       name = "DP-3";
       width = 2560;
       height = 1440;
+      workspace = [ "2" "5" ];
     }
     {
       name = "DP-2";

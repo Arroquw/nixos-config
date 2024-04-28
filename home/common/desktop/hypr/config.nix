@@ -259,6 +259,7 @@
     "noblur,class:^(xwaylandvideobridge)$"
     "stayfocused, title:^()$,class:^(steam)$"
     "minsize 1 1, title:^()$,class:^(steam)$"
+    "workspace 5 silent, title^()$,class:^(discord)$"
   ];
 
 }
