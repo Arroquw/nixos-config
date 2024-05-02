@@ -97,7 +97,7 @@
     playerctl = "${pkgs.playerctl}/bin/playerctl";
     #grimshot = "${pkgs.sway-contrib.grimshot}/bin/grimshot";
     terminal = "${pkgs.kitty}/bin/kitty";
-    rofi = "${pkgs.rofi}/bin/rofi";
+    rofi = "${pkgs.rofi-wayland}/bin/rofi";
     thunar = "${pkgs.xfce.thunar}/bin/thunar";
     wlogout = "${pkgs.wlogout}/bin/wlogout";
     htop = "${pkgs.htop}/bin/htop";
