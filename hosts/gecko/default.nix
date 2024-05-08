@@ -32,12 +32,6 @@
   };
 
   fileSystems = {
-    "/mnt/newvolume" = {
-      device = "/dev/disk/by-path/pci-0000:00:17.0-ata-2-part2";
-      fsType = "ntfs-3g";
-      options = [ "rw" "uid=1000" ];
-    };
-
     "/mnt/brokenconn" = {
       device = "/dev/disk/by-path/pci-0000:00:17.0-ata-4-part2";
       fsType = "ntfs-3g";
