@@ -113,7 +113,7 @@
       homeConfigurations = {
         # Desktops
         "jusson@lnxclnt2840" = lib.homeManagerConfiguration {
-          modules = [ ./home/jusson/lnxclnt2840.nix ];
+          modules = [ ./home/jusson/lnxclnt2840.nix ./home/common/nixpkgs.nix ];
           pkgs = pkgsFor.x86_64-linux;
           extraSpecialArgs = {
             inherit self inputs outputs;
@@ -121,7 +121,7 @@
           };
         };
         "justin@gecko" = lib.homeManagerConfiguration {
-          modules = [ ./home/justin/gecko.nix ];
+          modules = [ ./home/justin/gecko.nix ./home/common/nixpkgs.nix ];
           pkgs = pkgsFor.x86_64-linux;
           extraSpecialArgs = {
             inherit self inputs outputs;
