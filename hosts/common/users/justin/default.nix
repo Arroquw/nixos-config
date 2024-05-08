@@ -1,4 +1,4 @@
-{ self, pkgs, config, ... }: {
+{ self, pkgs, nur, config, ... }: {
   imports = [ ../common.nix ];
   nixpkgs.config.allowUnfree = true;
   users = {
@@ -39,6 +39,9 @@
   sops.secrets.password-justin = {
     sopsFile = ../../secrets.yaml;
     neededForUsers = true;
+  };
+  environment.variables = {
+    STEAM_EXTRA_COMPAT_TOOLS_PATHS = "${pkgs.nur.repos.ataraxiasjel.proton-ge}";
   };
   security.pam.services.swaylock.text = "auth include login";
   programs.adb.enable = true;

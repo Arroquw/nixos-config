@@ -15,6 +15,7 @@ let
         keyutils
         gamescope
         mangohud
+        pkgs.nur.repos.ataraxiasjel.proton-ge
       ];
   };
   steam-session =
@@ -32,4 +33,7 @@ in {
     mangohud
     protontricks
   ];
+  home.sessionVariables = {
+    STEAM_EXTRA_COMPAT_TOOLS_PATHS = "${pkgs.nur.repos.ataraxiasjel.proton-ge}";
+  };
 }
