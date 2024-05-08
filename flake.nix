@@ -24,6 +24,7 @@
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nur = { url = "github:nix-community/nur"; };
     pre-commit-hooks = {
       url = "github:cachix/pre-commit-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -36,7 +37,7 @@
     };
   };
 
-  outputs = inputs@{ self, nixpkgs, home-manager, pre-commit-hooks, ... }:
+  outputs = inputs@{ self, nixpkgs, home-manager, pre-commit-hooks, nur, ... }:
     let
       inherit (self) outputs;
       lib = nixpkgs.lib // home-manager.lib;
@@ -48,6 +49,8 @@
           inherit system;
           config.allowUnfree = true;
         });
+      nur-no-pkgs =
+        import nur { nurpkgs = import nixpkgs { system = "x86_64-linux"; }; };
       addPreCommitCheck = system: {
         pre-commit-check = pre-commit-hooks.lib.${system}.run {
           src = ./.;
@@ -91,6 +94,7 @@
           modules = [
             ./hosts/gecko
             { imports = builtins.attrValues self.nixosModules; }
+            { nixpkgs.overlays = [ nur.overlay ]; }
           ];
           specialArgs = {
             inherit self inputs outputs;
@@ -121,10 +125,11 @@
           };
         };
         "justin@gecko" = lib.homeManagerConfiguration {
-          modules = [ ./home/justin/gecko.nix ];
+          modules =
+            [ ./home/justin/gecko.nix { nixpkgs.overlays = [ nur.overlay ]; } ];
           pkgs = pkgsFor.x86_64-linux;
           extraSpecialArgs = {
-            inherit self inputs outputs;
+            inherit nur-no-pkgs self inputs outputs;
             user = "justin";
           };
         };
