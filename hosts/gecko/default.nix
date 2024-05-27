@@ -30,6 +30,25 @@
       nssmdns4 = true;
       openFirewall = true;
     };
+    pipewire.wireplumber = {
+      configPackages = [
+        (pkgs.writeTextDir
+          "share/wireplumber/wireplumber.conf.d/51-alsa-disable.conf" ''
+            rule = {
+                matches = {
+                  {
+                    { "device.name","equals","alsa_card.pci-0000_01_00.1" },
+                  },
+                },
+                apply_properties = {
+                  ["device.disabled"] = true,
+                },
+              }
+
+              table.insert(alsa_monitor.rules,rules)
+          '')
+      ];
+    };
   };
 
   fileSystems = {
