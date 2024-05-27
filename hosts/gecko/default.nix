@@ -17,6 +17,7 @@
       gfxmodeEfi = "2560x1440";
     };
     nvidia.enable = true;
+    games.enable = true;
   };
 
   services = {

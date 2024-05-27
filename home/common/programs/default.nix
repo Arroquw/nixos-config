@@ -2,7 +2,7 @@
   imports = [
     ./firefox.nix
     ./kitty.nix
-    ./games
+    #./games
     ./nvim.nix
     # ./xdg.nix
   ];

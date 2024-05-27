@@ -77,7 +77,7 @@
     wallpaper-script =
       "${self.packages.${pkgs.system}.changewallpaper}/bin/changewallpaper";
     discord = "${pkgs.discord}/bin/discord";
-    steam = "${pkgs.steam}/bin/steam";
+    steam = "${pkgs.xdg-utils}/bin/xdg-open steam://";
     idle-inhibit = "${
         self.packages.${pkgs.system}.sway-audio-idle-inhibit
       }/bin/sway-audio-idle-inhibit";

@@ -10,9 +10,8 @@
     ./sops.nix
     ./zsh.nix
     ./blueman.nix
+    ./steam.nix
   ];
-
-  #  home-manager.extraSpecialArgs = {inherit inputs outputs;};
 
   nixpkgs = {
     overlays = [
