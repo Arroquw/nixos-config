@@ -62,9 +62,13 @@ WEATHER_CODES = {
 
 data = {}
 
-
-weather = requests.get("https://wttr.in/Haarsteeg?format=j1").json()
-# print(weather)
+weather = {"current_condition": [], "nearest_area": [], "weather": []}
+try:
+    response = requests.get("https://wttr.in/Haarsteeg?format=j1")
+    response.raise_for_status()  # This will raise an HTTPError if the HTTP request returned an unsuccessful status code
+    weather = response.json()
+except requests.RequestException as e:
+    pass
 
 
 def format_time(time):
@@ -102,44 +106,61 @@ def format_chances(hour):
     return ", ".join(conditions)
 
 
-data["text"] = (
-    WEATHER_CODES[weather["current_condition"][0]["weatherCode"]]
-    + " "
-    + weather["current_condition"][0]["FeelsLikeC"]
-    + "°"
-)
+try:
+    data["text"] = (
+        WEATHER_CODES[weather["current_condition"][0]["weatherCode"]]
+        + " "
+        + weather["current_condition"][0]["FeelsLikeC"]
+        + "°"
+    )
+except:
+    data["text"] = WEATHER_CODES["116"] + "NA"
 
-data["tooltip"] = (
-    f"<b>"
-    f"{weather['current_condition'][0]['weatherDesc'][0]['value']} "
-    f"{weather['current_condition'][0]['temp_C']}°C</b>\n"
-)
-data["tooltip"] += f"Feels like: {weather['current_condition'][0]['FeelsLikeC']}°C\n"
-data["tooltip"] += f"Wind: {weather['current_condition'][0]['windspeedKmph']}Km/h\n"
-data["tooltip"] += f"Humidity: {weather['current_condition'][0]['humidity']}%\n"
-for i, day in enumerate(weather["weather"]):
-    data["tooltip"] += "\n<b>"
-    if i == 0:
-        data["tooltip"] += "Today, "
-    if i == 1:
-        data["tooltip"] += "Tomorrow, "
-    data["tooltip"] += f"{day['date']}</b>\n"
-    data["tooltip"] += f"⬆️ {day['maxtempC']}° ⬇️ {day['mintempC']}° "
+data["tooltip"] = ""
+try:
+    data["tooltip"] = (
+        f"<b>"
+        f"{weather['current_condition'][0]['weatherDesc'][0]['value']} "
+        f"{weather['current_condition'][0]['temp_C']}°C</b>\n"
+    )
+except:
+    data["tooltip"] = f"<b></b>\n"
+try:
     data[
         "tooltip"
-    ] += f"🌅 {day['astronomy'][0]['sunrise']} 🌇 {day['astronomy'][0]['sunset']}\n"
-    for hour in day["hourly"]:
-        if i == 0:
-            if int(format_time(hour["time"])) < datetime.now().hour - 2:
-                continue
-        data["tooltip"] += (
-            f"{format_time(hour['time'])} "
-            f"{WEATHER_CODES[hour['weatherCode']]} "
-            f"{format_temp('tempC')} "
-            f"{format_temp('FeelsLikeC')} "
-            f"{hour['weatherDesc'][0]['value']}, "
-            f"{format_chances(hour)}\n"
-        )
+    ] += f"Feels like: {weather['current_condition'][0]['FeelsLikeC']}°C\n"
+    data["tooltip"] += f"Wind: {weather['current_condition'][0]['windspeedKmph']}Km/h\n"
+    data["tooltip"] += f"Humidity: {weather['current_condition'][0]['humidity']}%\n"
+except:
+    data["tooltip"] += "Feels like: "
+    data["tooltip"] += "Wind: "
+    data["tooltip"] += "Humidity: "
 
+try:
+    for i, day in enumerate(weather["weather"]):
+        data["tooltip"] += "\n<b>"
+        if i == 0:
+            data["tooltip"] += "Today, "
+        if i == 1:
+            data["tooltip"] += "Tomorrow, "
+        data["tooltip"] += f"{day['date']}</b>\n"
+        data["tooltip"] += f"⬆️ {day['maxtempC']}° ⬇️ {day['mintempC']}° "
+        data[
+            "tooltip"
+        ] += f"🌅 {day['astronomy'][0]['sunrise']} 🌇 {day['astronomy'][0]['sunset']}\n"
+        for hour in day["hourly"]:
+            if i == 0:
+                if int(format_time(hour["time"])) < datetime.now().hour - 2:
+                    continue
+            data["tooltip"] += (
+                f"{format_time(hour['time'])} "
+                f"{WEATHER_CODES[hour['weatherCode']]} "
+                f"{format_temp('tempC')} "
+                f"{format_temp('FeelsLikeC')} "
+                f"{hour['weatherDesc'][0]['value']}, "
+                f"{format_chances(hour)}\n"
+            )
+except:
+    pass
 
 print(json.dumps(data))

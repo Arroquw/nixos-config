@@ -4,6 +4,7 @@ stdenv.mkDerivation {
   name = "waybar-weather";
 
   src = ../scripts/waybar/weather.py;
+
   buildInputs = [
     nix
     (pkgs.python310.withPackages
