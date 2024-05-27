@@ -21,7 +21,7 @@
       refreshRate = 60;
       x = 1920;
       y = 1440;
-      workspace = "1";
+      workspace = [ "1" ];
     }
     {
       name = null;
@@ -31,7 +31,7 @@
       height = 1440;
       refreshRate = 60;
       x = 2560;
-      workspace = "2";
+      workspace = [ "2" ];
       primary = true;
     }
     {
@@ -42,7 +42,7 @@
       height = 1440;
       refreshRate = 60;
       x = 0;
-      workspace = "3";
+      workspace = [ "3" ];
     }
   ];
 }
