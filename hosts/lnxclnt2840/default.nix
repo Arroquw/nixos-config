@@ -19,11 +19,9 @@
   };
 
   services = {
-    xserver = {
-      libinput = {
-        enable = true;
-        touchpad.tapping = true; # tap
-      };
+    libinput = {
+      enable = true;
+      touchpad.tapping = true; # tap
     };
   };
 

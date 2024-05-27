@@ -3,6 +3,7 @@
   home.packages = with pkgs; [
     swww
     inputs.hyprwm-contrib.packages.${pkgs.system}.hyprprop
+    wlroots
   ];
 
   wayland.windowManager.hyprland = {
