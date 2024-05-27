@@ -7,12 +7,6 @@ in {
     inputs.nixvim.homeManagerModules.nixvim
   ] ++ (builtins.attrValues outputs.homeManagerModules);
   colorscheme = lib.mkDefault colorSchemes.tokyo-night-storm;
-  nixpkgs = {
-    config = {
-      allowUnfree = true;
-      allowUnfreePredicate = _: true;
-    };
-  };
 
   programs = {
     home-manager.enable = true;

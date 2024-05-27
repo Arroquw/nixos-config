@@ -1,6 +1,5 @@
 { lib, pkgs, ... }: {
   imports = [
-    #    inputs.home-manager.nixosModules.home-manager
     ./acme.nix
     ./nix.nix
     ./fonts.nix
@@ -54,7 +53,7 @@
   hardware = { bluetooth.enable = true; };
 
   systemd.user.extraConfig = ''
-    DefaultEnvironment="PATH=/run/wrappers/bin:/home/jusson/.nix-profile/bin:/home/jusson/.local/state/nix/profile/bin:/etc/profiles/per-user/jusson/bin:/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin"
+    DefaultEnvironment="PATH=/run/wrappers/bin:/home/jusson/.local/state/nix/profile/bin:/etc/profiles/per-user/jusson/bin:/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin"
   '';
 
   # This value determines the NixOS release from which the default

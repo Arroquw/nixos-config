@@ -84,26 +84,53 @@
 
       nixosConfigurations = {
         # Main desktop
-        gecko = lib.nixosSystem {
+        gecko = let user = "justin";
+        in lib.nixosSystem {
           modules = [
             ./hosts/gecko
+            home-manager.nixosModules.default
+            {
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                extraSpecialArgs = {
+                  inherit user self inputs outputs;
+                  pkgs = pkgsFor.x86_64-linux;
+                };
+                users."${user}" = {
+                  imports =
+                    [ ./home/justin/gecko.nix ./home/common/nixpkgs.nix ];
+                };
+              };
+            }
             { imports = builtins.attrValues self.nixosModules; }
           ];
-          specialArgs = {
-            inherit self inputs outputs;
-            user = "justin";
-          };
+          specialArgs = { inherit user self inputs outputs; };
         };
         # Work laptop
-        lnxclnt2840 = lib.nixosSystem {
+        lnxclnt2840 = let user = "jusson";
+        in lib.nixosSystem {
           modules = [
             ./hosts/lnxclnt2840
+            home-manager.nixosModules.default
+            {
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                extraSpecialArgs = {
+                  inherit user self inputs outputs;
+                  pkgs = pkgsFor.x86_64-linux;
+                };
+                users."${user}" = {
+                  imports =
+                    [ ./home/jusson/lnxclnt2840.nix ./home/common/nixpkgs.nix ];
+                };
+              };
+            }
+
             { imports = builtins.attrValues self.nixosModules; }
           ];
-          specialArgs = {
-            inherit self inputs outputs;
-            user = "jusson";
-          };
+          specialArgs = { inherit user self inputs outputs; };
         };
       };
 
