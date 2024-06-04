@@ -1,4 +1,4 @@
-{ stdenv, fetchFromGitHub, ... }:
+{ pkgs, stdenv, fetchFromGitHub, ... }:
 
 stdenv.mkDerivation {
   name = "rofi-network-manager";
@@ -12,6 +12,7 @@ stdenv.mkDerivation {
 
   buildPhase = ''
     ls -alh
+    sed -ri 's@rofi -dmenu@${pkgs.rofi-wayland}/bin/rofi -dmenu@g' rofi-network-manager.sh
     patchShebangs rofi-network-manager.sh
   '';
 
