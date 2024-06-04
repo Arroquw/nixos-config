@@ -1,4 +1,5 @@
-_: {
+{ pkgs, ... }: {
+  home.packages = with pkgs; [ zsh-fzf-history-search fzf-zsh fzf ];
   programs = {
     bash = {
       enable = true;
@@ -21,15 +22,23 @@ _: {
     };
     zsh = {
       enable = true;
+      syntaxHighlighting.enable = true;
       shellAliases = {
         ll = "ls -l";
         update = "sudo nixos-rebuild switch";
       };
       oh-my-zsh = {
         enable = true;
-        plugins = [ "git" "thefuck" ];
+        plugins = [ "fzf" "git" "thefuck" ];
         theme = "robbyrussell";
       };
+      initExtra = ''
+        export FZF_BASE=${pkgs.fzf}
+        export ZSH_FZF_HISTORY_SEARCH_BIND='^r'
+        export ZSH_FZF_HISTORY_SEARCH_FZF_ARG='+s +m -x -e --preview-window=hidden'
+        export ZSH_FZF_HISTORY_SEARCH_DATES_IN_SEARCH=1
+        source ${pkgs.zsh-fzf-history-search}/share/zsh-fzf-history-search/zsh-fzf-history-search.plugin.zsh
+      '';
     };
   };
 }
