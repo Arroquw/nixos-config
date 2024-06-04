@@ -17,7 +17,6 @@ in {
   home = {
     username = lib.mkDefault "justin";
     homeDirectory = lib.mkDefault "/home/${config.home.username}";
-
     file = {
       ".config/rofi/rofi-network-manager.rasi".source =
         ../../scripts/rofi/share/rofi-network-manager.rasi;
