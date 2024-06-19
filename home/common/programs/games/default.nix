@@ -1,5 +1,5 @@
 { pkgs, ... }: {
-  imports = [ ./steam.nix ];
+  imports = [ ./runelite.nix ];
 
   home.packages = with pkgs; [ gamescope gamemode ];
 }
