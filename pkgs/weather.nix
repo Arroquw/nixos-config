@@ -7,7 +7,7 @@ stdenv.mkDerivation {
 
   buildInputs = [
     nix
-    (pkgs.python310.withPackages
+    (pkgs.python311.withPackages
       (pythonPackages: with pythonPackages; [ hjson requests ]))
   ];
 

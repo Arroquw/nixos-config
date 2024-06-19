@@ -62,7 +62,7 @@ in {
 
       extraHosts = ''
         192.168.178.61  gecko
-        192.168.178.185 thomeserver
+        192.168.178.23 thomeserver
         192.168.178.217 lnxclnt2840
       '';
       firewall = {
@@ -103,7 +103,7 @@ in {
           xdg-desktop-portal-gtk
           #xdg-desktop-portal-wlr
         ];
-      wlr.enable = true;
+      #wlr.enable = true;
       config.common.default = [ "*" ];
     };
 
