@@ -19,6 +19,17 @@
           mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
         });
       })
+      (self: super: {
+        remmina = super.remmina.overrideAttrs (oldAttrs: {
+          patches = oldAttrs.patches ++ [
+            (pkgs.fetchpatch {
+              url =
+                "https://gist.githubusercontent.com/Arroquw/34ec662e10ba3b23a2dc92c3ba5bc8e3/raw/3dfcf8870e0915ec3967d1321bea52d1fe9398ac/fix_remmina_clipboard_crash.patch";
+              sha256 = "sha256-x81Dik3iICXk+LGOYKagOsQysULKxY/Wzj34vPAcVpM=";
+            })
+          ];
+        });
+      })
     ];
   };
 
