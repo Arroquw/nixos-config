@@ -1,13 +1,13 @@
 { lib, gnumake, libusb1, pkg-config, stdenv, gcc, coreutils, fetchFromGitHub }:
 stdenv.mkDerivation (finalAttrs: rec {
   pname = "SF100Linux";
-  version = "master";
+  version = "V1.14.20.x";
 
   src = fetchFromGitHub {
     owner = "DediProgSW";
     repo = "SF100Linux";
     rev = "${version}";
-    hash = "sha256-aho9MOnUXNZBMYoWhPY+252QYnY+V9Ex0/kNju5sFco=";
+    hash = "sha256-/SMH2yhRDNDm8AFAxxJ1if/Zb78KiQcaq6kJbYYZ2Dc=";
   };
 
   nativeBuildInputs = [ gnumake pkg-config gcc coreutils ];
