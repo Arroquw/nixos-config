@@ -22,8 +22,10 @@
       on-notify=exec ${pkgs.libcanberra-gtk3}/bin/canberra-gtk-play -i window-attention
       [app-name="prospect-mail"]
       invisible=1
+      on-notify=exec :
       [app-name="Prospect Mail"]
       invisible=1
+      on-notify=exec :
       [app-name="Spotify"]
       on-notify=exec :
     '';
