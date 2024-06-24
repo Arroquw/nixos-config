@@ -23,8 +23,12 @@
         in pkgs.appimageTools.wrapType1 {
           inherit name pname src;
           extraPkgs = appimageTools.defaultFhsEnvArgs.multiPkgs;
-          extraInstallCommands =
-            "	mv $out/bin/${name} $out/bin/${pname}\n	install -m 444 -D ${appimageContents}/${pname}.desktop $out/share/applications/${pname}.desktop\n	install -m 444 -D ${appimageContents}/${pname}.png $out/share/icons/hicolor/512x512/apps/${pname}.png\n	substituteInPlace $out/share/applications/${pname}.desktop \\\n	    	--replace 'Exec=AppRun --no-sandbox %U' 'Exec=${pname} %U'\n";
+          extraInstallCommands = ''
+            install -m 444 -D ${appimageContents}/${pname}.desktop $out/share/applications/${pname}.desktop
+            install -m 444 -D ${appimageContents}/${pname}.png $out/share/icons/hicolor/512x512/apps/${pname}.png
+            substituteInPlace $out/share/applications/${pname}.desktop \
+            	   	--replace 'Exec=AppRun --no-sandbox %U' 'Exec=${pname} %U'
+          '';
         })
         (pkgs.makeDesktopItem {
           name = "allegro-free-viewer";
