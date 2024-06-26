@@ -38,6 +38,15 @@
     shadow_range = 15;
     "col.shadow" = "0xffa7caff";
     "col.shadow_inactive" = "0x50000000";
+    active_opacity = 0.99;
+    inactive_opacity = 0.99;
+    blur = {
+      enabled = true;
+      size = 8;
+      passes = 3;
+      ignore_opacity = true;
+      new_optimizations = true;
+    };
   };
 
   blurls = "waybar";
@@ -109,7 +118,8 @@
     xdg-mime = "${pkgs.xdg-utils}/bin/xdg-mime";
     defaultApp = type: "${gtk-launch} $(${xdg-mime} query default ${type})";
     browser = defaultApp "x-scheme-handler/https";
-    swaylock = "${pkgs.swaylock-effects}/bin/swaylock";
+    #lock = "${pkgs.swaylock-effects}/bin/swaylock -fF";
+    lock = "${pkgs.hyprlock}/bin/hyprlock";
     keybind = "${self.packages.${pkgs.system}.hyprkeybinds}/bin/hyprkeybinds";
     hyprpicker =
       "${self.packages.${pkgs.system}.hyprpicker-script}/bin/hyprpicker-script";
@@ -130,7 +140,7 @@
     ''$mainMod SHIFT,P,exec,sh -c "hyprprop >> /tmp/hyprprop.log"''
     "$mainMod SHIFT,F,fullscreen,0"
     "$mainMod,ESCAPE,exec,${wlogout}"
-    "$mainMod,SPACE,exec,${swaylock} -fF"
+    "$mainMod,SPACE,exec,${lock}"
     "$mainMod SHIFT,E,exec,${rofimoji} --keybinding-copy ctrl+c"
     "ALTCTRL,DELETE,exec,${htop}"
     "$mainMod,left,changegroupactive,b"

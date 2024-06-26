@@ -5,8 +5,8 @@
     ./waybar
     ./gtk.nix
     ./mako.nix
-    ./swayidle.nix
-    ./swaylock.nix
+    #./swayidle.nix
+    #./swaylock.nix
   ];
 
   home.pointerCursor = {

@@ -40,6 +40,5 @@
     sopsFile = ../../secrets.yaml;
     neededForUsers = true;
   };
-  security.pam.services.swaylock.text = "auth include login";
   programs.adb.enable = true;
 }

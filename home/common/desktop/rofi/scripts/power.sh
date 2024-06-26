@@ -28,7 +28,7 @@ case "$chosen" in
     execute "systemctl reboot" "reboot"
   ;;
   "$lock")
-    execute "swaylock" "lock"
+    execute "hyprlock" "lock"
   ;;
   "$suspend")
     execute "playerctl -a stop && systemctl suspend" "suspend"

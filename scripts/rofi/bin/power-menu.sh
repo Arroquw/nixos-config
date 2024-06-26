@@ -91,6 +91,8 @@ case "${chosen}" in
 		betterlockscreen -l
 	elif [ "$(command -v i3lock)" ]; then
 		i3lock
+  elif [ "$(command -v hyprlock)" ]; then
+    hyprlock
 	elif [ "$(command -v swaylock)" ]; then
 		swaylock -fF
 	fi

@@ -35,6 +35,8 @@
         })
         wl-clipboard
         swaylock-effects
+        hyprlock
+        hypridle
         wlogout
         wayland-protocols
         wayland-utils
@@ -110,4 +112,6 @@
 
   nixpkgs.config.allowUnfreePredicate = pkg:
     builtins.elem (lib.getName pkg) [ "vscode" "spotify" ];
+
+  security.pam.services.hyprlock.text = "auth include login";
 }

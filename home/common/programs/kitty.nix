@@ -3,6 +3,7 @@
     enable = true;
     settings = {
       # Window
+      blur = "yes";
       background_opacity = "0.8";
       inactive_text_alpha = "1.0";
       window_padding_width = "12 24 0 24";

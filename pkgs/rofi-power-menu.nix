@@ -90,6 +90,8 @@ let
     		betterlockscreen -l
     	elif [ "$(command -v i3lock)" ]; then
     		i3lock
+      elif [ "$(command -v hyprlock)" ]; then
+        ${pkgs.hyprlock}/bin/hyprlock
     	elif [ "$(command -v swaylock)" ]; then
     		${pkgs.swaylock-effects}/bin/swaylock -fF
     	fi
