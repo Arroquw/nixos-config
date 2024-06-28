@@ -36,9 +36,9 @@ in {
           #"${grim} -o ${monitors.left} ${screenshotFiles.left} && ${grim} -o ${monitors.right} ${screenshotFiles.right} && ${pkgs.hyprlock}/bin/hyprlock";
         in {
           lock_cmd =
-            "pgrep hyprlock || ${grimCmd} && ${pkgs.hyprlock}/bin/hyprlock"; # avoid starting multiple hyprlock instances.
-          #unlock_cmd =
-          #  "rm -rf ${screenshotFiles.left} ${screenshotFiles.right}";
+            "pgrep hyprlock || (${grimCmd} && ${pkgs.hyprlock}/bin/hyprlock)"; # avoid starting multiple hyprlock instances.
+          unlock_cmd =
+            "rm -rf /tmp/screenshot-*.png";
           before_sleep_cmd = "${loginctl} lock-session"; # lock before suspend.
           after_sleep_cmd =
             "${hyprctl} dispatch dpms on"; # to avoid having to press a key twice to turn on the display.
