@@ -1,13 +1,8 @@
-{ config, pkgs, ... }:
+{ config, ... }:
 let
   timeUntilLock = 5 * 60;
   timeUntilScreenOff = timeUntilLock + 30;
-  timeUntilSuspend = 30 * 60;
 
-  monitors = builtins.listToAttrs (map (m: {
-    name = if (m.x == 0) || !builtins.hasAttr "x" m then "left" else "right";
-    value = toString (m.name);
-  }) config.monitors);
 in {
   programs.hyprlock = {
     enable = true;
@@ -20,43 +15,52 @@ in {
         no_fade_in = false;
       };
 
-      background = [
-        {
-          monitor = monitors.left;
-          path = "/tmp/lockscreen-left.png";
+      background = map (m:
+        let
+          monitor = m.name;
+          path = "/tmp/screenshot-${m.name}.png";
+        in {
+          inherit monitor;
+          inherit path;
           contrast = 0.8916;
           brightness = 0.8172;
           vibrancy = 0.1696;
           vibrancy_darkness = 0.0;
-          blur = "yes";
-          blur_passes = 7;
-          blur_size = 10;
-          #color = "rgb(0,0,0)";
-          opacity = 0.5;
-        }
-        {
-          monitor = monitors.right;
-          path = "/tmp/lockscreen-right.png";
-          contrast = 0.8916;
-          brightness = 0.8172;
-          vibrancy = 0.1696;
-          vibrancy_darkness = 0.0;
-          blur = "yes";
-          blur_passes = 10;
-          blur_size = 7;
-          #color = "rgb(0,0,0)";
-          opacity = 0.5;
-        }
-        {
-          monitor = "";
+          blur_passes = 3;
+          blur_size = 8;
           color = "rgb(0,0,0)";
-        }
-      ];
+        }) config.monitors;
+      # {
+      #   monitor = monitors.left;
+      #   path = "/tmp/lockscreen-left.png";
+      #   contrast = 0.8916;
+      #   brightness = 0.8172;
+      #   vibrancy = 0.1696;
+      #   vibrancy_darkness = 0.0;
+      #   blur_passes = 7;
+      #   blur_size = 10;
+      #   #color = "rgb(0,0,0)";
+      # }
+      # {
+      #   monitor = monitors.right;
+      #   path = "/tmp/lockscreen-right.png";
+      #   contrast = 0.8916;
+      #   brightness = 0.8172;
+      #   vibrancy = 0.1696;
+      #   vibrancy_darkness = 0.0;
+      #   blur_passes = 10;
+      #   blur_size = 7;
+      #   #color = "rgb(0,0,0)";
+      # }
+      # {
+      #   monitor = "";
+      #   color = "rgb(0,0,0)";
+      #   path = "/home/${config.home.username}/Desktop/wallpapers/lockscreen/serey-morm-Z9G2Cm3n080-unsplash.png";
+      # }
 
       label = [
         {
           monitor = "";
-          size = "200, 50";
           text = "cmd[update:1000] date +%T";
           color = "rgb(192,240,240)"; # #C0F0F0
           position = "0, -300";

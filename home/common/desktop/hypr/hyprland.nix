@@ -105,6 +105,7 @@
   bind = let
     playerctl = "${pkgs.playerctl}/bin/playerctl";
     #grimshot = "${pkgs.sway-contrib.grimshot}/bin/grimshot";
+    grim = "${pkgs.grim}/bin/grim";
     terminal = "${pkgs.kitty}/bin/kitty";
     rofi = "${pkgs.rofi-wayland}/bin/rofi";
     thunar = "${pkgs.xfce.thunar}/bin/thunar";
@@ -119,7 +120,15 @@
     defaultApp = type: "${gtk-launch} $(${xdg-mime} query default ${type})";
     browser = defaultApp "x-scheme-handler/https";
     #lock = "${pkgs.swaylock-effects}/bin/swaylock -fF";
-    lock = "${pkgs.hyprlock}/bin/hyprlock";
+    # https://github.com/hyprwm/hyprlock/issues/59#issuecomment-2023025535
+    # Need to take a screenshot with `grim` before idling
+    hyprlockCmd = builtins.concatStringsSep " && " (map (m:
+      let
+        screen = m.name;
+        screenShotfile = "/tmp/screenshot-${m.name}.png";
+      in "${grim} -o ${screen} ${screenShotfile}") config.monitors);
+    #"${grim} -o ${monitors.left} ${screenshotFiles.left} && ${grim} -o ${monitors.right} ${screenshotFiles.right} && ${pkgs.hyprlock}/bin/hyprlock";
+    lock = hyprlockCmd + " && ${pkgs.hyprlock}/bin/hyprlock";
     keybind = "${self.packages.${pkgs.system}.hyprkeybinds}/bin/hyprkeybinds";
     hyprpicker =
       "${self.packages.${pkgs.system}.hyprpicker-script}/bin/hyprpicker-script";
@@ -223,7 +232,7 @@
       resolution =
         "${toString m.width}x${toString m.height}@${toString m.refreshRate}";
       position = "${toString m.x}x${toString m.y}";
-      monitorString = if m.name == null then "desc:${m.desc}" else "${m.name}";
+      monitorString = if m.desc != null then "desc:${m.desc}" else "${m.name}";
       vrr = if m.vrr != null then ",vrr,${toString m.vrr}" else "";
     in "${monitorString},${
       if m.enabled then "${resolution},${position},1${vrr}" else "disable"

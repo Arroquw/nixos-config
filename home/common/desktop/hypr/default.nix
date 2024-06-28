@@ -4,12 +4,13 @@
     swww
     inputs.hyprwm-contrib.packages.${pkgs.system}.hyprprop
     wlroots
+    grim
   ];
 
   wayland.windowManager.hyprland = {
     enable = true;
     xwayland.enable = true;
-    settings = import ./config.nix { inherit config self pkgs lib; };
+    settings = import ./hyprland.nix { inherit config self pkgs lib; };
   };
 
   # xdg.configFile."hypr/hyprlock.conf" = {

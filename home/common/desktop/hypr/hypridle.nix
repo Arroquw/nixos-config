@@ -26,32 +26,30 @@ in {
       settings = {
         general = let
           grim = "${pkgs.grim}/bin/grim";
-          screenshotFiles = {
-            left = "/tmp/lockscreen-left.png";
-            right = "/tmp/lockscreen-right.png";
-          };
-
-          monitors = builtins.listToAttrs (map (m: {
-            name =
-              if m.x == 0 || !builtins.hasAttr "x" m then "left" else "right";
-            value = if m.name == null then "DP-1" else toString (m.name);
-          }) config.monitors);
           # https://github.com/hyprwm/hyprlock/issues/59#issuecomment-2023025535
           # Need to take a screenshot with `grim` before idling
-          hyprlockCmd =
-            "${grim} -o ${monitors.left} ${screenshotFiles.left} && ${grim} -o ${monitors.right} ${screenshotFiles.right} && ${pkgs.hyprlock}/bin/hyprlock";
+          grimCmd = builtins.concatStringsSep " && " (map (m:
+            let
+              screen = m.name;
+              screenShotfile = "/tmp/screenshot-${m.name}.png";
+            in "${grim} -o ${screen} ${screenShotfile}") config.monitors);
+          #"${grim} -o ${monitors.left} ${screenshotFiles.left} && ${grim} -o ${monitors.right} ${screenshotFiles.right} && ${pkgs.hyprlock}/bin/hyprlock";
         in {
           lock_cmd =
-            "pidof hyprlock || ${hyprlockCmd}"; # avoid starting multiple hyprlock instances.
-          unlock_cmd =
-            "rm -rf ${screenshotFiles.left} ${screenshotFiles.right}";
+            "pgrep hyprlock || ${grimCmd} && ${pkgs.hyprlock}/bin/hyprlock"; # avoid starting multiple hyprlock instances.
+          #unlock_cmd =
+          #  "rm -rf ${screenshotFiles.left} ${screenshotFiles.right}";
           before_sleep_cmd = "${loginctl} lock-session"; # lock before suspend.
           after_sleep_cmd =
             "${hyprctl} dispatch dpms on"; # to avoid having to press a key twice to turn on the display.
         };
 
         listener = [
-          # TODO: Add screen dimming
+          {
+            timeout = timeUntilLock - 30;
+            on-timeout = "${pkgs.brightnessctl}/bin/brightnessctl s 30%";
+            on-resume = "${pkgs.brightnessctl}/bin/brightnessctl s 100%";
+          }
           {
             timeout = timeUntilLock;
             on-timeout =
@@ -68,7 +66,7 @@ in {
 
           {
             timeout = timeUntilSuspend;
-            on-timeout = "${systemctl} suspend"; # suspend pc
+            on-timeout = "${systemctl} hibernate"; # suspend pc
           }
         ];
       };

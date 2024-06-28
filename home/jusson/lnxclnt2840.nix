@@ -24,8 +24,8 @@
       workspace = [ "1" ];
     }
     {
-      name = null;
-      #name = "DP-4";
+      #name = null;
+      name = "DP-4";
       desc = "Lenovo Group Limited LEN T27q-20 VNA77HCM";
       width = 2560;
       height = 1440;
@@ -35,8 +35,8 @@
       primary = true;
     }
     {
-      name = null;
-      #name = "DP-5";
+      #name = null;
+      name = "DP-5";
       desc = "Lenovo Group Limited LEN T27q-20 VNA77HC8";
       width = 2560;
       height = 1440;
