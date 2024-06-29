@@ -1,24 +1,31 @@
-{ config, self, pkgs, lib, ... }: {
+{ config, self, pkgs, lib, ... }:
+let
+  touchpad_users = [ "jusson" ];
+  touchpad = {
+    disable_while_typing = 1;
+    natural_scroll = 1;
+    clickfinger_behavior = 1;
+    middle_button_emulation = 1;
+    tap-to-click = 1;
+  };
+in {
   "$mainMod" = "SUPER";
   input = {
     repeat_rate = 50;
     repeat_delay = 240;
-    touchpad = {
-      disable_while_typing = 1;
-      natural_scroll = 1;
-      clickfinger_behavior = 1;
-      middle_button_emulation = 1;
-      tap-to-click = 1;
-    };
     kb_layout = "us";
     follow_mouse = 1;
     sensitivity = 0;
-  };
+  } // (if builtins.elem "${config.home.username}" touchpad_users then {
+    inherit touchpad;
+  } else
+    { });
 
-  gestures = {
+  gestures = if builtins.elem "${config.home.username}" touchpad_users then {
     workspace_swipe = true;
     workspace_swipe_min_speed_to_force = 5;
-  };
+  } else
+    { };
 
   general = {
     layout = "dwindle";
@@ -78,6 +85,8 @@
     disable_hyprland_logo = true;
     disable_splash_rendering = true;
     key_press_enables_dpms = true;
+    mouse_move_enables_dpms =
+      if "${config.home.username}" != "justin" then true else false;
     vfr = true;
     allow_session_lock_restore = true;
   };
