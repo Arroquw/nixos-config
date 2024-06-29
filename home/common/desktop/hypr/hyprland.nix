@@ -14,6 +14,7 @@ in {
     repeat_rate = 50;
     repeat_delay = 240;
     kb_layout = "us";
+    kb_variant = "euro";
     follow_mouse = 1;
     sensitivity = 0;
   } // (if builtins.elem "${config.home.username}" touchpad_users then {
@@ -29,7 +30,6 @@ in {
 
   general = {
     layout = "dwindle";
-    sensitivity = 1.0;
     gaps_in = 1;
     gaps_out = 1;
     border_size = 2;
@@ -39,8 +39,21 @@ in {
     allow_tearing = true;
   };
 
+  group = {
+    groupbar = {
+      height = 10;
+      scrolling = false;
+      stacked = true;
+      text_color = "f5f5f5"; # #f5f5f5
+      "col.inactive" = "0x4a5a70"; # #4a5a70
+      "col.active" = "0x252745"; # #252745
+      "col.locked_inactive" = "0x4a5a5f"; # #4a5a5f
+      "col.locked_active" = "0x152f45"; # #152f45
+    };
+  };
+
   decoration = {
-    rounding = 5;
+    rounding = 2;
     drop_shadow = true;
     shadow_range = 15;
     "col.shadow" = "0xffa7caff";
@@ -90,6 +103,8 @@ in {
     vfr = true;
     allow_session_lock_restore = true;
   };
+
+  cursor = { hide_on_key_press = true; };
 
   exec-once = let
     wallpaper-script =
