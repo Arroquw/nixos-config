@@ -33,6 +33,8 @@
     ];
   };
 
+  virtualisation.waydroid.enable = true;
+
   environment = {
     shells = with pkgs; [ zsh ];
     variables = { EDITOR = "vim"; };
