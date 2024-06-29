@@ -106,6 +106,10 @@
         hypridle
         wayvnc
         xwaylandvideobridge
+        zip
+        unzip
+        gzip
+        p7zip
       ];
     };
   };
