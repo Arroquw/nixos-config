@@ -41,7 +41,7 @@ let
       ''
     }/bin/waybar-${name}";
 in {
-  home.packages = with pkgs; [ yq ];
+  home.packages = with pkgs; [ yq brightnessctl ];
   programs.waybar = {
     enable = true;
     package = pkgs.waybar.overrideAttrs (oa: {
