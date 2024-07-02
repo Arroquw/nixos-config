@@ -7,7 +7,7 @@ stdenv.mkDerivation (finalAttrs: rec {
     owner = "DediProgSW";
     repo = "SF100Linux";
     rev = "${version}";
-    hash = "sha256-/SMH2yhRDNDm8AFAxxJ1if/Zb78KiQcaq6kJbYYZ2Dc=";
+    hash = "sha256-hQvBZIwaWEC41vj2flaekIUP9Fwtj/JPi3XwRxfUbD0=";
   };
 
   nativeBuildInputs = [ gnumake pkg-config gcc coreutils ];
