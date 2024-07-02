@@ -40,5 +40,6 @@
     sopsFile = ../../secrets.yaml;
     neededForUsers = true;
   };
+
   programs.adb.enable = true;
 }
