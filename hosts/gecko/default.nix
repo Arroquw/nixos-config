@@ -76,4 +76,11 @@
       options = [ "rw" "uid=1000" ];
     };
   };
+
+  environment.etc."drirc" = {
+    source = (pkgs.writeText "drirc" ''
+      <driconf>
+      </driconf>
+    '');
+  };
 }

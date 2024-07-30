@@ -1,7 +1,9 @@
-{ inputs, pkgs, ... }: {
+{  pkgs, ... }: {
   programs.hyprland = {
     enable = true;
-    package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+    package = pkgs.hyprland;
+    xwayland.enable = true;
+    systemd.setPath.enable = true;
   };
   nix.settings = {
     substituters = [ "https://hyprland.cachix.org" ];

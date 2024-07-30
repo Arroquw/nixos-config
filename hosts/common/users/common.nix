@@ -118,4 +118,18 @@
     builtins.elem (lib.getName pkg) [ "vscode" "spotify" ];
 
   security.pam.services.hyprlock.text = "auth include login";
+  programs.nix-ld.enable = true;
+
+  programs.nix-ld.libraries = with pkgs; [
+    stdenv.cc.cc
+    zlib
+    fuse3
+    icu
+    nss
+    openssl
+    curl
+    expat
+    python311
+    # ...
+  ];
 }

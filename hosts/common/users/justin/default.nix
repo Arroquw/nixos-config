@@ -33,6 +33,35 @@
         self.packages.${pkgs.system}.dcpl2530dwlpr
         self.packages.${pkgs.system}.dcpl2530dwlpr-scan
         droidcam
+        lutris
+        v4l-utils
+        samba
+        dosbox
+        winetricks
+        wine-staging
+        bottles
+        nodejs_22
+        xorg.libxcb
+        xorg.xcbutilwm
+        xorg.xcbutil
+        pkg-config
+        procps
+        electron_29
+        python311
+        libxc
+        xorg.libxcb.dev
+        gcc
+        glib
+        alsa-lib
+        atk
+        cairo
+        cups
+        libdrm
+        mesa
+        gtk3
+        nspr
+        nss
+        libsecret
       ];
     };
   };

@@ -33,31 +33,38 @@ in {
     gaps_in = 1;
     gaps_out = 1;
     border_size = 2;
-    "col.active_border" = "0xff5e81ac";
-    "col.inactive_border" = "0x66333333";
+    "col.active_border" = "rgba(5e81acff)"; # 5e81ac ff
+    "col.inactive_border" = "rgba(33333366)"; # 333333 66
     apply_sens_to_raw = 0;
     allow_tearing = true;
   };
 
-  group = {
+  group = rec {
+    insert_after_current = true;
     groupbar = {
       height = 10;
       scrolling = false;
-      stacked = true;
-      text_color = "f5f5f5"; # #f5f5f5
-      "col.inactive" = "0x4a5a70"; # #4a5a70
-      "col.active" = "0x252745"; # #252745
-      "col.locked_inactive" = "0x4a5a5f"; # #4a5a5f
-      "col.locked_active" = "0x152f45"; # #152f45
+      #stacked = 1;
+      text_color = "rgb(000000)";
+      "col.active" =
+        "rgba(2a4fc05e)"; # #2a4fc0 - these 4 are gradients so they blend in with the wallpaper
+      "col.inactive" = "rgba(2527a55e)"; # #2527a5
+      "col.locked_active" = "rgba(4a4aff5e)"; # #4a4aff
+      "col.locked_inactive" = "rgba(152f755e)"; # #152f75
     };
+    # use same colours for the borders, default config does this as well but with #ffff00, #777700, #ff5500, #775500
+    "col.border_inactive" = groupbar."col.inactive";
+    "col.border_active" = groupbar."col.active";
+    "col.border_locked_inactive" = groupbar."col.locked_inactive";
+    "col.border_locked_active" = groupbar."col.locked_active";
   };
 
   decoration = {
     rounding = 2;
     drop_shadow = true;
     shadow_range = 15;
-    "col.shadow" = "0xffa7caff";
-    "col.shadow_inactive" = "0x50000000";
+    "col.shadow" = "rgba(a7caffff)"; # a7caff
+    "col.shadow_inactive" = "rgba(00000050)"; # 000000
     active_opacity = 0.99;
     inactive_opacity = 0.99;
     blur = {
@@ -104,7 +111,10 @@ in {
     allow_session_lock_restore = true;
   };
 
-  cursor = { hide_on_key_press = true; };
+  #cursor = {
+  #  hide_on_key_press = true;
+  #  no_hardware_cursors = true;
+  #};
 
   exec-once = let
     wallpaper-script =
@@ -120,7 +130,7 @@ in {
     ];
   in [
     "${idle-inhibit} &"
-    "systemctl --user import-environment PATH && systemctl --user restart xdg-desktop-portal.service"
+    "${pkgs.systemd}/bin/systemctl --user import-environment PATH && systemctl --user restart xdg-desktop-portal.service"
     "${pkgs.poweralertd}/bin/poweralertd"
     "${wallpaper-script}"
     "${pkgs.blueman}/bin/blueman-applet"
@@ -129,7 +139,7 @@ in {
   bind = let
     playerctl = "${pkgs.playerctl}/bin/playerctl";
     #grimshot = "${pkgs.sway-contrib.grimshot}/bin/grimshot";
-    grim = "${pkgs.grim}/bin/grim";
+    #grim = "${pkgs.grim}/bin/grim";
     terminal = "${pkgs.kitty}/bin/kitty";
     rofi = "${pkgs.rofi-wayland}/bin/rofi";
     thunar = "${pkgs.xfce.thunar}/bin/thunar";
@@ -146,13 +156,15 @@ in {
     #lock = "${pkgs.swaylock-effects}/bin/swaylock -fF";
     # https://github.com/hyprwm/hyprlock/issues/59#issuecomment-2023025535
     # Need to take a screenshot with `grim` before idling
-    hyprlockCmd = builtins.concatStringsSep " && " (map (m:
-      let
-        screen = m.name;
-        screenShotfile = "/tmp/screenshot-${m.name}.png";
-      in "${grim} -o ${screen} ${screenShotfile}") config.monitors);
+    #hyprlockCmd = builtins.concatStringsSep " && " (map (m:
+    #  let
+    #    screen = m.name;
+    #    screenShotfile = "/tmp/screenshot-${m.name}.png";
+    #  in "${grim} -o ${screen} ${screenShotfile}") config.monitors);
     #"${grim} -o ${monitors.left} ${screenshotFiles.left} && ${grim} -o ${monitors.right} ${screenshotFiles.right} && ${pkgs.hyprlock}/bin/hyprlock";
-    lock = hyprlockCmd + " && ${pkgs.hyprlock}/bin/hyprlock";
+    #lock = hyprlockCmd + " && ${pkgs.hyprlock}/bin/hyprlock";
+    lock =
+      "${pkgs.procps}/bin/pgrep hyprlock || ${pkgs.systemd}/bin/loginctl lock-session";
     keybind = "${self.packages.${pkgs.system}.hyprkeybinds}/bin/hyprkeybinds";
     hyprpicker =
       "${self.packages.${pkgs.system}.hyprpicker-script}/bin/hyprpicker-script";
@@ -176,10 +188,10 @@ in {
     "$mainMod,SPACE,exec,${lock}"
     "$mainMod SHIFT,E,exec,${rofimoji} --keybinding-copy ctrl+c"
     "ALTCTRL,DELETE,exec,${htop}"
-    "$mainMod,left,changegroupactive,b"
-    "$mainMod,right,changegroupactive,f"
-    "$mainMod,up,workspace,+1"
-    "$mainMod,down,workspace,-1"
+    "$mainMod,up,changegroupactive,b"
+    "$mainMod,down,changegroupactive,f"
+    "$mainMod,right,workspace,+1"
+    "$mainMod,left,workspace,-1"
     "$mainMod SHIFT,s,moveintogroup,r"
     "$mainMod,J,movefocus,d"
     "$mainMod,K,movefocus,u"
@@ -259,7 +271,7 @@ in {
       monitorString = if m.desc != null then "desc:${m.desc}" else "${m.name}";
       vrr = if m.vrr != null then ",vrr,${toString m.vrr}" else "";
     in "${monitorString},${
-      if m.enabled then "${resolution},${position},1${vrr}" else "disable"
+      if m.enabled then "${resolution},${position},1${vrr}" else "disable,1"
     }") config.monitors;
 
   #  workspace as string instead of list: (only allows one workspace per monitor to be specified)

@@ -36,9 +36,8 @@ in {
           #"${grim} -o ${monitors.left} ${screenshotFiles.left} && ${grim} -o ${monitors.right} ${screenshotFiles.right} && ${pkgs.hyprlock}/bin/hyprlock";
         in {
           lock_cmd =
-            "pgrep hyprlock || (${grimCmd} && ${pkgs.hyprlock}/bin/hyprlock)"; # avoid starting multiple hyprlock instances.
-          unlock_cmd =
-            "rm -f /tmp/screenshot-*.png";
+            "${pkgs.procps}/bin/pgrep hyprlock || (${grimCmd} && ${pkgs.hyprlock}/bin/hyprlock)"; # avoid starting multiple hyprlock instances.
+          unlock_cmd = "rm -f /tmp/screenshot-*.png";
           before_sleep_cmd = "${loginctl} lock-session"; # lock before suspend.
           after_sleep_cmd =
             "${hyprctl} dispatch dpms on"; # to avoid having to press a key twice to turn on the display.
@@ -53,7 +52,7 @@ in {
           {
             timeout = timeUntilLock;
             on-timeout =
-              "${loginctl} lock-session"; # lock screen when timeout has passed
+              "${pkgs.procps}/bin/pgrep hyprlock ||  ${loginctl} lock-session"; # lock screen when timeout has passed
           }
 
           {

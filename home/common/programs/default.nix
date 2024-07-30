@@ -4,6 +4,7 @@
     ./kitty.nix
     ./games
     ./nvim.nix
+    ./direnv.nix
     # ./xdg.nix
   ];
 
