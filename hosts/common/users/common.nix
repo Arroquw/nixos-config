@@ -1,8 +1,15 @@
 { self, pkgs, user, lib, ... }: {
   users = {
     users.${user} = {
-      extraGroups =
-        [ "networkmanager" "wheel" "qemu-libvirtd" "libvirtd" "kvm" "plugdev" ];
+      extraGroups = [
+        "networkmanager"
+        "wheel"
+        "qemu-libvirtd"
+        "libvirtd"
+        "kvm"
+        "plugdev"
+        "pipewire"
+      ];
       packages = with pkgs; [
         (let
           pname = "prospect-mail";
@@ -34,34 +41,24 @@
             "${pkgs.tokyonight-gtk-theme}/share/icons/Tokyonight-Light/apps/64/realvnc-vncviewer.svg";
         })
         wl-clipboard
-        swaylock-effects
-        hyprlock
-        hypridle
         wlogout
         wayland-protocols
         wayland-utils
         rofimoji # Drawer + notifications
         jellyfin-ffmpeg # multimedia libs
         viewnior # image viewr
-        pavucontrol # Volume control
-        gnome-text-editor
-        gnome.file-roller
-        gnome.gnome-font-viewer
-        gnome.gnome-calculator
         speedcrunch
         vlc # Video player
         amberol # Music player
         wf-recorder # Video recorder
         sway-contrib.grimshot # Screenshot
         ffmpegthumbnailer # thumbnailer
-        pamixer # mixer
         nordic
         xcur2png
         rubyPackages.glib2
         libcanberra-gtk3 # notification sound
         gnome.gnome-system-monitor
         libnotify
-        poweralertd
         dbus
         xdg-utils
         xdg-launch
@@ -73,7 +70,6 @@
         wine
         (wine.override { wineBuild = "wine64"; })
         curl
-        pulseaudio
         spotify
         ripgrep
         remmina
@@ -83,7 +79,6 @@
         procps
         okular
         telegram-desktop
-        hyprpicker
         imagemagick
         htop
         grim
@@ -102,14 +97,18 @@
         self.packages.${pkgs.system}.rofi-network-manager
         self.packages.${pkgs.system}.sway-audio-idle-inhibit
         self.packages.${pkgs.system}.realvnc
+        xwaylandvideobridge
         hyprlock
         hypridle
         wayvnc
-        xwaylandvideobridge
         zip
         unzip
         gzip
         p7zip
+        xdg-desktop-portal-hyprland
+        gnome-text-editor
+        gnome.gnome-font-viewer
+        gnome.gnome-calculator
       ];
     };
   };

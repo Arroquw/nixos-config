@@ -133,6 +133,7 @@ in {
     } // modifiers;
 
     programs = {
+      file-roller.enable = true;
       thunar = {
         enable = true;
         plugins = with pkgs.xfce; [

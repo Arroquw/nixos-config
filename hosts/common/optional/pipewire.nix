@@ -1,6 +1,6 @@
-{
+{ pkgs, user, ... }: {
   # Enable sound with pipewire.
-  sound.enable = true;
+  #  sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -9,6 +9,8 @@
     alsa.support32Bit = true;
     pulse.enable = true;
     wireplumber.enable = true;
+    systemWide = true;
+
     # If you want to use JACK applications, uncomment this
     #jack.enable = true;
 
@@ -16,4 +18,9 @@
     # no need to redefine it in your config for now)
     #media-session.enable = true;
   };
+  users.users.${user}.packages = with pkgs; [
+    alsa-utils
+    pulseaudio
+    pavucontrol
+  ];
 }
