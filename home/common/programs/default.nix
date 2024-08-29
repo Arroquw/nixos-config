@@ -1,19 +1,13 @@
-{ pkgs, ... }: {
+{ pkgs, nixvim, ... }: {
   imports = [
     ./firefox.nix
     ./kitty.nix
     ./games
-    ./nvim.nix
     ./direnv.nix
     # ./xdg.nix
   ];
 
-  #  nixpkgs.config.permittedInsecurePackages = [
-  #    "electron-25.9.0" # FIXME: Necessary for Obsidian, remove after new major update
-  #  ];
-
   home.packages = with pkgs; [
-    vim
     gnumake
     neofetch
     catppuccin-cursors.mochaDark
@@ -27,5 +21,9 @@
     # Screenshot
     grim
     slurp
+    (nixvim.legacyPackages."${pkgs.stdenv.hostPlatform.system}".makeNixvimWithModule {
+      inherit pkgs;
+      module = import ./nvim;
+    })
   ];
 }

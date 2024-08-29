@@ -25,15 +25,23 @@
       url = "github:cachix/pre-commit-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixvim = { url = "github:pta2002/nixvim"; };
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     sops-nix = {
       url = "github:mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.nixpkgs-stable.follows = "nixpkgs";
     };
+    firefox = {
+      url = "github:nix-community/flake-firefox-nightly";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = inputs@{ self, nixpkgs, home-manager, pre-commit-hooks, ... }:
+  outputs =
+    inputs@{ self, nixpkgs, home-manager, pre-commit-hooks, nixvim, ... }:
     let
       inherit (self) outputs;
       lib = nixpkgs.lib // home-manager.lib;
@@ -94,7 +102,7 @@
                 useGlobalPkgs = true;
                 useUserPackages = true;
                 extraSpecialArgs = {
-                  inherit user self inputs outputs;
+                  inherit user self inputs outputs nixvim;
                   pkgs = pkgsFor.x86_64-linux;
                 };
                 users."${user}" = {
@@ -118,7 +126,7 @@
                 useGlobalPkgs = true;
                 useUserPackages = true;
                 extraSpecialArgs = {
-                  inherit user self inputs outputs;
+                  inherit user self inputs outputs nixvim;
                   pkgs = pkgsFor.x86_64-linux;
                 };
                 users."${user}" = {
