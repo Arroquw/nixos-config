@@ -119,14 +119,12 @@ in {
   exec-once = let
     wallpaper-script =
       "${self.packages.${pkgs.system}.changewallpaper}/bin/changewallpaper";
-    discord = "${pkgs.discord}/bin/discord";
-    steam = "${pkgs.xdg-utils}/bin/xdg-open steam://";
     idle-inhibit = "${
         self.packages.${pkgs.system}.sway-audio-idle-inhibit
       }/bin/sway-audio-idle-inhibit";
     gecko = lib.optionals (config.home.username == "justin") [
-      "env -u NIXOS_OZONE_WL ${discord} --use-gl=desktop"
-      "${steam}"
+      "gtk-launch steam"
+      "gtk-launch discord"
     ];
   in [
     "${idle-inhibit} &"
@@ -134,6 +132,7 @@ in {
     "${pkgs.poweralertd}/bin/poweralertd"
     "${wallpaper-script}"
     "${pkgs.blueman}/bin/blueman-applet"
+    "${pkgs.xwaylandvideobridge}/bin/xwaylandvideobridge"
   ] ++ gecko;
 
   bind = let
@@ -241,7 +240,8 @@ in {
     "$mainMod SHIFT,8,movetoworkspacesilent,8"
     "$mainMod SHIFT,9,movetoworkspacesilent,9"
     "$mainMod SHIFT,0,movetoworkspacesilent,10"
-    ",mouse:276, pass, ^discord$"
+    #",mouse:276, pass, class:^(vesktop)$" -- Vesktop does not have support for this yet, works on main discord app
+    ",mouse:276, pass, class:^(discord)$"
   ];
 
   bindm = [ "$mainMod,mouse:272,movewindow" "$mainMod,mouse:273,resizewindow" ];
