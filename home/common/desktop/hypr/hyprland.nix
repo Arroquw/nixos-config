@@ -308,6 +308,8 @@ in {
     "float,class:^(xdg-desktop-portal-gtk)$"
     "idleinhibit,fullscreen:1"
     "opacity 0.0 override,class:^(xwaylandvideobridge)$"
+    "opacity 0.0 override,title:^(Alt1Lite overlay window)$"
+    "noblur,title:^(Alt1Lite overlay window)$"
     "noanim,class:^(xwaylandvideobridge)$"
     "noinitialfocus,class:^(xwaylandvideobridge)$"
     "maxsize 1 1,class:^(xwaylandvideobridge)$"
