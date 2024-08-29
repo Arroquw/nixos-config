@@ -46,6 +46,7 @@
         python3
         rubber
         krb5
+        poweralertd
       ];
     };
   };
