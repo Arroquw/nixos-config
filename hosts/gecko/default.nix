@@ -78,10 +78,10 @@
   };
 
   environment.etc."drirc" = {
-    source = (pkgs.writeText "drirc" ''
+    source = pkgs.writeText "drirc" ''
       <driconf>
       </driconf>
-    '');
+    '';
   };
 
   virtualisation = {
