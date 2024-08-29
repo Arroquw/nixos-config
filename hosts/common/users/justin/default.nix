@@ -10,7 +10,6 @@
       extraGroups = [ "networkmanager" "wheel" "plugdev" "kvm" ];
       hashedPasswordFile = config.sops.secrets.password-justin.path;
       packages = with pkgs; [
-        vesktop
         (pkgs.makeDesktopItem {
           name = "discord";
           exec =
@@ -62,6 +61,10 @@
         nspr
         nss
         libsecret
+        xdotool
+        xorg.xwininfo
+        vesktop
+        kdePackages.plasma-workspace
       ];
     };
   };
