@@ -86,6 +86,7 @@
 
   virtualisation = {
     virtualbox.host.enable = true;
+    vmware.host.enable = true;
     #virtualbox.host.enable = true;
     #virtualbox.host.enableExtensionPack = true;
     virtualbox.guest = {
@@ -94,4 +95,12 @@
     };
   };
   users.extraGroups.vboxusers.members = [ "justin" ];
+
+  systemd.user.services."amixer-mute-mic" = {
+    description = "Mute listen back of Samson GOMIC";
+    wantedBy = [ "default.target" ];
+    serviceConfig = {
+      ExecStart = "${pkgs.alsa-utils}/bin/amixer -c 3 set 'Mic' mute";
+    };
+  };
 }
