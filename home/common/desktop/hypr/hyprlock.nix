@@ -1,4 +1,4 @@
-{ config, ... }:
+{ lib, config, ... }:
 let
   timeUntilLock = 5 * 60;
   timeUntilScreenOff = timeUntilLock + 30;
@@ -16,6 +16,7 @@ in {
       };
 
       background = map (m:
+        # No longer need this let..in block once https://github.com/hyprwm/hyprlock/issues/59 is fixed
         let
           monitor = m.name;
           path = "/tmp/screenshot-${m.name}.png";
@@ -29,34 +30,8 @@ in {
           blur_passes = 3;
           blur_size = 8;
           color = "rgb(0,0,0)";
-        }) config.monitors;
-      # {
-      #   monitor = monitors.left;
-      #   path = "/tmp/lockscreen-left.png";
-      #   contrast = 0.8916;
-      #   brightness = 0.8172;
-      #   vibrancy = 0.1696;
-      #   vibrancy_darkness = 0.0;
-      #   blur_passes = 7;
-      #   blur_size = 10;
-      #   #color = "rgb(0,0,0)";
-      # }
-      # {
-      #   monitor = monitors.right;
-      #   path = "/tmp/lockscreen-right.png";
-      #   contrast = 0.8916;
-      #   brightness = 0.8172;
-      #   vibrancy = 0.1696;
-      #   vibrancy_darkness = 0.0;
-      #   blur_passes = 10;
-      #   blur_size = 7;
-      #   #color = "rgb(0,0,0)";
-      # }
-      # {
-      #   monitor = "";
-      #   color = "rgb(0,0,0)";
-      #   path = "/home/${config.home.username}/Desktop/wallpapers/lockscreen/serey-morm-Z9G2Cm3n080-unsplash.png";
-      # }
+        }) (builtins.filter (f: !lib.strings.hasInfix "Unknown" f.name)
+          config.monitors);
 
       label = [
         {

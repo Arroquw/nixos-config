@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ lib, config, pkgs, ... }:
 let
   timeUntilLock = 5 * 60;
   timeUntilScreenOff = timeUntilLock + 30;
@@ -32,7 +32,9 @@ in {
             let
               screen = m.name;
               screenShotfile = "/tmp/screenshot-${m.name}.png";
-            in "${grim} -o ${screen} ${screenShotfile}") config.monitors);
+            in "${grim} -o ${screen} ${screenShotfile}")
+            (lib.filter (f: !lib.strings.hasInfix "Unknown" f.name)
+              config.monitors));
           #"${grim} -o ${monitors.left} ${screenshotFiles.left} && ${grim} -o ${monitors.right} ${screenshotFiles.right} && ${pkgs.hyprlock}/bin/hyprlock";
         in {
           lock_cmd =
@@ -52,7 +54,7 @@ in {
           {
             timeout = timeUntilLock;
             on-timeout =
-              "${pkgs.procps}/bin/pgrep hyprlock ||  ${loginctl} lock-session"; # lock screen when timeout has passed
+              "${pkgs.procps}/bin/pgrep hyprlock ||  ${loginctl} lock-session"; # lock screen when timeout has passed, don't lock when hyprlock was manually started
           }
 
           {
