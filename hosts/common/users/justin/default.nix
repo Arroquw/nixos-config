@@ -39,32 +39,16 @@
         winetricks
         wine-staging
         bottles
-        nodejs_22
-        xorg.libxcb
-        xorg.xcbutilwm
-        xorg.xcbutil
-        pkg-config
+        nodejs
         procps
-        electron_29
-        python311
-        libxc
-        xorg.libxcb.dev
         gcc
-        glib
-        alsa-lib
-        atk
-        cairo
-        cups
-        libdrm
         mesa
         gtk3
-        nspr
-        nss
-        libsecret
         xdotool
         xorg.xwininfo
         vesktop
         kdePackages.plasma-workspace
+        vmware-workstation
       ];
     };
   };
