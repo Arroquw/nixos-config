@@ -32,7 +32,7 @@ in {
             let
               screen = m.name;
               screenShotfile = "/tmp/screenshot-${m.name}.png";
-            in "${grim} -o ${screen} ${screenShotfile}")
+            in "${grim} -l 0 -o ${screen} ${screenShotfile}")
             (lib.filter (f: !lib.strings.hasInfix "Unknown" f.name)
               config.monitors));
           #"${grim} -o ${monitors.left} ${screenshotFiles.left} && ${grim} -o ${monitors.right} ${screenshotFiles.right} && ${pkgs.hyprlock}/bin/hyprlock";
