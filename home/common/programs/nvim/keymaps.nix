@@ -119,6 +119,12 @@
       action = "<cmd>WhichKey<CR>";
       options.desc = "Which Key";
     }
+    {
+      mode = [ "n" "v" ];
+      key = "<leader>/";
+      action = "gc";
+      options.desc = "Comment code";
+    }
 
     # Buffers
     {
@@ -141,23 +147,30 @@
     }
     # Clipboard
     {
-      mode = "n";
+      mode = [ "n" "v" ];
       key = "<leader>y";
-      action = "\"+y";
+      action = ''"+y'';
       options.desc = "Copy to system clipboard";
     }
     {
-      mode = "n";
+      mode = [ "n" "v" ];
       key = "<leader>Y";
-      action = "\"+yg_";
+      action = ''"+yg_'';
       options.desc = "Copy from cursor till end of line to system clipboard";
     }
     {
-      mode = "n";
+      mode = [ "n" "v" ];
       key = "<leader>p";
-      action = "\"+p";
+      action = ''"+p'';
       options.desc = "Paste from system clipboard";
     }
+    {
+      mode = [ "n" "v" ];
+      key = "<leader>d";
+      action = ''"+d'';
+      options.desc = "Cut to system clipboard";
+    }
+    # nvim-tree
     {
       mode = "n";
       key = "<leader>e";

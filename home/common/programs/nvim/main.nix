@@ -39,6 +39,7 @@ _: {
     };
 
     nvim-autopairs.enable = true;
+    nvim-colorizer.enable = true;
     luasnip.enable = true;
 
     tmux-navigator.enable = true;

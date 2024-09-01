@@ -37,15 +37,13 @@
         docker-compose-language-service.enable = true;
         jsonnet-ls.enable = true;
         marksman.enable = true;
-     };
+      };
     };
     lsp-format = {
       enable = true;
       setup = {
         go = {
-          exclude = [
-            "gopls"
-          ];
+          exclude = [ "gopls" ];
           force = true;
           sync = true;
         };
