@@ -7,7 +7,19 @@ _: {
 
   plugins = {
     lualine.enable = true;
-    comment.enable = true;
+    comment = {
+      enable = true;
+      settings = {
+        opleader = {
+          block = "<leader>\\";
+          line = "<leader>/";
+        };
+        toggler = {
+          block = "<leader>\\";
+          line = "<leader>/";
+        };
+      };
+    };
     todo-comments.enable = true;
 
     refactoring = {
@@ -49,5 +61,7 @@ _: {
     gitignore.enable = true;
     git-conflict.enable = true;
     nix.enable = true;
+    rustaceanvim.enable = true;
+    bufferline.enable = true;
   };
 }

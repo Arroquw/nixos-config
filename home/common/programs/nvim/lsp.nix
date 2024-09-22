@@ -49,6 +49,9 @@
         };
       };
     };
-    lspsaga.enable = true;
+    lspsaga = {
+      enable = true;
+      lightbulb.sign = false;
+    };
   };
 }

@@ -100,10 +100,6 @@
           action = "document_symbol";
           desc = "Show document symbols";
         };
-        "<leader>rn" = {
-          action = "rename";
-          desc = "Rename symbol";
-        };
       };
     };
 
@@ -119,23 +115,17 @@
       action = "<cmd>WhichKey<CR>";
       options.desc = "Which Key";
     }
-    {
-      mode = [ "n" "v" ];
-      key = "<leader>/";
-      action = "gc";
-      options.desc = "Comment code";
-    }
 
     # Buffers
     {
       mode = "n";
-      key = "<leader>bn";
+      key = "<Tab>";
       action = "<cmd>bn<CR>";
       options.desc = "Go to next buffer";
     }
     {
       mode = "n";
-      key = "<leader>bp";
+      key = "<S-Tab>";
       action = "<cmd>bp<CR>";
       options.desc = "Go to previous buffer";
     }
@@ -236,6 +226,13 @@
         end
       '';
       options.desc = "Spelling suggestions";
+    }
+
+    {
+      mode = "n";
+      key = "<leader>rn";
+      action = "<cmd>LspSaga rename<CR>";
+      options.desc = "Rename symbol";
     }
   ];
 
