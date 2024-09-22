@@ -317,6 +317,7 @@ in {
     "stayfocused, title:^()$,class:^(steam)$"
     "minsize 1 1, title:^()$,class:^(steam)$"
     "workspace 5 silent, title^()$,class:^(discord)$"
+    "workspace 5 silent, title^()$,class:^(steam)$"
   ];
 
 }
