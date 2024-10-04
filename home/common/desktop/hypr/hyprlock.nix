@@ -19,7 +19,10 @@ in {
         # No longer need this let..in block once https://github.com/hyprwm/hyprlock/issues/59 is fixed
         let
           monitor = m.name;
-          path = "/tmp/screenshot-${m.name}.png";
+          path = if config.home.username == "justin" then
+            "/tmp/screenshot-${m.name}.png"
+          else
+            "screenshot";
         in {
           inherit monitor;
           inherit path;
@@ -30,9 +33,28 @@ in {
           blur_passes = 3;
           blur_size = 8;
           color = "rgb(0,0,0)";
-        }) (builtins.filter (f: !lib.strings.hasInfix "Unknown" f.name)
-          config.monitors);
-
+        }) (builtins.filter (f: !lib.strings.hasInfix "Unknown" f.name) config.monitors) ++ [
+          {
+            monitor = "DP-6";
+            path = "screenshot";
+            contrast = 0.8916;
+            brightness = 0.8172;
+            vibrancy = 0.1696;
+            vibrancy_darkness = 0.0;
+            blur_passes = 7;
+            blur_size = 10;
+          }
+          {
+            monitor = "DP-7";
+            path = "screenshot";
+            contrast = 0.8916;
+            brightness = 0.8172;
+            vibrancy = 0.1696;
+            vibrancy_darkness = 0.0;
+            blur_passes = 3;
+            blur_size = 8;
+          }
+        ];
       label = [
         {
           monitor = "";

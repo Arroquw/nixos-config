@@ -21,28 +21,26 @@
       refreshRate = 60;
       x = 1920;
       y = 1440;
-      workspace = [ "1" ];
+      workspace = [ "1" "4" ];
     }
     {
-      #name = null;
       name = "DP-4";
-      desc = "Lenovo Group Limited LEN T27q-20 VNA77HCM";
+      desc = "Dell Inc. DELL U2719D DVQ1SS2";
       width = 2560;
       height = 1440;
       refreshRate = 60;
       x = 2560;
-      workspace = [ "2" ];
+      workspace = [ "2" "5" ];
       primary = true;
     }
     {
-      #name = null;
       name = "DP-5";
-      desc = "Lenovo Group Limited LEN T27q-20 VNA77HC8";
+      desc = "Dell Inc. DELL U2719D 3VQ1SS2";
       width = 2560;
       height = 1440;
       refreshRate = 60;
       x = 0;
-      workspace = [ "3" ];
+      workspace = [ "3" "6" ];
     }
   ];
 }

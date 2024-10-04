@@ -127,7 +127,6 @@ in {
       "gtk-launch discord"
     ];
   in [
-    "${idle-inhibit} &"
     "${pkgs.systemd}/bin/systemctl --user import-environment PATH && systemctl --user restart xdg-desktop-portal.service"
     "${pkgs.poweralertd}/bin/poweralertd"
     "${wallpaper-script}"

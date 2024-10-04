@@ -20,6 +20,8 @@
     games.enable = true;
   };
 
+  time.hardwareClockInLocalTime = true;
+
   services = {
     printing = {
       enable = true;

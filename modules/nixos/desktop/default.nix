@@ -111,6 +111,7 @@ in {
     environment.variables = let
       modifiers = lib.optionalAttrs (cfg.hostname == "lnxclnt2840") {
         WLR_DRM_NO_MODIFIERS = "1";
+        AQ_NO_MODIFIERS = "1";
       };
     in {
       BROWSER = "firefox";

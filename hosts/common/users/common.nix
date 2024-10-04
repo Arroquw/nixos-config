@@ -95,7 +95,6 @@
         self.packages.${pkgs.system}.waybar-weather
         self.packages.${pkgs.system}.rofi-power-menu
         self.packages.${pkgs.system}.rofi-network-manager
-        self.packages.${pkgs.system}.sway-audio-idle-inhibit
         self.packages.${pkgs.system}.realvnc
         xwaylandvideobridge
         hyprlock
