@@ -28,7 +28,7 @@ in {
           grim = "${pkgs.grim}/bin/grim";
           # https://github.com/hyprwm/hyprlock/issues/59#issuecomment-2023025535
           # Need to take a screenshot with `grim` before idling
-          grimCmd = builtins.concatStringsSep " && " (map (m:
+          grimCmd = builtins.concatStringsSep " ||:; " (map (m:
             let
               screen = m.name;
               screenShotfile = "/tmp/screenshot-${m.name}.png";
@@ -38,7 +38,7 @@ in {
           #"${grim} -o ${monitors.left} ${screenshotFiles.left} && ${grim} -o ${monitors.right} ${screenshotFiles.right} && ${pkgs.hyprlock}/bin/hyprlock";
         in {
           lock_cmd =
-            "${pkgs.procps}/bin/pgrep hyprlock || (${grimCmd} && ${pkgs.hyprlock}/bin/hyprlock)"; # avoid starting multiple hyprlock instances.
+            "${pkgs.procps}/bin/pgrep hyprlock || (${grimCmd} ||:; ${pkgs.hyprlock}/bin/hyprlock)"; # avoid starting multiple hyprlock instances.
           unlock_cmd = "rm -f /tmp/screenshot-*.png";
           before_sleep_cmd = "${loginctl} lock-session"; # lock before suspend.
           after_sleep_cmd =
