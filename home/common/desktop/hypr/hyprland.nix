@@ -35,7 +35,6 @@ in {
     border_size = 2;
     "col.active_border" = "rgba(5e81acff)"; # 5e81ac ff
     "col.inactive_border" = "rgba(33333366)"; # 333333 66
-    apply_sens_to_raw = 0;
     allow_tearing = true;
   };
 
@@ -44,7 +43,7 @@ in {
     groupbar = {
       height = 10;
       scrolling = false;
-      #stacked = 1;
+      stacked = 1;
       text_color = "rgb(000000)";
       "col.active" =
         "rgba(2a4fc05e)"; # #2a4fc0 - these 4 are gradients so they blend in with the wallpaper
