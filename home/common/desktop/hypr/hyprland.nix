@@ -110,10 +110,15 @@ in {
     allow_session_lock_restore = true;
   };
 
-  #cursor = {
-  #  hide_on_key_press = true;
-  #  no_hardware_cursors = true;
-  #};
+  cursor = {
+    hide_on_key_press = true;
+    no_hardware_cursors = true;
+    no_break_fs_vrr = true;
+    min_refresh_rate = 60;
+    inactive_timeout = 30;
+    #allow_dumb_copy = true;
+
+  };
 
   exec-once = let
     wallpaper-script =
