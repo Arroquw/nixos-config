@@ -108,6 +108,7 @@
         gnome-text-editor
         gnome.gnome-font-viewer
         gnome.gnome-calculator
+        home-manager
       ];
     };
   };

@@ -151,7 +151,7 @@
           modules = [ ./home/jusson/lnxclnt2840.nix ./home/common/nixpkgs.nix ];
           pkgs = pkgsFor.x86_64-linux;
           extraSpecialArgs = {
-            inherit self inputs outputs;
+            inherit self inputs outputs nixvim;
             user = "jusson";
           };
         };
@@ -159,7 +159,7 @@
           modules = [ ./home/justin/gecko.nix ./home/common/nixpkgs.nix ];
           pkgs = pkgsFor.x86_64-linux;
           extraSpecialArgs = {
-            inherit self inputs outputs;
+            inherit self inputs outputs nixvim;
             user = "justin";
           };
         };
