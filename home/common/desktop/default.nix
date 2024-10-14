@@ -3,6 +3,7 @@
     ./hypr
     ./rofi
     ./waybar
+    ./ags
     ./gtk.nix
     ./mako.nix
     #./swayidle.nix

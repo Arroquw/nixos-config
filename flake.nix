@@ -41,6 +41,8 @@
       url = "github:nix-community/flake-firefox-nightly";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    ags.url = "github:Aylur/ags/v2";
+    astal.url = "github:Aylur/astal";
   };
 
   outputs =
