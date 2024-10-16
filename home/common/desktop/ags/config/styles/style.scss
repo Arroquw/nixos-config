@@ -1,0 +1,102 @@
+@import './mixins/button.scss';
+@import './mixins/ally-button.scss';
+@import './widgets/bar.scss';
+@import './vars.scss';
+@import './mixins/unset.scss';
+/*
+$bg: #1E1E2E;
+$fg: #CDD6F4;
+$primary-bg: #89B4FA;
+$primary-fg: #1E1E2E;
+$secondary-bg: $primary-bg;
+$secondary-fg: $primary-fg;
+$error-bg: #F5E0DC;
+$error-fg: #1E1E2E;
+$padding: 7pt;
+$spacing: 12pt;
+$radius: 0px;
+$transition: 200ms;
+$shadows: false;
+$widget-bg: rgba(205, 214, 244, 0.96);
+$hover-bg: rgba(205, 214, 244, 0.86);
+$hover-fg: #D1D9F4;
+$border-width: 1px;
+$border-color: rgba(205, 214, 244, 0.96);
+$border: $border-width solid $border-color;
+$active-gradient: linear-gradient(to right, #89B4FA, #83ACF0);
+$shadow-color: rgba(0,0,0,0.6);
+$text-shadow: 2pt 2pt 2pt $shadow-color;
+$box-shadow: 2pt 2pt 2pt 0 $shadow-color, inset 0 0 0 $border-width $border-color;
+$popover-border-color: rgba(205, 214, 244, 0.95);
+$popover-padding: 11pt;
+$popover-radius: 11pt;
+$font-size: 11pt;
+$font-name: DejaVu Sans Mono;
+$hyprland-gaps-multiplier: 1.6;
+ */
+
+* {
+    font-size: $font-size;
+    font-family: $font-name;
+}
+
+separator {
+    &.horizontal {
+        min-height: $border-width;
+    }
+
+    &.vertical {
+        min-width: $border-width;
+    }
+}
+
+window.popup {
+    >* {
+        border: none;
+        box-shadow: none;
+    }
+
+    menu {
+        border-radius: $popover-radius;
+        background-color: $bg;
+        padding: $popover-padding;
+        border: $border-width solid $popover-border-color;
+
+        separator {
+            background-color: $border-color;
+        }
+
+        menuitem {
+            @include button;
+            padding: $spacing * .5;
+            margin: ($spacing * .5) 0;
+
+            &:first-child {
+                margin-top: 0;
+            }
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+}
+
+tooltip {
+    * {
+        all: unset;
+    }
+
+    background-color: transparent;
+    border: none;
+
+    >*>* {
+        background-color: $bg;
+        border-radius: $radius;
+        border: $border-width solid $popover-border-color;
+        color: $fg;
+        padding: 8px;
+        margin: 4px;
+        box-shadow: 0 0 3px 0 $shadow-color;
+    }
+}

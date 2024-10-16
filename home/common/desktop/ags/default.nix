@@ -15,6 +15,7 @@ in {
       agsPkgs.battery
       agsPkgs.hyprland
       agsPkgs.tray
+      agsPkgs.mpris
       pkgs.bun
     ];
   };

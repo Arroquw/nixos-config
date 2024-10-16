@@ -1,12 +1,8 @@
-import { App } from 'astal';
-import { initWindows } from './windows';
-import style from './styles/main.scss';
+import { App } from "astal"
+import style from "./styles/style.scss"
+import Bar from "./widget/Bar"
 
 App.start({
-  css: style,
-  icons: './assets/icons',
-
-  main() {
-    initWindows();
-  },
-});
+    css: style,
+    main: () => App.get_monitors().map(Bar),
+})
