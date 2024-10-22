@@ -168,6 +168,8 @@ in {
     hyprpicker =
       "${self.packages.${pkgs.system}.hyprpicker-script}/bin/hyprpicker-script";
     hyprshot = "${self.packages.${pkgs.system}.hyprshot}/bin/hyprshot";
+    discordPtt = lib.optionals (config.home.username == "justin")
+      [ ",mouse:276, pass, class:^(discord)$" ];
   in [
     "$mainMod,return,exec,${terminal}"
     "$mainMod,Q,killactive,"
@@ -241,8 +243,7 @@ in {
     "$mainMod SHIFT,9,movetoworkspacesilent,9"
     "$mainMod SHIFT,0,movetoworkspacesilent,10"
     #",mouse:276, pass, class:^(vesktop)$" -- Vesktop does not have support for this yet, works on main discord app
-    ",mouse:276, pass, class:^(discord)$"
-  ];
+  ] ++ discordPtt;
 
   bindm = [ "$mainMod,mouse:272,movewindow" "$mainMod,mouse:273,resizewindow" ];
 
@@ -263,6 +264,7 @@ in {
     ",XF86MonBrightnessDown,exec,${brightnessctl} set 10%-"
   ];
 
+  # Map the monitors set to hyprland config strings. Uses monitor description by default if set, otherwise name (e.g. DP-2)
   monitor = map (m:
     let
       resolution =
@@ -287,7 +289,10 @@ in {
     in map (w: "${w},monitor:${monitorString}") m.workspace)
     (lib.filter (m: m.enabled && m.workspace != null) config.monitors);
 
-  windowrule = [
+  windowrule = let
+    gecko = lib.optionals (config.home.username == "justin")
+      [ "opacity 0.96,discord" ];
+  in [
     "animation,1,4,overshot,slide,^(rofi)$"
     "float,Rofi"
     "float,pavucontrol"
@@ -296,28 +301,29 @@ in {
     "tile,title:^(kitty)$"
     "float,title:^(fly_is_kitty)$"
     "opacity 0.92,thunar"
-    "opacity 0.96,discord"
     "opacity 0.88,obsidian"
     "opacity 0.85,neovim"
-  ];
+  ] ++ gecko;
 
-  windowrulev2 = [
+  windowrulev2 = let
+    gecko = lib.optionals (config.home.username == "justin") [
+      "workspace 5 silent, title^()$,class:^(discord)$"
+      "workspace 5 silent, title^()$,class:^(steam)$"
+      "stayfocused, title:^()$,class:^(steam)$"
+      "minsize 1 1, title:^()$,class:^(steam)$"
+      "opacity 0.0 override,title:^(Alt1Lite overlay window)$"
+    ];
+  in [
     "float,class:^(blueman-manager)$"
     "float,class:^(org.twosheds.iwgtk)$"
     "float,class:^(blueberry.py)$"
     "float,class:^(xdg-desktop-portal-gtk)$"
-    "idleinhibit,fullscreen:1"
     "opacity 0.0 override,class:^(xwaylandvideobridge)$"
-    "opacity 0.0 override,title:^(Alt1Lite overlay window)$"
     "noblur,title:^(Alt1Lite overlay window)$"
     "noanim,class:^(xwaylandvideobridge)$"
     "noinitialfocus,class:^(xwaylandvideobridge)$"
     "maxsize 1 1,class:^(xwaylandvideobridge)$"
     "noblur,class:^(xwaylandvideobridge)$"
-    "stayfocused, title:^()$,class:^(steam)$"
-    "minsize 1 1, title:^()$,class:^(steam)$"
-    "workspace 5 silent, title^()$,class:^(discord)$"
-    "workspace 5 silent, title^()$,class:^(steam)$"
-  ];
+  ] ++ gecko;
 
 }
