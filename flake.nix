@@ -85,7 +85,7 @@
         value = import (./modules/nixos + "/${x}");
       }) (builtins.attrNames (builtins.readDir ./modules/nixos)));
 
-      homeManagerModules = import ./modules/home-manager;
+      homeModules = import ./modules/home-manager;
       checks = forEachSystem (system: pkgs: addPreCommitCheck system);
       packages = forEachSystem (system: pkgs: import ./pkgs { inherit pkgs; });
       devShells = forEachSystem

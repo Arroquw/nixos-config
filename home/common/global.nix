@@ -5,7 +5,7 @@ in {
     ./shell
     inputs.nix-colors.homeManagerModule
     inputs.nixvim.homeManagerModules.nixvim
-  ] ++ (builtins.attrValues outputs.homeManagerModules);
+  ] ++ (builtins.attrValues outputs.homeModules);
   colorscheme = lib.mkDefault colorSchemes.tokyo-night-storm;
 
   programs = {
