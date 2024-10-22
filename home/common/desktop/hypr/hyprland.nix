@@ -123,9 +123,6 @@ in {
   exec-once = let
     wallpaper-script =
       "${self.packages.${pkgs.system}.changewallpaper}/bin/changewallpaper";
-    idle-inhibit = "${
-        self.packages.${pkgs.system}.sway-audio-idle-inhibit
-      }/bin/sway-audio-idle-inhibit";
     gecko = lib.optionals (config.home.username == "justin") [
       "gtk-launch steam"
       "gtk-launch discord"

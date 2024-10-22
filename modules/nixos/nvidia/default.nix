@@ -31,9 +31,9 @@ in {
         nvidiaSettings = true;
         open = true;
       };
-      opengl = {
+      graphics = {
         #driSupport = true;
-        driSupport32Bit = true;
+        enable32Bit = true;
         extraPackages = with pkgs; [
           nvidia-vaapi-driver
           vaapiVdpau

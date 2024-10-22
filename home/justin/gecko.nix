@@ -10,7 +10,7 @@
 
   home.username = "justin";
 
-  home.packages = with pkgs; [ thunderbird gnome.gnome-calculator ];
+  home.packages = with pkgs; [ gnome-calculator ];
 
   monitors = [
     {

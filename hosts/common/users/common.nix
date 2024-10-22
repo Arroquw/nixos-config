@@ -57,7 +57,7 @@
         xcur2png
         rubyPackages.glib2
         libcanberra-gtk3 # notification sound
-        gnome.gnome-system-monitor
+        gnome-system-monitor
         libnotify
         dbus
         xdg-utils
@@ -106,9 +106,9 @@
         p7zip
         xdg-desktop-portal-hyprland
         gnome-text-editor
-        gnome.gnome-font-viewer
-        gnome.gnome-calculator
         home-manager
+        gnome-font-viewer
+        gnome-calculator
       ];
     };
   };

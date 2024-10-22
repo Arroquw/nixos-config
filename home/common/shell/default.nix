@@ -8,7 +8,7 @@
     fd # Better find
 
     nil # Nix LSP
-    nixfmt # Nix formatter
+    nixfmt-classic # Nix formatter
     deadnix
   ];
 }

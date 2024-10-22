@@ -8,7 +8,7 @@
 
   home.username = "jusson";
 
-  home.packages = with pkgs; [ thunderbird gnome.gnome-calculator ];
+  home.packages = with pkgs; [ thunderbird gnome-calculator ];
   #  ------   -----   ------
   # | DP-5/7 | | DP-4/6 |
   #              |eDP-1|

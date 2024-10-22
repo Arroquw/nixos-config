@@ -60,7 +60,7 @@
         pre-commit-check = pre-commit-hooks.lib.${system}.run {
           src = ./.;
           hooks = {
-            nixfmt.enable = true;
+            nixfmt-classic.enable = true;
             nil.enable = true;
             shellcheck.enable = true;
             black.enable = true;
@@ -91,7 +91,7 @@
       devShells = forEachSystem
         (system: pkgs: import ./shell.nix { inherit self system pkgs; });
 
-      formatter = forEachSystem (syste4m: pkgs: pkgs.nixfmt);
+      formatter = forEachSystem (system: pkgs: pkgs.nixfmt-classic);
 
       nixosConfigurations = {
         # Main desktop
