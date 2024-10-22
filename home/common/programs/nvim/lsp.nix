@@ -8,9 +8,9 @@
 
       servers = {
         bashls.enable = true;
-        lua-ls.enable = true;
+        lua_ls.enable = true;
         clangd.enable = true;
-        ruff-lsp.enable = true;
+        ruff_lsp.enable = true;
 
         pyright = {
           enable = true;
@@ -31,11 +31,11 @@
         };
 
         gopls.enable = true;
-        tsserver.enable = true;
-        ast-grep.enable = true;
+        ts_ls.enable = true;
+        ast_grep.enable = true;
         dockerls.enable = true;
-        docker-compose-language-service.enable = true;
-        jsonnet-ls.enable = true;
+        docker_compose_language_service.enable = true;
+        jsonnet_ls.enable = true;
         marksman.enable = true;
       };
     };

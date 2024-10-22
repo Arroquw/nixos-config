@@ -34,7 +34,9 @@ _: {
 
     mini = {
       enable = true;
+      mockDevIcons = true;
       modules = {
+        icons = { };
         surround = { };
         trailspace = { };
       };
