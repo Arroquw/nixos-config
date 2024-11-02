@@ -1,7 +1,6 @@
 import { App, Variable, Astal, Gtk, Gdk, GLib, bind } from "astal"
 import Hyprland from "gi://AstalHyprland"
 import Mpris from "gi://AstalMpris"
-import Battery from "gi://AstalBattery"
 import Wp from "gi://AstalWp"
 import Network from "gi://AstalNetwork"
 import Tray from "gi://AstalTray"
@@ -50,29 +49,19 @@ function AudioVolumeDisplay() {
     return (
         <button
             className="AudioVolumeDisplay"
-            css="min-width: 80px"
+            css="min-width: 100px; display: flex; align-items: center; gap: 5px;"
             onScroll={(_, e) => { if (e.delta_y > 0) { adjustVolume(-0.01); } else { adjustVolume(0.01) } }}
             onClicked={"pavucontrol"}>
-            <label
-                icon={bind(speaker, "volumeIcon")}
-                label={bind(speaker, 'volume').as(p =>
-                    `${Math.round(p * 100)}%`
-                )}
-            />
+            <box>
+                <icon icon={bind(speaker, "volumeIcon")} />
+                <label
+                    label={bind(speaker, 'volume').as(p =>
+                        `${Math.round(p * 100)}%`
+                    )}
+                />
+            </box>
         </button >
     );
-}
-
-function BatteryLevel() {
-    const bat = Battery.get_default()
-
-    return <box className="Battery"
-        visible={bind(bat, "isPresent")}>
-        <icon icon={bind(bat, "batteryIconName")} />
-        <label label={bind(bat, "percentage").as(p =>
-            `${Math.floor(p * 100)} %`
-        )} />
-    </box>
 }
 
 function Media() {

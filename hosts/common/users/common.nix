@@ -109,6 +109,7 @@
         gnome.gnome-font-viewer
         gnome.gnome-calculator
         home-manager
+        mpris-notifier
       ];
     };
   };
