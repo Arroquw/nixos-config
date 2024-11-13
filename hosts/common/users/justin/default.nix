@@ -27,6 +27,23 @@
           };
           extraPkgs = pkgs: [ libsecret ];
         })
+        (let
+          pname = "citra";
+          version = "608383e";
+          src = pkgs.fetchurl {
+            name = "citra-compressed-7z";
+            url =
+              "https://github.com/PabloMK7/citra/releases/download/r608383e/citra-linux-appimage-20240927-608383e.7z";
+            sha256 = "sha256-kV0qz4yWyyMxRQwjjeloEljohhJQKjKv3XoBkfU24NU=";
+            postFetch = ''
+              cp $out src.7z
+              ${pkgs.p7zip}/bin/7z -so e src.7z head/citra-qt.AppImage >$out
+            '';
+          };
+        in pkgs.appimageTools.wrapType1 {
+          inherit pname version src;
+          name = "${pname}-${version}";
+        })
         (discord.override { withOpenASAR = true; })
         self.packages.${pkgs.system}.krisp-patch
         self.packages.${pkgs.system}.dcpl2530dwlpr

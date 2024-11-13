@@ -12,6 +12,10 @@
 
   home.packages = with pkgs; [ gnome-calculator ];
 
+  home.file = {
+    ".config/citra-emu/sdl2-config.ini".source = ../../scripts/sdl2-config.ini;
+  };
+
   monitors = [
     {
       name = "DP-3";
