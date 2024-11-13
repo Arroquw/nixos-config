@@ -50,9 +50,31 @@
       ];
     };
   };
-  #home-manager.users.jusson =
-  #  import home/${config.networking.hostName};
 
+  security.sudo = {
+    extraRules = [{
+      groups = [ "wheel" ];
+      commands = [
+        {
+          command =
+            "/etc/profiles/per-user/jusson/bin/systemctl restart /mnt/pd-common/copydrive";
+          options = [ "SETENV" "NOPASSWD" ];
+        }
+        {
+          command =
+            "/etc/profiles/per-user/jusson/bin/systemctl restart /mnt/pd-user/projects";
+        }
+        {
+          command =
+            "/etc/profiles/per-user/jusson/bin/systemctl restart data-projects.automount";
+        }
+        {
+          command =
+            "/etc/profiles/per-user/jusson/bin/systemctl restart data-tools.automount";
+        }
+      ];
+    }];
+  };
   sops.secrets.password-jusson = {
     sopsFile = ../../secrets.yaml;
     neededForUsers = true;

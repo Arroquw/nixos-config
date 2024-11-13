@@ -67,17 +67,17 @@ in {
           ++ (lib.optionals config.wayland.windowManager.sway.enable
             [ "sway/window" ]);
 
-        modules-right = [
-          "network"
-          "tray"
-          "battery"
-          "backlight"
-          "idle_inhibitor"
-          "clock"
-          "custom/wallpaper"
-          "custom/power-menu"
-          "custom/hostname"
-        ];
+        modules-right = [ "network" "tray" ]
+          ++ (lib.optionals (config.home.username == "jusson")
+            [ "custom/mounts" ]) ++ [
+              "battery"
+              "backlight"
+              "idle_inhibitor"
+              "clock"
+              "custom/wallpaper"
+              "custom/power-menu"
+              "custom/hostname"
+            ];
 
         clock = {
           interval = 1;
@@ -123,6 +123,10 @@ in {
             activated = "󰒳";
             deactivated = "󰒲";
           };
+        };
+        "custom/mounts" = {
+          format = " 💿 ";
+          on-click = "/home/jusson/restart_mounts.sh";
         };
         battery = {
           bat = "BAT0";
