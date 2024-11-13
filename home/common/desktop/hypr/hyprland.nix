@@ -14,7 +14,8 @@ in {
     repeat_rate = 50;
     repeat_delay = 240;
     kb_layout = "us";
-    kb_variant = "euro";
+    kb_variant = "altgr-intl";
+    kb_options = "compose:ralt";
     follow_mouse = 1;
     sensitivity = 0;
   } // (if builtins.elem "${config.home.username}" touchpad_users then {
