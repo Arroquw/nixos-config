@@ -41,7 +41,7 @@
     };
     lsp-format = {
       enable = true;
-      setup = {
+      settings = {
         go = {
           exclude = [ "gopls" ];
           force = true;
