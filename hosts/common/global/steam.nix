@@ -38,5 +38,6 @@ in {
       extraCompatPackages = with pkgs; [ proton-ge-bin ];
       remotePlay.openFirewall = true;
     };
+    environment.systemPackages = with pkgs; [ protontricks ];
   };
 }
