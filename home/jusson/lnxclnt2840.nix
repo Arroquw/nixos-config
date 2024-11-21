@@ -23,26 +23,9 @@
       y = 1440;
       workspace = [ "1" "4" ];
     }
-    # Fallback incase desc doesn't match (e.g. other setup)
     {
       name = "DP-4";
-      width = 2560;
-      height = 1440;
-      refreshRate = 60;
-      x = 2560;
-      workspace = [ "2" "5" ];
-    }
-    {
-      name = "DP-5";
-      width = 2560;
-      height = 1440;
-      refreshRate = 60;
-      x = 0;
-      workspace = [ "3" "6" ];
-    }
-    {
-      name = "DP-4";
-      desc = "Dell Inc. DELL U2719D DVQ1SS2";
+      desc = "Dell Inc. DELL U2719D H537023";
       width = 2560;
       height = 1440;
       refreshRate = 60;
@@ -52,7 +35,7 @@
     }
     {
       name = "DP-5";
-      desc = "Dell Inc. DELL U2719D 3VQ1SS2";
+      desc = "Dell Inc. DELL U2719D HD37023";
       width = 2560;
       height = 1440;
       refreshRate = 60;

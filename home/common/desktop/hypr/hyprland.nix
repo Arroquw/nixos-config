@@ -286,8 +286,8 @@ in {
   # Gotta concat to take the double list into account
   workspace = builtins.concatMap (m:
     let
-      monitorString = if m.name == null then "desc:${m.desc}" else "${m.name}";
-    in map (w: "${w},monitor:${monitorString}") m.workspace)
+      monitorString = if m.desc != null then "desc:${m.desc}" else "${m.name}";
+    in map (w: "${w}, monitor:${monitorString}, default:true") m.workspace)
     (lib.filter (m: m.enabled && m.workspace != null) config.monitors);
 
   windowrule = let
