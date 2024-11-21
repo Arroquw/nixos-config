@@ -8,12 +8,15 @@
     #inputs.spicetify-nix.homeManagerModule
   ];
 
-  home.username = "justin";
+  home = {
+    username = "justin";
 
-  home.packages = with pkgs; [ gnome-calculator ];
+    packages = with pkgs; [ gnome-calculator ];
 
-  home.file = {
-    ".config/citra-emu/sdl2-config.ini".source = ../../scripts/sdl2-config.ini;
+    file = {
+      ".config/citra-emu/sdl2-config.ini".source =
+        ../../scripts/sdl2-config.ini;
+    };
   };
 
   monitors = [
