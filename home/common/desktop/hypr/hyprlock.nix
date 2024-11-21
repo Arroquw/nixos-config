@@ -1,4 +1,4 @@
-{ lib, config, ... }:
+{ config, osConfig, ... }:
 let
   timeUntilLock = 5 * 60;
   timeUntilScreenOff = timeUntilLock + 30;
@@ -15,47 +15,42 @@ in {
         no_fade_in = false;
       };
 
-      background = map (m:
-        # No longer need this let..in block once https://github.com/hyprwm/hyprlock/issues/59 is fixed
-        let
-          monitor = m.name;
-          path = if config.home.username == "justin" then
-            "/tmp/screenshot-${m.name}.png"
-          else
-            "screenshot";
-        in {
-          inherit monitor;
-          inherit path;
-          contrast = 0.8916;
-          brightness = 0.8172;
-          vibrancy = 0.1696;
-          vibrancy_darkness = 0.0;
-          blur_passes = 3;
-          blur_size = 8;
-          color = "rgb(0,0,0)";
-        }) (builtins.filter (f: !lib.strings.hasInfix "Unknown" f.name)
-          config.monitors) ++ [
-            {
-              monitor = "DP-6";
-              path = "screenshot";
-              contrast = 0.8916;
-              brightness = 0.8172;
-              vibrancy = 0.1696;
-              vibrancy_darkness = 0.0;
-              blur_passes = 7;
-              blur_size = 10;
-            }
-            {
-              monitor = "DP-7";
-              path = "screenshot";
-              contrast = 0.8916;
-              brightness = 0.8172;
-              vibrancy = 0.1696;
-              vibrancy_darkness = 0.0;
-              blur_passes = 3;
-              blur_size = 8;
-            }
-          ];
+      background = let
+        contrast = 0.8916;
+        brightness = 0.8172;
+        vibrancy = 0.1696;
+        vibrancy_darkness = 0.0;
+        blur_passes = 3;
+        blur_size = 8;
+        color = "rgb(64,64,64)"; # #404040
+        # No longer need this if..else block once https://github.com/hyprwm/hyprlock/issues/59 is fixed (replace with else clause)
+      in if osConfig.arroquw.nvidia.enable then
+        map (m:
+          let
+            monitor = m.name;
+            path = "/tmp/screenshot-${monitor}.png";
+          in {
+            inherit monitor;
+            inherit path;
+            inherit contrast;
+            inherit brightness;
+            inherit vibrancy;
+            inherit vibrancy_darkness;
+            inherit blur_passes;
+            inherit blur_size;
+            inherit color;
+          }) (builtins.filter (f: f.enabled) config.monitors)
+      else [{
+        monitor = "";
+        path = "screenshot";
+        inherit contrast;
+        inherit brightness;
+        inherit vibrancy;
+        inherit vibrancy_darkness;
+        inherit blur_passes;
+        inherit blur_size;
+        inherit color;
+      }];
       label = [
         {
           monitor = "";
