@@ -66,6 +66,7 @@
         vesktop
         kdePackages.plasma-workspace
         vmware-workstation
+        microsoft-edge
       ];
     };
   };
