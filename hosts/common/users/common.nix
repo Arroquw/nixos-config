@@ -109,6 +109,8 @@
         home-manager
         gnome-font-viewer
         gnome-calculator
+        peazip
+        xarchiver
       ];
     };
   };
