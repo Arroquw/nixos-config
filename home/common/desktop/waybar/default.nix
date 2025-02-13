@@ -81,7 +81,7 @@ in {
 
         clock = {
           interval = 1;
-          format = "W{:%W %d/%m/%Y %H:%M}";
+          format = "{:%a %d/%m/%Y %R W%V}";
           format-alt = "{:%Y-%m-%d %H:%M:%S %z}";
           on-click-left = "mode";
           tooltip-format = ''
