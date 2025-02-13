@@ -48,6 +48,7 @@
         self.packages.${pkgs.system}.krisp-patch
         self.packages.${pkgs.system}.dcpl2530dwlpr
         self.packages.${pkgs.system}.dcpl2530dwlpr-scan
+        self.packages.${pkgs.system}.easyeda-pro
         droidcam
         lutris
         v4l-utils

@@ -14,4 +14,5 @@ with pkgs; {
   em100 = callPackage ./em100.nix { };
   sway-audio-idle-inhibit = callPackage ./idleinhibit.nix { };
   realvnc = callPackage ./realvnc.nix { };
+  easyeda-pro = callPackage ./easyeda-pro.nix { };
 }
