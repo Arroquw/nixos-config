@@ -72,6 +72,24 @@
           command =
             "/etc/profiles/per-user/jusson/bin/systemctl restart data-tools.automount";
         }
+        {
+          command =
+            "/etc/profiles/per-user/jusson/bin/systemctl start /mnt/pd-common/copydrive";
+          options = [ "SETENV" "NOPASSWD" ];
+        }
+        {
+          command =
+            "/etc/profiles/per-user/jusson/bin/systemctl start /mnt/pd-user/projects";
+        }
+        {
+          command =
+            "/etc/profiles/per-user/jusson/bin/systemctl start data-projects.automount";
+        }
+        {
+          command =
+            "/etc/profiles/per-user/jusson/bin/systemctl start data-tools.automount";
+        }
+
       ];
     }];
   };
