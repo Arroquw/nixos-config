@@ -289,6 +289,13 @@
       local project_name = detect_project_name(vim.fn.expand('%:p'))
       set_c_filetype_settings(project_name)
     end
+
+    vim.api.nvim_create_user_command('Renumber', function()
+      vim.cmd([[
+        let i=1
+        g/\\begin{pdreqdef}{[^}]*[0-9]\+}/s/[0-9]\+/\=printf("%02d", i)/ | let i=i+1
+      ]])
+    end, {})
   '';
 
   autoCmd = [{
