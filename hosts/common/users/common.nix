@@ -21,9 +21,9 @@
             sha256 = "sha256-K106VkI/jPWnHqsWMWAKbzQyG5r0h+L3sufh4ZxkqIQ=";
           };
           appimageContents =
-            pkgs.appimageTools.extractType1 { inherit name src; };
+            pkgs.appimageTools.extractType1 { inherit pname version src; };
         in pkgs.appimageTools.wrapType1 {
-          inherit name src;
+          inherit name pname version src;
           extraPkgs = appimageTools.defaultFhsEnvArgs.multiPkgs;
           extraInstallCommands = ''
             		mv $out/bin/${name} $out/bin/${pname}

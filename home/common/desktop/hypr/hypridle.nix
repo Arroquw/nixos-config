@@ -18,7 +18,7 @@ in {
 
     cliphist = {
       enable = true;
-      systemdTarget = "hyprland-session.target";
+      systemdTargets = "hyprland-session.target";
     };
 
     hypridle = {

@@ -3,7 +3,9 @@
   fonts = {
     packages = with pkgs; [
       font-awesome
-      (nerdfonts.override { fonts = [ "FiraCode" "JetBrainsMono" "Iosevka" ]; })
+      nerd-fonts.fira-code
+      nerd-fonts.jetbrains-mono
+      nerd-fonts.iosevka
     ];
 
     fontconfig = {

@@ -12,16 +12,15 @@
         (let
           pname = "teams-for-linux";
           version = "1.3.11";
-          name = "${pname}-${version}";
           src = pkgs.fetchurl {
             url =
-              "https://github.com/IsmaelMartinez/teams-for-linux/releases/download/v1.3.11/teams-for-linux-1.3.11.AppImage";
+              "https://github.com/IsmaelMartinez/teams-for-linux/releases/download/v1.3.11/${pname}-${version}.AppImage";
             sha256 = "sha256-UmVU5/oKuR3Wx2YHqD5cWjS/PeE7PTNJYF2VoGVdPcs=";
           };
           appimageContents =
-            pkgs.appimageTools.extractType1 { inherit pname name src; };
+            pkgs.appimageTools.extractType1 { inherit version pname src; };
         in pkgs.appimageTools.wrapType1 {
-          inherit name pname src;
+          inherit pname version src;
           extraPkgs = appimageTools.defaultFhsEnvArgs.multiPkgs;
           extraInstallCommands = ''
             install -m 444 -D ${appimageContents}/${pname}.desktop $out/share/applications/${pname}.desktop

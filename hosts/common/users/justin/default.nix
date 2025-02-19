@@ -19,32 +19,32 @@
             "${pkgs.tela-circle-icon-theme}/share/icons/Tela-circle/scalable/apps/discord.svg";
         })
         discord
-        (pkgs.appimageTools.wrapType1 {
-          name = "arduino";
+        (pkgs.appimageTools.wrapType1 (let
+          pname = "arduino-ide";
+          version = "2.3.4";
+        in {
+          inherit pname version;
           src = pkgs.fetchurl {
             url =
-              "https://downloads.arduino.cc/arduino-ide/nightly/arduino-ide_nightly-20231003_Linux_64bit.AppImage";
-            sha256 = "sha256-E+UjKnykCm/yoYj8kixknlcS3TJCf2FuMh2RHYoh+L4=";
+              "https://downloads.arduino.cc/arduino-ide/${pname}_${version}_Linux_64bit.AppImage";
+            sha256 = "sha256-PyW3fJPEQmo0+ZYi/HubW8J66KeAnoN2RhYr9Yu2WU8=";
           };
           extraPkgs = pkgs: [ libsecret ];
-        })
+        }))
         (let
           pname = "citra";
           version = "608383e";
           src = pkgs.fetchurl {
             name = "citra-compressed-7z";
             url =
-              "https://github.com/PabloMK7/citra/releases/download/r608383e/citra-linux-appimage-20240927-608383e.7z";
+              "https://github.com/PabloMK7/citra/releases/download/r608383e/${pname}-linux-appimage-20240927-${version}.7z";
             sha256 = "sha256-yzEznDwDlODszxHKi131FfP4nT6GBaPEtMHBD+0SWyk=";
             postFetch = ''
               cp $out src.7z
               ${pkgs.p7zip}/bin/7z -so e src.7z head/citra-qt.AppImage >$out
             '';
           };
-        in pkgs.appimageTools.wrapType1 {
-          inherit pname version src;
-          name = "${pname}-${version}";
-        })
+        in pkgs.appimageTools.wrapType1 { inherit pname version src; })
         self.packages.${pkgs.system}.krisp-patch
         self.packages.${pkgs.system}.dcpl2530dwlpr
         self.packages.${pkgs.system}.dcpl2530dwlpr-scan
