@@ -61,10 +61,12 @@ in {
 
   decoration = {
     rounding = 2;
-    drop_shadow = true;
-    shadow_range = 15;
-    "col.shadow" = "rgba(a7caffff)"; # a7caff
-    "col.shadow_inactive" = "rgba(00000050)"; # 000000
+    shadow = {
+      enabled = true;
+      range = 15;
+      color = "rgba(a7caffff)"; # a7caff
+      color_inactive = "rgba(00000050)"; # 000000
+    };
     active_opacity = 0.99;
     inactive_opacity = 0.99;
     blur = {
@@ -93,12 +95,12 @@ in {
     pseudotile = 1;
     force_split = 0;
     animation = "windows,1,8,default,popin 80%";
-    no_gaps_when_only = true;
+    #no_gaps_when_only = true;
   };
 
   master = {
     new_on_top = true;
-    no_gaps_when_only = true;
+    #no_gaps_when_only = true;
   };
 
   misc = {
@@ -288,7 +290,11 @@ in {
     let
       monitorString = if m.desc != null then "desc:${m.desc}" else "${m.name}";
     in map (w: "${w}, monitor:${monitorString}, default:true") m.workspace)
-    (lib.filter (m: m.enabled && m.workspace != null) config.monitors);
+    (lib.filter (m: m.enabled && m.workspace != null) config.monitors) ++ [
+      "w[tg1], gapsout:0, gapsin:0"
+      "f[1], gapsout:0, gapsin:0"
+      "w[t1], gapsout:0, gapsin:0"
+    ];
 
   windowrule = let
     gecko = lib.optionals (config.home.username == "justin")
@@ -325,6 +331,12 @@ in {
     "noinitialfocus,class:^(xwaylandvideobridge)$"
     "maxsize 1 1,class:^(xwaylandvideobridge)$"
     "noblur,class:^(xwaylandvideobridge)$"
+    "bordersize 0, floating:0, onworkspace:w[t1]"
+    "rounding 0, floating:0, onworkspace:w[t1]"
+    "bordersize 0, floating:0, onworkspace:w[tg1]"
+    "rounding 0, floating:0, onworkspace:w[tg1]"
+    "bordersize 0, floating:0, onworkspace:f[1]"
+    "rounding 0, floating:0, onworkspace:f[1]"
   ] ++ gecko;
 
 }
