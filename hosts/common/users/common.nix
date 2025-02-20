@@ -105,6 +105,7 @@
         gzip
         p7zip
         xdg-desktop-portal-hyprland
+        xdg-desktop-portal-gtk
         gnome-text-editor
         home-manager
         gnome-font-viewer

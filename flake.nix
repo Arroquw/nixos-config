@@ -107,10 +107,7 @@
                   inherit user self inputs outputs nixvim;
                   pkgs = pkgsFor.x86_64-linux;
                 };
-                users."${user}" = {
-                  imports =
-                    [ ./home/justin/gecko.nix ./home/common/nixpkgs.nix ];
-                };
+                users."${user}" = { imports = [ ./home/justin/gecko.nix ]; };
               };
             }
             { imports = builtins.attrValues self.nixosModules; }
@@ -132,8 +129,7 @@
                   pkgs = pkgsFor.x86_64-linux;
                 };
                 users."${user}" = {
-                  imports =
-                    [ ./home/jusson/lnxclnt2840.nix ./home/common/nixpkgs.nix ];
+                  imports = [ ./home/jusson/lnxclnt2840.nix ];
                 };
               };
             }

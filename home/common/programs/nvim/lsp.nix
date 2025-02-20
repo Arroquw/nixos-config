@@ -10,7 +10,7 @@
         bashls.enable = true;
         lua_ls.enable = true;
         clangd.enable = true;
-        ruff_lsp.enable = true;
+        ruff.enable = true;
 
         pyright = {
           enable = true;
