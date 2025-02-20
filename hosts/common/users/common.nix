@@ -13,8 +13,7 @@
       packages = with pkgs; [
         (let
           pname = "prospect-mail";
-          version = "0.5.1";
-          name = "${pname}-${version}";
+          version = "0.5.4";
           src = pkgs.fetchurl {
             url =
               "https://github.com/julian-alarcon/prospect-mail/releases/download/v${version}/Prospect-Mail-${version}.AppImage";
@@ -23,15 +22,14 @@
           appimageContents =
             pkgs.appimageTools.extractType1 { inherit pname version src; };
         in pkgs.appimageTools.wrapType1 {
-          inherit name pname version src;
+          inherit pname version src;
           extraPkgs = appimageTools.defaultFhsEnvArgs.multiPkgs;
           extraInstallCommands = ''
-            		mv $out/bin/${name} $out/bin/${pname}
-            		install -m 444 -D ${appimageContents}/${pname}.desktop $out/share/applications/${pname}.desktop
-            		install -m 444 -D ${appimageContents}/${pname}.png $out/share/icons/hicolor/512x512/apps/${pname}.png
-            		substituteInPlace $out/share/applications/${pname}.desktop \
-                	--replace 'Exec=AppRun --no-sandbox %U' 'Exec=${pname} %U'
-            	'';
+            install -m 444 -D ${appimageContents}/${pname}.desktop $out/share/applications/${pname}.desktop
+            install -m 444 -D ${appimageContents}/${pname}.png $out/share/icons/hicolor/512x512/apps/${pname}.png
+            substituteInPlace $out/share/applications/${pname}.desktop \
+              --replace 'Exec=AppRun --no-sandbox %U' 'Exec=${pname} %U'
+          '';
         })
         (pkgs.makeDesktopItem {
           name = "realvnc";
