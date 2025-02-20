@@ -112,6 +112,9 @@ in {
         WLR_DRM_NO_MODIFIERS = "1";
         AQ_NO_MODIFIERS = "1";
       };
+      gecko = lib.optionalAttrs config.arroquw.nvidia.enable {
+        WLR_NO_HARDWARE_CURSORS = "1";
+      };
     in {
       BROWSER = "firefox";
       NIXOS_OZONE_WL = "1";
@@ -127,10 +130,9 @@ in {
       MOZ_ENABLE_WAYLAND = "1";
       WLR_BACKEND = "vulkan";
       #      WLR_RENDERER = "vulkan";
-      WLR_NO_HARDWARE_CURSORS = "1";
       CLUTTER_BACKEND = "wayland";
       XDG_SESSION_TYPE = "wayland";
-    } // modifiers;
+    } // modifiers // gecko;
 
     programs = {
       file-roller.enable = true;
