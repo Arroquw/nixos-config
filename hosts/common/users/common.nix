@@ -17,7 +17,7 @@
           src = pkgs.fetchurl {
             url =
               "https://github.com/julian-alarcon/prospect-mail/releases/download/v${version}/Prospect-Mail-${version}.AppImage";
-            sha256 = "sha256-K106VkI/jPWnHqsWMWAKbzQyG5r0h+L3sufh4ZxkqIQ=";
+            sha256 = "sha256-gG9y2FDhLcJLeROWgbpMse5tRoT0niAMiaQE5yQPhGg=";
           };
           appimageContents =
             pkgs.appimageTools.extractType1 { inherit pname version src; };
