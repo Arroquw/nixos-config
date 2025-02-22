@@ -316,6 +316,9 @@ in {
       "stayfocused, title:^()$,class:^(steam)$"
       "minsize 1 1, title:^()$,class:^(steam)$"
       "opacity 0.0 override,title:^(Alt1Lite overlay window)$"
+      "fullscreenstate -1 2, title:^(GeForce NOW.*)$,class:^(msedge-.*)$"
+      "noshortcutsinhibit, title:^(GeForce NOW.*)$,class:^(msedge-.*)$"
+      "suppressevent fullscreen, title:^(GeForce NOW.*)$,class:^(msedge-.*)$"
     ];
   in [
     "float,class:^(blueman-manager)$"

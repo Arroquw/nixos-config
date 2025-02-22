@@ -68,6 +68,12 @@
         kdePackages.plasma-workspace
         vmware-workstation
         microsoft-edge
+        (pkgs.makeDesktopItem {
+          name = "microsoft-edge-wl";
+          exec =
+            "${pkgs.microsoft-edge}/bin/microsoft-edge --enable-features=UseOzonePlatform --ozone-platform=wayland --use-gl=desktop";
+          desktopName = "microsoft-edge-wayland";
+        })
       ];
     };
   };
