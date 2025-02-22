@@ -7,16 +7,16 @@
     users.justin = {
       isNormalUser = true;
       description = "Justin van Son";
-      extraGroups = [ "networkmanager" "wheel" "plugdev" "kvm" ];
+      extraGroups = [ "networkmanager" "wheel" "plugdev" "kvm" "input" ];
       hashedPasswordFile = config.sops.secrets.password-justin.path;
       packages = with pkgs; [
         (pkgs.makeDesktopItem {
           name = "discord";
           exec =
-            "env XDG_SESSION_TYPE=x11 env -u NIXOS_OZONE_WL ${pkgs.discord}/bin/discord --use-gl=desktop --enable-gpu-rasterization";
+            "${pkgs.discord}/bin/discord --use-gl=desktop --enable-gpu-rasterization --enable-features=UseOzonePlatform --ozone-platform=wayland";
           desktopName = "Discord";
           icon =
-            "${pkgs.tela-circle-icon-theme}/share/icons/Tela-circle/scalable/apps/discord.svg";
+            "${pkgs.xfce.xfce4-icon-theme}/share/icons/apps/scalable/discord.svg";
         })
         discord
         (pkgs.appimageTools.wrapType1 (let
