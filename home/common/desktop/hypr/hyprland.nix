@@ -125,6 +125,7 @@ in {
     gecko = lib.optionals (config.home.username == "justin") [
       "gtk-launch steam"
       "gtk-launch discord"
+      "push-to-talk -v -k BTN_EXTRA -n Pause /dev/input/by-id/usb-Logitech_USB_Receiver-if02-event-mouse"
     ];
   in [
     "${pkgs.systemd}/bin/systemctl --user import-environment PATH && systemctl --user restart xdg-desktop-portal.service"

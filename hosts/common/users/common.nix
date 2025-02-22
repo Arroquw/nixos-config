@@ -10,7 +10,18 @@
         "plugdev"
         "pipewire"
       ];
-      packages = with pkgs; [
+      packages = let
+        videobridge = pkgs.xwaylandvideobridge.overrideAttrs (oldAttrs: {
+          src = pkgs.fetchFromGitLab {
+            domain = "invent.kde.org";
+            owner = "system";
+            repo = "xwaylandvideobridge";
+            rev = "20e00efaa072ffaae221f09fee2b463457763188";
+            sha256 = "sha256-c24aCDDoVvrgnQlxh1SKGQDlFooTdb1vsin77lljxrM=";
+          };
+          buildInputs = oldAttrs.buildInputs ++ [ pkgs.kdePackages.kcrash ];
+        });
+      in with pkgs; [
         (let
           pname = "prospect-mail";
           version = "0.5.4";
@@ -94,7 +105,9 @@
         self.packages.${pkgs.system}.rofi-power-menu
         self.packages.${pkgs.system}.rofi-network-manager
         self.packages.${pkgs.system}.realvnc
-        xwaylandvideobridge
+        self.packages.${pkgs.system}.wayland-push-to-talk
+        kdePackages.kcrash
+        videobridge
         hyprlock
         hypridle
         wayvnc
