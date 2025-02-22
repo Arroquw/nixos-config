@@ -61,12 +61,6 @@ in {
 
   decoration = {
     rounding = 2;
-    shadow = {
-      enabled = true;
-      range = 15;
-      color = "rgba(a7caffff)"; # a7caff
-      color_inactive = "rgba(00000050)"; # 000000
-    };
     active_opacity = 0.99;
     inactive_opacity = 0.99;
     blur = {
@@ -75,6 +69,12 @@ in {
       passes = 3;
       ignore_opacity = true;
       new_optimizations = true;
+    };
+    shadow = {
+      enabled = true;
+      color = "rgba(a7caffff)"; # #a7caff
+      range = 15;
+      color_inactive = "rgba(00000050)"; # #000000
     };
   };
 
@@ -95,13 +95,9 @@ in {
     pseudotile = 1;
     force_split = 0;
     animation = "windows,1,8,default,popin 80%";
-    #no_gaps_when_only = true;
   };
 
-  master = {
-    new_on_top = true;
-    #no_gaps_when_only = true;
-  };
+  master = { new_on_top = true; };
 
   misc = {
     disable_hyprland_logo = true;
@@ -291,9 +287,9 @@ in {
       monitorString = if m.desc != null then "desc:${m.desc}" else "${m.name}";
     in map (w: "${w}, monitor:${monitorString}, default:true") m.workspace)
     (lib.filter (m: m.enabled && m.workspace != null) config.monitors) ++ [
+      "w[t1], gapsout:0, gapsin:0"
       "w[tg1], gapsout:0, gapsin:0"
       "f[1], gapsout:0, gapsin:0"
-      "w[t1], gapsout:0, gapsin:0"
     ];
 
   windowrule = let
