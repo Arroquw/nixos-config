@@ -88,7 +88,7 @@
         hunspell
         hunspellDicts.nl_NL
         procps
-        okular
+        kdePackages.okular
         telegram-desktop
         imagemagick
         htop
