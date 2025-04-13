@@ -68,6 +68,11 @@
         kdePackages.plasma-workspace
         vmware-workstation
         microsoft-edge
+        clang-tools
+        bear
+        gcc-arm-embedded
+        glibc_multi
+        stm32cubemx
         (pkgs.makeDesktopItem {
           name = "microsoft-edge-wl";
           exec =

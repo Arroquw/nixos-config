@@ -106,4 +106,9 @@
       '';
     };
   };
+
+  services.udev.extraRules = ''
+    ATTRS{idProduct}=="beba", ATTRS{idVendor}=="1209", MODE:="666"
+    ATTRS{idProduct}=="3752", ATTRS{idVendor}=="0483", MODE:="666"
+  '';
 }

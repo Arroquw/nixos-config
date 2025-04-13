@@ -125,6 +125,7 @@
         gnome-calculator
         peazip
         xarchiver
+        wireshark
       ];
     };
   };
@@ -147,4 +148,17 @@
     python311
     # ...
   ];
+  programs.wireshark = {
+    dumpcap.enable = true;
+    enable = true;
+  };
+  users.users.username = {
+    isNormalUser = true;
+    home = "/home/username";
+    group = "no-internet";
+  };
+  users.groups.no-internet = {
+    gid = 789;
+    name = "no-internet";
+  };
 }
