@@ -9,18 +9,20 @@
         "kvm"
         "plugdev"
         "pipewire"
+        "wireshark"
       ];
       packages = let
-        videobridge = pkgs.xwaylandvideobridge.overrideAttrs (oldAttrs: {
-          src = pkgs.fetchFromGitLab {
-            domain = "invent.kde.org";
-            owner = "system";
-            repo = "xwaylandvideobridge";
-            rev = "20e00efaa072ffaae221f09fee2b463457763188";
-            sha256 = "sha256-c24aCDDoVvrgnQlxh1SKGQDlFooTdb1vsin77lljxrM=";
-          };
-          buildInputs = oldAttrs.buildInputs ++ [ pkgs.kdePackages.kcrash ];
-        });
+        videobridge = pkgs.kdePackages.xwaylandvideobridge.overrideAttrs
+          (oldAttrs: {
+            src = pkgs.fetchFromGitLab {
+              domain = "invent.kde.org";
+              owner = "system";
+              repo = "xwaylandvideobridge";
+              rev = "b7d6dd1f56380db2d37e4035951653567f10a12d";
+              sha256 = "sha256-c24aCDDoVvrgnQlxh1SKGQDlFooTdb1vsin77lljxrM=";
+            };
+            buildInputs = oldAttrs.buildInputs ++ [ pkgs.kdePackages.kcrash ];
+          });
       in with pkgs; [
         (let
           pname = "prospect-mail";

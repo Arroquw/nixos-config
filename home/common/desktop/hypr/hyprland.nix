@@ -132,7 +132,7 @@ in {
     "${pkgs.poweralertd}/bin/poweralertd"
     "${wallpaper-script}"
     "${pkgs.blueman}/bin/blueman-applet"
-    "${pkgs.xwaylandvideobridge}/bin/xwaylandvideobridge"
+    "xwaylandvideobridge"
   ] ++ gecko;
 
   bind = let
