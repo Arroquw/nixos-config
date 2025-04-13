@@ -3,12 +3,12 @@
 
 stdenv.mkDerivation rec {
   name = "easyeda-pro";
-  version = "2.2.35.1";
+  version = "2.2.37.3";
 
   src = fetchurl {
     url =
       "https://image.easyeda.com/files/easyeda-pro-linux-x64-${version}.zip";
-    sha256 = "sha256-6aQpXGoxVbDs+/0nMWEgoIbt50PVYzE+OLHfRcZPjTk=";
+    sha256 = "sha256-X2g4yXzuWAz1vzG5C+6q62s8zxSj8r+EMkOJhQc6+nI=";
   };
 
   nativeBuildInputs = [ unzip autoPatchelfHook makeWrapper wrapGAppsHook ];
