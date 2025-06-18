@@ -295,18 +295,18 @@ in {
 
   windowrule = let
     gecko = lib.optionals (config.home.username == "justin")
-      [ "opacity 0.96,discord" ];
+      [ "opacity 0.96,class:^(discord)$" ];
   in [
-    "animation,1,4,overshot,slide,^(rofi)$"
-    "float,Rofi"
-    "float,pavucontrol"
+    "animation,1,4,overshot,slide,class:^(rofi)$"
+    "float,class:^(Rofi)$"
+    "float,class:^(org.pulseaudio.pavucontrol)$"
     "size 200,200,title:^(float_kitty)$"
     "float,title:^(full_kitty)$"
     "tile,title:^(kitty)$"
     "float,title:^(fly_is_kitty)$"
-    "opacity 0.92,thunar"
-    "opacity 0.88,obsidian"
-    "opacity 0.85,neovim"
+    "opacity 0.92,class:^(thunar)$"
+    "opacity 0.88,class:^(obsidian)$"
+    "opacity 0.85,class:^(neovim)$"
   ] ++ gecko;
 
   windowrulev2 = let
