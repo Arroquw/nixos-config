@@ -88,7 +88,6 @@
 
   virtualisation = {
     virtualbox.host.enable = true;
-    vmware.host.enable = true;
     virtualbox.host.enableExtensionPack = true;
   };
   users.extraGroups.vboxusers.members = [ "justin" ];

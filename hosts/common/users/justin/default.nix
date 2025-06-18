@@ -66,7 +66,6 @@
         xorg.xwininfo
         vesktop
         kdePackages.plasma-workspace
-        vmware-workstation
         microsoft-edge
         clang-tools
         bear
