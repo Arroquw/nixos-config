@@ -1,21 +1,7 @@
-{ pkgs, lib, ... }:
+{ pkgs, ... }:
 let
   steam-with-pkgs = pkgs.steam.override {
-    extraPkgs = pkgs:
-      with pkgs; [
-        xorg.libXcursor
-        xorg.libXi
-        xorg.libXinerama
-        xorg.libXScrnSaver
-        libpng
-        libpulseaudio
-        libvorbis
-        stdenv.cc.cc.lib
-        libkrb5
-        keyutils
-        gamescope
-        mangohud
-      ];
+    extraPkgs = pkgs: with pkgs; [ gamescope mangohud ];
   };
   steam-session =
     pkgs.writeTextDir "share/wayland-sessions/steam-session.desktop" ''
@@ -30,6 +16,5 @@ in {
     steam-session
     gamescope
     mangohud
-    protontricks
   ];
 }
