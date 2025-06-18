@@ -100,8 +100,8 @@
         #!/usr/bin/env bash
         set -euo pipefail
         card=$(readlink /proc/asound/GoMic | grep -o '[0-9]' ||:)
-        numid=$(amixer -c "''${card}" controls | grep "'Mic Playback Switch'" | cut -d, -f1 | grep -o '[0-9]' ||:)
-        amixer -c "''${card}" cset numid="''${numid}" mute
+        numid=$(${pkgs.alsa-utils}/bin/amixer -c "''${card}" controls | grep "'Mic Playback Switch'" | cut -d, -f1 | grep -o '[0-9]' ||:)
+        ${pkgs.alsa-utils}/bin/amixer -c "''${card}" cset numid="''${numid}" mute
       '';
     };
   };
