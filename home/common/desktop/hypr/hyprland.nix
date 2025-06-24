@@ -126,6 +126,7 @@ in {
       "gtk-launch steam"
       "gtk-launch discord"
       "push-to-talk -v -k BTN_EXTRA -n Pause /dev/input/by-id/usb-Logitech_USB_Receiver-if02-event-mouse"
+      "push-to-talk -v -k KEY_PAUSE -n Pause /dev/input/by-id/usb-SONiX_USB_DEVICE-event-kbd"
     ];
   in [
     "${pkgs.systemd}/bin/systemctl --user import-environment PATH && systemctl --user restart xdg-desktop-portal.service"
