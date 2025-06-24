@@ -57,7 +57,7 @@
     "/mnt/brokenconn" = {
       device = "/dev/disk/by-path/pci-0000:00:17.0-ata-4-part2";
       fsType = "ntfs-3g";
-      options = [ "rw" "uid=1000" ];
+      options = [ "rw" "uid=1000" "nofail" "x-systemd.device-timeout=5s" ];
     };
 
     "/mnt/hdd" = {
