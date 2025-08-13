@@ -96,7 +96,7 @@
         jq
         slurp
         cifs-utils
-        thefuck
+        pay-respects
         haruna
         nomacs
         self.packages.${pkgs.system}.hyprpicker-script

@@ -29,15 +29,16 @@
       };
       oh-my-zsh = {
         enable = true;
-        plugins = [ "fzf" "git" "thefuck" ];
+        plugins = [ "fzf" "git" ];
         theme = "robbyrussell";
       };
-      initExtra = ''
+      initContent = ''
         export FZF_BASE=${pkgs.fzf}
         export ZSH_FZF_HISTORY_SEARCH_BIND='^r'
         export ZSH_FZF_HISTORY_SEARCH_FZF_ARG='+s +m -x -e --preview-window=hidden'
         export ZSH_FZF_HISTORY_SEARCH_DATES_IN_SEARCH=1
         source ${pkgs.zsh-fzf-history-search}/share/zsh-fzf-history-search/zsh-fzf-history-search.plugin.zsh
+        eval "$(pay-respects zsh)"
       '';
     };
   };
