@@ -44,12 +44,14 @@ _: {
 
     nvim-tree = {
       enable = true;
-      git.enable = true;
-      renderer = {
-        highlightGit = true;
-        highlightModified = "icon";
+      settings = {
+        git.enable = true;
+        renderer = {
+          highlightGit = true;
+          highlightModified = "icon";
+        };
+        diagnostics.enable = true;
       };
-      diagnostics.enable = true;
     };
 
     nvim-autopairs.enable = true;
