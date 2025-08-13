@@ -60,7 +60,23 @@
         self.packages.${pkgs.system}.dcpl2530dwlpr-scan
         self.packages.${pkgs.system}.easyeda-pro
         droidcam
-        lutris
+        (lutris.override (finalAttrs: {
+          extraPkgs = pkgs: [
+            pkgs.wineWowPackages.stagingFull
+            pkgs.winetricks
+            pkgs.gamescope-wsi
+            pkgs.gamescope
+            pkgs.libappindicator-gtk2
+            pkgs.libappindicator-gtk3
+            pkgs.gnomeExtensions.appindicator
+            pkgs.libayatana-appindicator
+            pkgs.appindicator-sharp
+            pkgs.haskellPackages.gi-ayatana-appindicator3
+            pkgs.mangohud
+          ];
+        }))
+        libappindicator-gtk2
+        libappindicator-gtk3
         v4l-utils
         samba
         dosbox
@@ -82,6 +98,7 @@
         gcc-arm-embedded
         glibc_multi
         stm32cubemx
+        mangohud
         (pkgs.makeDesktopItem {
           name = "microsoft-edge-wl";
           exec =
