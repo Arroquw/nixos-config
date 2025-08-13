@@ -16,6 +16,10 @@
       url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
       inputs.aquamarine.url = "github:hyprwm/aquamarine";
     };
+    hyprhook = {
+      url = "github:hyprhook/hyprhook";
+      inputs.hyprland.follows = "hyprland";
+    };
     hyprwm-contrib = {
       url = "github:hyprwm/contrib";
       inputs.nixpkgs.follows = "nixpkgs";

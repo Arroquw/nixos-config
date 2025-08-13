@@ -1,16 +1,17 @@
 { lib, self, config, pkgs, inputs, ... }: {
   imports = [ ./hypridle.nix ./hyprlock.nix ];
-  home.packages = with pkgs; [
-    swww
-    inputs.hyprwm-contrib.packages.${pkgs.system}.hyprprop
-    wlroots
-    grim
-  ];
+  home.packages = with pkgs; [ swww wlroots grim ];
 
   wayland.windowManager.hyprland = {
     enable = true;
     xwayland.enable = true;
     settings = import ./hyprland.nix { inherit config self pkgs lib; };
+    package = null;
+    portalPackage = null;
+    plugins = [
+      inputs.hyprhook.packages.${pkgs.stdenv.hostPlatform.system}.hyprhook
+      inputs.hyprwm-contrib.packages.${pkgs.stdenv.hostPlatform.system}.hyprprop
+    ];
   };
 
   # xdg.configFile."hypr/hyprlock.conf" = {

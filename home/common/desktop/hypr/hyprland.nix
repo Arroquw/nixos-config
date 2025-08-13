@@ -8,6 +8,18 @@ let
     middle_button_emulation = 1;
     tap-to-click = 1;
   };
+  closehook = pkgs.writeShellScriptBin "onwindowclose.sh" ''
+    rscloseid="$(dd if=/dev/random count=4 bs=1 | xxd -p)"
+    echo "''${1}" >"/tmp/hyprhook_close_''${rscloseid}"
+    if cat "/tmp/hyprhook_close_''${rscloseid}" | sed -r 's/^},/}/' | jq -e 'select(.class == "runescape.exe")' >/dev/null; then
+      xdotool search --classname "runescape.exe" | while read -r id; do
+        if grep -q "720x480" <<<"$(xdotool getwindowgeometry "''${id}")"; then
+            echo "Closing phantom window"
+            xdotool windowclose "''${id}"
+        fi
+      done
+    fi
+  '';
 in {
   "$mainMod" = "SUPER";
   input = {
@@ -28,6 +40,10 @@ in {
     workspace_swipe_min_speed_to_force = 5;
   } else
     { };
+
+  "plugin" = {
+    "hyprhook" = { "closeWindow" = "${closehook}/bin/onwindowclose.sh"; };
+  };
 
   general = {
     layout = "dwindle";
