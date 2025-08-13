@@ -134,23 +134,24 @@
     builtins.elem (lib.getName pkg) [ "vscode" "spotify" ];
 
   security.pam.services.hyprlock.text = "auth include login";
-  programs.nix-ld.enable = true;
-
-  programs.nix-ld.libraries = with pkgs; [
-    stdenv.cc.cc
-    zlib
-    fuse3
-    icu
-    nss
-    openssl
-    curl
-    expat
-    python311
-    # ...
-  ];
-  programs.wireshark = {
-    dumpcap.enable = true;
-    enable = true;
+  programs = {
+    nix-ld.enable = true;
+    nix-ld.libraries = with pkgs; [
+      stdenv.cc.cc
+      zlib
+      fuse3
+      icu
+      nss
+      openssl
+      curl
+      expat
+      python311
+      # ...
+    ];
+    wireshark = {
+      dumpcap.enable = true;
+      enable = true;
+    };
   };
   users.users.username = {
     isNormalUser = true;
