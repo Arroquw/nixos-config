@@ -1,4 +1,4 @@
-{ lib, pkgs, config, ... }:
+{ lib, pkgs, config, inputs, ... }:
 with lib;
 let cfg = config.arroquw.desktop;
 in {
