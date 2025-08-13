@@ -31,18 +31,28 @@
           };
           extraPkgs = pkgs: [ libsecret ];
         }))
+        # (let
+        #   pname = "citra";
+        #   version = "608383e";
+        #   src = pkgs.fetchurl {
+        #     name = "citra-compressed-7z";
+        #     url = // TODO: upload original file somewhere, github file was deleted
+        #       "https://github.com/PabloMK7/citra/releases/download/r${version}/${pname}-linux-appimage-20240927-${version}.7z";
+        #     sha256 = "sha256-yzEznDwDlODszxHKi131FfP4nT6GBaPEtMHBD+0SWyk=";
+        #     postFetch = ''
+        #       cp $out src.7z
+        #       ${pkgs.p7zip}/bin/7z -so e src.7z head/citra-qt.AppImage >$out
+        #     '';
+        #   };
+        # in pkgs.appimageTools.wrapType1 { inherit pname version src; })
         (let
-          pname = "citra";
-          version = "608383e";
+          pname = "azahar";
+          version = "2122.1";
           src = pkgs.fetchurl {
-            name = "citra-compressed-7z";
+            name = "azahar";
             url =
-              "https://github.com/PabloMK7/citra/releases/download/r608383e/${pname}-linux-appimage-20240927-${version}.7z";
-            sha256 = "sha256-yzEznDwDlODszxHKi131FfP4nT6GBaPEtMHBD+0SWyk=";
-            postFetch = ''
-              cp $out src.7z
-              ${pkgs.p7zip}/bin/7z -so e src.7z head/citra-qt.AppImage >$out
-            '';
+              "https://github.com/azahar-emu/azahar/releases/download/${version}/azahar.AppImage";
+            sha256 = "sha256-x90f43LNxS/TSFtEs7j/luYFkHwC59lKhROqv68V0YE=";
           };
         in pkgs.appimageTools.wrapType1 { inherit pname version src; })
         self.packages.${pkgs.system}.krisp-patch
