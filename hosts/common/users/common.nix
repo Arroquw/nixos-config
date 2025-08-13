@@ -1,4 +1,4 @@
-{ self, pkgs, user, lib, ... }: {
+{ self, pkgs, user, lib, inputs, ... }: {
   users = {
     users.${user} = {
       extraGroups = [
@@ -117,7 +117,7 @@
         unzip
         gzip
         p7zip
-        xdg-desktop-portal-hyprland
+        inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland
         xdg-desktop-portal-gtk
         gnome-text-editor
         home-manager

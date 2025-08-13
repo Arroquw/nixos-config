@@ -1,9 +1,12 @@
-{ pkgs, ... }: {
+{ pkgs, inputs, ... }: {
   programs.hyprland = {
     enable = true;
-    package = pkgs.hyprland;
+    package =
+      inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
     xwayland.enable = true;
     systemd.setPath.enable = true;
+    portalPackage =
+      inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
   };
   nix.settings = {
     substituters = [ "https://hyprland.cachix.org" ];
