@@ -14,7 +14,9 @@ in {
       package = pkgs.steam.override {
         extraPkgs = pkgs:
           with pkgs; [
+            gamescope-wsi
             gamescope
+            gamemode
             mangohud
           ];
         extraEnv = {
