@@ -47,8 +47,9 @@ _: {
       settings = {
         git.enable = true;
         renderer = {
-          highlightGit = true;
-          highlightModified = "icon";
+          highlight_git = "all";
+          highlight_modified = "icon";
+          highlight_clipboard = "name";
         };
         diagnostics.enable = true;
       };
