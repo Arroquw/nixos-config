@@ -24,7 +24,8 @@ in {
       kernelModules = [ "v4l2loopback" ];
     };
     kernelModules = [ "kvm-intel" ];
-    kernelParams = [ "nvidia_drm.modeset=1" ];
+    kernelParams =
+      [ "nvidia_drm.modeset=1" "iommu=pt" "video=efifb:off" "intel_iommu=on" ];
     extraModulePackages = with config.boot.kernelPackages; [
       nvidiaPackage
       v4l2loopback

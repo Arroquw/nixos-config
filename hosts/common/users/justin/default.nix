@@ -7,7 +7,15 @@
     users.justin = {
       isNormalUser = true;
       description = "Justin van Son";
-      extraGroups = [ "networkmanager" "wheel" "plugdev" "kvm" "input" ];
+      extraGroups = [
+        "networkmanager"
+        "wheel"
+        "plugdev"
+        "kvm"
+        "input"
+        "qemu-libvirtd"
+        "libvirtd"
+      ];
       hashedPasswordFile = config.sops.secrets.password-justin.path;
       packages = with pkgs; [
         (pkgs.makeDesktopItem {
@@ -99,6 +107,8 @@
         glibc_multi
         stm32cubemx
         mangohud
+        virt-manager
+        virt-viewer
         (pkgs.makeDesktopItem {
           name = "microsoft-edge-wl";
           exec =
