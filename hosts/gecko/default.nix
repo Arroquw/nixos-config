@@ -73,7 +73,7 @@
     };
 
     "/mnt/intel-nvme" = {
-      device = "/dev/disk/by-path/pci-0000:03:00.0-nvme-1-part2";
+      device = "/dev/disk/by-label/NVME_1TB";
       fsType = "ntfs-3g";
       options = [ "rw" "uid=1000" ];
     };
