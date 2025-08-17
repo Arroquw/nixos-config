@@ -68,12 +68,12 @@
         self.packages.${pkgs.system}.dcpl2530dwlpr-scan
         self.packages.${pkgs.system}.easyeda-pro
         droidcam
+        pkgs.gamescope
+        pkgs.gamescope-wsi
         (lutris.override (finalAttrs: {
           extraPkgs = pkgs: [
             pkgs.wineWowPackages.stagingFull
             pkgs.winetricks
-            pkgs.gamescope-wsi
-            pkgs.gamescope
             pkgs.libappindicator-gtk2
             pkgs.libappindicator-gtk3
             pkgs.gnomeExtensions.appindicator
