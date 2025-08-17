@@ -115,6 +115,8 @@ in {
 
   master = { new_on_top = true; };
 
+  render = { direct_scanout = 1; };
+
   misc = {
     disable_hyprland_logo = true;
     disable_splash_rendering = true;
@@ -126,13 +128,12 @@ in {
   };
 
   cursor = {
+    sync_gsettings_theme = true;
     hide_on_key_press = true;
-    no_hardware_cursors = true;
-    no_break_fs_vrr = true;
+    no_hardware_cursors = 1;
+    no_break_fs_vrr = 2;
     min_refresh_rate = 60;
-    inactive_timeout = 30;
-    #allow_dumb_copy = true;
-
+    use_cpu_buffer = 2;
   };
 
   exec-once = let
@@ -233,11 +234,11 @@ in {
     ",XF86Tools,exec,${spotify}"
     ",XF86AudioStop,exec,${playerctl} stop"
     "$mainMod ALT,Print,exec, ${hyprshot} -m active -m output"
-    "$mainMod SHIFT,Print,exec, ${hyprshot} -m region"
+    "$mainMod SHIFT,Print,exec, ${hyprshot} -zm region"
     "$mainMod,Print,exec, ${hyprshot} -m active -m window"
     "ALTSHIFT,Print,exec, ${hyprshot} -m active -m output --clipboard-only"
     "CTRLSHIFT,Print,exec, ${hyprshot} -m active -m window --clipboard-only"
-    "SHIFT,Print,exec, ${hyprshot} -m region --clipboard-only"
+    "SHIFT,Print,exec, ${hyprshot} -zm region --clipboard-only"
     "$mainMod SHIFT,RETURN,layoutmsg,swapwithmaster"
     "$mainMod,1,workspace,1"
     "$mainMod,2,workspace,2"
@@ -367,6 +368,7 @@ in {
       "suppressevent fullscreen, title:^(Heroes of the Storm)$"
       "fullscreenstate -1 2, title:^(Heroes of the Storm)$"
       "workspace 1, title:^(Heroes of the Storm)$"
+      "content:game, title:^(Factorio)$"
     ];
   in [
     "float,class:^(blueman-manager)$"
