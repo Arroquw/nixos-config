@@ -4,20 +4,20 @@
 
   services.mako = {
     enable = true;
+
     settings = {
+      background-color = "#1e1e2e";
+      text-color = "#cdd6f4";
+      border-color = "#89b4fa";
+      progress-color = "over #313244";
       font = "TeX Gyre Adventor 10";
-      iconPath = "${config.gtk.iconTheme.package}/share/icons/Papirus-Dark";
+      icon-path = "${config.gtk.iconTheme.package}/share/icons/Papirus-Dark";
       padding = "10,20";
       anchor = "top-right";
       width = 400;
       height = 150;
-      borderSize = 0;
-      backgroundColor = "#1e1e2e";
-      textColor = "#cdd6f4";
-      borderColor = "#89b4fa";
-      progressColor = "over #313244";
-
-      defaultTimeout = 12000;
+      border-size = 0;
+      default-timeout = 12000;
       layer = "overlay";
     };
     extraConfig = ''
