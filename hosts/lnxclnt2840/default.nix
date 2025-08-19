@@ -78,4 +78,5 @@
       ];
     };
   };
+  users.extraGroups.vboxusers.members = [ "jusson" ];
 }

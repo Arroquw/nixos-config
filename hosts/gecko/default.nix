@@ -93,8 +93,6 @@
   };
 
   virtualisation = {
-    virtualbox.host.enable = true;
-    virtualbox.host.enableExtensionPack = true;
     libvirtd = {
       enable = true;
       qemu = {

@@ -162,4 +162,9 @@
     gid = 789;
     name = "no-internet";
   };
+  virtualisation = {
+    virtualbox.host.enable = true;
+    vmware.host.enable = true;
+    virtualbox.host.enableExtensionPack = true;
+  };
 }
