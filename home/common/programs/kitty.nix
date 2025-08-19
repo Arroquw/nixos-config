@@ -1,6 +1,7 @@
 {
   programs.kitty = {
     enable = true;
+    shellIntegration.enableZshIntegration = false;
     settings = {
       # Window
       blur = "yes";
