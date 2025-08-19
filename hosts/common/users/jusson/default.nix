@@ -1,5 +1,6 @@
 { self, pkgs, config, ... }: {
   imports = [ ../common.nix ];
+  nixpkgs.config.allowUnfree = true;
   users = {
     mutableUsers = false;
     defaultUserShell = pkgs.zsh;
@@ -31,8 +32,9 @@
         })
         (pkgs.makeDesktopItem {
           name = "allegro-free-viewer";
-          exec =
-            "wine64 /home/jusson/Programs/17.2/tools/bin/allegro_free_viewer.exe";
+          exec = ''
+            env WINEPREFIX="/home/jusson/.wine64" wine64 /home/jusson/Programs/17.2/tools/bin/allegro_free_viewer.exe
+          '';
           desktopName = "AllegroFreeViewer";
           icon = "/home/jusson/Programs/17.2/share/output.ico";
         })
