@@ -21,18 +21,31 @@ in {
     initrd = {
       availableKernelModules =
         [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" ];
-      kernelModules = [ "v4l2loopback" ];
+      kernelModules =
+        [ "v4l2loopback" "vfio_pci" "vfio" "vfio_iommu_type1" "kvmfr" ];
+      # extraModprobeConfig = ''
+      # options kvmfr static_size_mb=32
+      # '';
     };
-    kernelModules = [ "kvm-intel" ];
-    kernelParams =
-      [ "nvidia_drm.modeset=1" "iommu=pt" "video=efifb:off" "intel_iommu=on" ];
+    kernelModules = [ "kvm-intel" "kvmfr" ];
+    extraModprobeConfig = ''
+      options kvmfr static_size_mb=32
+    '';
+    kernelParams = [
+      "nvidia_drm.modeset=1"
+      "iommu=pt"
+      "video=efifb:off"
+      "intel_iommu=on"
+      ''vfio-pci.ids="10de:1bb1,10de:10f0"''
+    ];
     extraModulePackages = with config.boot.kernelPackages; [
       nvidiaPackage
       v4l2loopback
+      kvmfr
     ];
   };
 
-  hardware.firmware = [ rtl8761_fw ];
+  hardware = { firmware = [ rtl8761_fw ]; };
 
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/70f6cc99-c50b-4e49-9be9-b97e0c5d2dc7";

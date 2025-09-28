@@ -109,6 +109,10 @@
         mangohud
         virt-manager
         virt-viewer
+        libvirt-glib
+        zfs
+        looking-glass-client
+        scream
         (pkgs.makeDesktopItem {
           name = "microsoft-edge-wl";
           exec =

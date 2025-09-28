@@ -92,36 +92,71 @@
     '';
   };
 
+  environment.etc."libvirt/qemu/networks/default.xml".text = ''
+    <network>
+      <name>default</name>
+      <uuid>9a05da11-e96b-47f3-8253-a3a482e445f5</uuid>
+      <forward mode='nat'/>
+      <bridge name='virbr0' stp='on' delay='0'/>
+      <mac address='52:54:00:0a:cd:21'/>
+      <ip address='192.168.122.1' netmask='255.255.255.0'>
+        <dhcp>
+          <range start='192.168.122.2' end='192.168.122.254'/>
+        </dhcp>
+      </ip>
+    </network>
+  '';
+
   virtualisation = {
     libvirtd = {
       enable = true;
       qemu = {
         package = pkgs.qemu_full;
-        runAsRoot = false;
-        ovmf.enable = true;
+        runAsRoot = true;
+        ovmf = {
+          enable = true;
+          packages = [ pkgs.OVMFFull.fd pkgs.OVMFFull ];
+        };
         swtpm.enable = true;
+        verbatimConfig = ''
+          cgroup_device_acl = [
+              "/dev/null", "/dev/full", "/dev/zero",
+              "/dev/random", "/dev/urandom",
+              "/dev/ptmx", "/dev/kvm",
+              "/dev/userfaultfd", "/dev/kvmfr0"
+          ]
+        '';
+        vhostUserPackages = [ pkgs.virtiofsd ];
       };
       extraConfig = ''
-        unix_sock_group = "libvirt"
+        unix_sock_group = "libvirtd"
         unix_sock_rw_perms = "0770"
         log_filters="3:qemu 1:libvirt"
         log_outputs="2:file:/var/log/libvirt/libvirtd.log"
       '';
     };
+    spiceUSBRedirection.enable = true;
   };
   users.extraGroups.vboxusers.members = [ "justin" ];
 
-  systemd.user.services."amixer-mute-mic" = {
-    description = "Mute listen back of Samson GOMIC";
-    wantedBy = [ "default.target" ];
-    serviceConfig = {
-      ExecStart = pkgs.writeShellScript "mute_mic_playback.sh" ''
-        #!/usr/bin/env bash
-        set -euo pipefail
-        card=$(readlink /proc/asound/GoMic | grep -o '[0-9]' ||:)
-        numid=$(${pkgs.alsa-utils}/bin/amixer -c "''${card}" controls | grep "'Mic Playback Switch'" | cut -d, -f1 | grep -o '[0-9]' ||:)
-        ${pkgs.alsa-utils}/bin/amixer -c "''${card}" cset numid="''${numid}" mute
-      '';
+  systemd = {
+    tmpfiles.rules = [
+      "f /dev/shm/scream 0660 justin qemu-libvirtd -"
+      "f /dev/shm/looking-glass 0660 justin qemu-libvirtd -"
+      "f /dev/kvmfr0 0660 justin qemu-libvirtd -"
+    ];
+    user.services."amixer-mute-mic" = {
+      description = "Mute listen back of Samson GOMIC";
+      wantedBy = [ "default.target" ];
+      serviceConfig = {
+        ExecStart = pkgs.writeShellScript "mute_mic_playback.sh" ''
+          #!/usr/bin/env bash
+          set -euo pipefail
+          card=$(readlink /proc/asound/GoMic | grep -o '[0-9]' ||:)
+          numid=$(${pkgs.alsa-utils}/bin/amixer -c "''${card}" controls | grep "'Mic Playback Switch'" | cut -d, -f1 | grep -o '[0-9]' ||:)
+          ${pkgs.alsa-utils}/bin/amixer -c "''${card}" cset numid="''${numid}" mute
+        '';
+      };
     };
   };
 
