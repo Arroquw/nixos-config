@@ -1,5 +1,7 @@
 {
-  plugins.lsp-lines.enable = true;
+  plugins.lsp-lines = {
+    enable = true;
+  };
   # diagnostics.settings.virtual_lines.only_current_line = true;
 
   plugins = {
@@ -51,7 +53,10 @@
     };
     lspsaga = {
       enable = true;
-      lightbulb.sign = false;
+      settings = {
+        enable = true;
+        lightbulb.sign = false;
+      };
     };
   };
 }
