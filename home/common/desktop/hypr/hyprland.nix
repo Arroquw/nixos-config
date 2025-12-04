@@ -185,6 +185,8 @@ in {
     keybind = "${self.packages.${pkgs.system}.hyprkeybinds}/bin/hyprkeybinds";
     hyprpicker =
       "${self.packages.${pkgs.system}.hyprpicker-script}/bin/hyprpicker-script";
+    resolution-script =
+      "${self.packages.${pkgs.system}.hypr-resolution}/bin/hypr-resolution";
     hyprshot = "${self.packages.${pkgs.system}.hyprshot}/bin/hyprshot";
     discordPtt = lib.optionals (config.home.username == "justin")
       [ ",mouse:276, pass, class:^(discord)$" ];
@@ -195,13 +197,13 @@ in {
     "$mainMod,E,exec,${thunar}"
     "$mainMod,M,exit,"
     "$mainMod,T,togglefloating,"
-    "$mainMod,P,pseudo,"
+    "$mainMod SHIFT,P,pseudo,"
     "$mainMod,G,togglesplit,"
     "$mainMod,S,togglegroup,"
     "$mainMod,F,fullscreen,1"
     "$mainMod,F1,exec,${keybind}"
     "$mainMod SHIFT,C,exec,${hyprpicker}"
-    ''$mainMod SHIFT,P,exec,sh -c "hyprprop >> /tmp/hyprprop.log"''
+    ''$mainMod CTRL,P,exec,sh -c "hyprprop >> /tmp/hyprprop.log"''
     "$mainMod SHIFT,F,fullscreen,0"
     "$mainMod,ESCAPE,exec,${wlogout}"
     "$mainMod,SPACE,exec,${lock}"
@@ -260,6 +262,7 @@ in {
     "$mainMod SHIFT,8,movetoworkspacesilent,8"
     "$mainMod SHIFT,9,movetoworkspacesilent,9"
     "$mainMod SHIFT,0,movetoworkspacesilent,10"
+    "$mainMod,P,exec,${resolution-script}"
     #",mouse:276, pass, class:^(vesktop)$" -- Vesktop does not have support for this yet, works on main discord app
   ] ++ discordPtt;
 

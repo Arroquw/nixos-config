@@ -16,4 +16,5 @@ with pkgs; {
   wayland-push-to-talk = callPackage ./wayland-push-to-talk.nix { };
   realvnc = callPackage ./realvnc.nix { };
   easyeda-pro = callPackage ./easyeda-pro.nix { };
+  hypr-resolution = callPackage ./resolution.nix { };
 }
