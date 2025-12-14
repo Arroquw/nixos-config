@@ -117,6 +117,7 @@
         peazip
         xarchiver
         wireshark
+        file-roller
       ];
     };
   };
