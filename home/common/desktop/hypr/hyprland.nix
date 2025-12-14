@@ -178,10 +178,12 @@ in {
     #    screen = m.name;
     #    screenShotfile = "/tmp/screenshot-${m.name}.png";
     #  in "${grim} -o ${screen} ${screenShotfile}") config.monitors);
-    #"${grim} -o ${monitors.left} ${screenshotFiles.left} && ${grim} -o ${monitors.right} ${screenshotFiles.right} && ${pkgs.hyprlock}/bin/hyprlock";
-    #lock = hyprlockCmd + " && ${pkgs.hyprlock}/bin/hyprlock";
-    lock =
-      "${pkgs.procps}/bin/pgrep hyprlock || ${pkgs.systemd}/bin/loginctl lock-session";
+    #"${grim} -o ${monitors.left} ${screenshotFiles.left} && ${grim} -o ${monitors.right} ${screenshotFiles.right} && ${lib.getExe' pkgs.hyprlock "hyprlock"}";
+    #lock = hyprlockCmd + " && ${lib.getExe' pkgs.hyprlock "hyprlock"}";
+    lock = ''
+      ${lib.getExe' pkgs.procps "pgrep"} hyprlock ||
+            ${lib.getExe' pkgs.systemd "loginctl"} "lock-session"
+    '';
     keybind = "${self.packages.${pkgs.system}.hyprkeybinds}/bin/hyprkeybinds";
     hyprpicker =
       "${self.packages.${pkgs.system}.hyprpicker-script}/bin/hyprpicker-script";

@@ -24,22 +24,10 @@ in {
     hypridle = {
       enable = true;
       settings = {
-        general = let
-          grim = "${pkgs.grim}/bin/grim";
-          # https://github.com/hyprwm/hyprlock/issues/59#issuecomment-2023025535
-          # Need to take a screenshot with `grim` before idling
-          grimCmd = builtins.concatStringsSep " ||:; " (map (m:
-            let
-              screen = m.name;
-              screenShotfile = "/tmp/screenshot-${m.name}.png";
-            in "${grim} -l 0 -o ${screen} ${screenShotfile}")
-            (lib.filter (f: !lib.strings.hasInfix "Unknown" f.name)
-              config.monitors));
-          #"${grim} -o ${monitors.left} ${screenshotFiles.left} && ${grim} -o ${monitors.right} ${screenshotFiles.right} && ${pkgs.hyprlock}/bin/hyprlock";
-        in {
-          lock_cmd =
-            "${pkgs.procps}/bin/pgrep hyprlock || (${grimCmd} ||:; ${pkgs.hyprlock}/bin/hyprlock)"; # avoid starting multiple hyprlock instances.
-          unlock_cmd = "rm -f /tmp/screenshot-*.png";
+        general = {
+          lock_cmd = "${lib.getExe' pkgs.procps "pgrep"} hyprlock || ${
+              lib.getExe' pkgs.hyprlock "hyprlock"
+            })"; # avoid starting multiple hyprlock instances.
           before_sleep_cmd = "${loginctl} lock-session"; # lock before suspend.
           after_sleep_cmd =
             "${hyprctl} dispatch dpms on"; # to avoid having to press a key twice to turn on the display.

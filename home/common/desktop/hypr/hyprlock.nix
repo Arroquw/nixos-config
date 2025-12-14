@@ -1,4 +1,4 @@
-{ config, osConfig, ... }:
+_:
 let
   timeUntilLock = 5 * 60;
   timeUntilScreenOff = timeUntilLock + 30;
@@ -11,11 +11,11 @@ in {
         hide_cursor = true;
         grace = timeUntilLock - timeUntilScreenOff;
         ignore_empty_input = true;
-        no_fade_out = true; # bit buggy, so disable it
+        # no_fade_out = true; # bit buggy, so disable it
         no_fade_in = false;
       };
 
-      background = let
+      background = [{
         contrast = 0.8916;
         brightness = 0.8172;
         vibrancy = 0.1696;
@@ -23,33 +23,8 @@ in {
         blur_passes = 3;
         blur_size = 8;
         color = "rgb(64,64,64)"; # #404040
-        # No longer need this if..else block once https://github.com/hyprwm/hyprlock/issues/59 is fixed (replace with else clause)
-      in if osConfig.arroquw.nvidia.enable then
-        map (m:
-          let
-            monitor = m.name;
-            path = "/tmp/screenshot-${monitor}.png";
-          in {
-            inherit monitor;
-            inherit path;
-            inherit contrast;
-            inherit brightness;
-            inherit vibrancy;
-            inherit vibrancy_darkness;
-            inherit blur_passes;
-            inherit blur_size;
-            inherit color;
-          }) (builtins.filter (f: f.enabled) config.monitors)
-      else [{
         monitor = "";
         path = "screenshot";
-        inherit contrast;
-        inherit brightness;
-        inherit vibrancy;
-        inherit vibrancy_darkness;
-        inherit blur_passes;
-        inherit blur_size;
-        inherit color;
       }];
       label = [
         {
