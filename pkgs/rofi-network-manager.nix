@@ -12,7 +12,7 @@ stdenv.mkDerivation {
 
   buildPhase = ''
     ls -alh
-    sed -ri 's@rofi -dmenu@${pkgs.rofi-wayland}/bin/rofi -dmenu@g' rofi-network-manager.sh
+    sed -ri 's@rofi -dmenu@${pkgs.rofi}/bin/rofi -dmenu@g' rofi-network-manager.sh
     patchShebangs rofi-network-manager.sh
   '';
 

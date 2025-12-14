@@ -11,19 +11,7 @@
         "pipewire"
         "wireshark"
       ];
-      packages = let
-        videobridge = pkgs.kdePackages.xwaylandvideobridge.overrideAttrs
-          (oldAttrs: {
-            src = pkgs.fetchFromGitLab {
-              domain = "invent.kde.org";
-              owner = "system";
-              repo = "xwaylandvideobridge";
-              rev = "b7d6dd1f56380db2d37e4035951653567f10a12d";
-              sha256 = "sha256-zzCFQD9s7+kLxMMmekDm5W9CywAwbD3ab6THaA5i6iQ=";
-            };
-            buildInputs = oldAttrs.buildInputs ++ [ pkgs.kdePackages.kcrash ];
-          });
-      in with pkgs; [
+      packages = with pkgs; [
         (let
           pname = "prospect-mail";
           version = "0.5.4";
@@ -68,6 +56,9 @@
         xcur2png
         rubyPackages.glib2
         libcanberra-gtk3 # notification sound
+        gtk4
+        gtk3
+        libadwaita
         gnome-system-monitor
         libnotify
         dbus
@@ -109,7 +100,6 @@
         self.packages.${pkgs.system}.realvnc
         self.packages.${pkgs.system}.wayland-push-to-talk
         kdePackages.kcrash
-        videobridge
         hyprlock
         hypridle
         wayvnc
@@ -146,7 +136,7 @@
       curl
       expat
       python311
-      # ...
+      file-roller
     ];
     wireshark = {
       dumpcap.enable = true;

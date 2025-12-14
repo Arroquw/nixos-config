@@ -10,7 +10,7 @@ let
 in {
   programs.rofi = {
     enable = true;
-    package = pkgs.rofi-wayland;
+    package = pkgs.rofi;
     font = "JetBrains Mono Nerd Font 11.6";
     extraConfig = { modes = "window,drun,run,filebrowser"; };
     theme = {

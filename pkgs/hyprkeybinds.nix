@@ -5,7 +5,7 @@ let
     config_file=~/.config/hypr/hyprland.conf
     keybinds=$(${pkgs.gnugrep}/bin/grep -P '(?<=bind).*=.*' $config_file)
     keybinds=$(${pkgs.busybox}/bin/echo "$keybinds" | ${gnused} 's/bind.*=//g' | ${gnused} 's/,\([^,]\)/ = \1/2' | ${gnused} 's/exec,//g' | ${gnused} 's/^,//g' | ${gnused} 's/$,//g')
-    ${pkgs.rofi-wayland}/bin/rofi -dmenu -p "Keybinds" -theme custom <<< "$keybinds"
+    ${pkgs.rofi}/bin/rofi -dmenu -p "Keybinds" -theme custom <<< "$keybinds"
   '';
 in stdenv.mkDerivation {
   name = "hyprkeybinds";

@@ -1,5 +1,5 @@
 { pkgs, ... }: {
-  home.packages = with pkgs; [ gitflow gitAndTools.gitui ];
+  home.packages = with pkgs; [ gitflow gitui ];
 
   programs.git = {
     enable = true;

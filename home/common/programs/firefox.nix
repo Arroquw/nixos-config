@@ -2,7 +2,7 @@
   programs.firefox = {
     enable = true;
     package =
-      pkgs.firefox-wayland; # inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin;
+      pkgs.firefox; # inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin;
     # package = pkgs.wrapFirefox pkgs.firefox-wayland {
     #   extraExtensions = [
     #     (fetchfirefoxaddon {

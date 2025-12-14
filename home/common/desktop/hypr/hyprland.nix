@@ -35,11 +35,10 @@ in {
   } else
     { });
 
-  gestures = if builtins.elem "${config.home.username}" touchpad_users then {
-    workspace_swipe = true;
-    workspace_swipe_min_speed_to_force = 5;
-  } else
-    { };
+  gestures = if builtins.elem "${config.home.username}" touchpad_users then
+    [ "3, swipe, workspace" ]
+  else
+    [ ];
 
   "plugin" = {
     "hyprhook" = { "closeWindow" = "${closehook}/bin/onwindowclose.sh"; };
@@ -150,7 +149,6 @@ in {
     "${pkgs.poweralertd}/bin/poweralertd"
     "${wallpaper-script}"
     "${pkgs.blueman}/bin/blueman-applet"
-    "xwaylandvideobridge"
   ] ++ gecko;
 
   bind = let
@@ -158,7 +156,7 @@ in {
     #grimshot = "${pkgs.sway-contrib.grimshot}/bin/grimshot";
     #grim = "${pkgs.grim}/bin/grim";
     terminal = "${pkgs.kitty}/bin/kitty";
-    rofi = "${pkgs.rofi-wayland}/bin/rofi";
+    rofi = "${pkgs.rofi}/bin/rofi";
     thunar = "${pkgs.xfce.thunar}/bin/thunar";
     wlogout = "${pkgs.wlogout}/bin/wlogout";
     htop = "${pkgs.htop}/bin/htop";
@@ -318,16 +316,16 @@ in {
     gecko = lib.optionals (config.home.username == "justin")
       [ "opacity 0.96,class:^(discord)$" ];
   in [
-    "animation,1,4,overshot,slide,class:^(rofi)$"
-    "float,class:^(Rofi)$"
-    "float,class:^(org.pulseaudio.pavucontrol)$"
-    "size 200,200,title:^(float_kitty)$"
-    "float,title:^(full_kitty)$"
-    "tile,title:^(kitty)$"
-    "float,title:^(fly_is_kitty)$"
-    "opacity 0.92,class:^(thunar)$"
-    "opacity 0.88,class:^(obsidian)$"
-    "opacity 0.85,class:^(neovim)$"
+    "match:class rofi,animation overshoot 1 4 slide"
+    "match:class rofi, float on"
+    "match:class org.pulseaudio.pavucontrol, float on"
+    "size 200 200,match:title float_kitty"
+    "float on,match:title full_kitty"
+    "tile on,match:title kitty"
+    "float on,match:title fly_is_kitty"
+    "opacity 0.92,match:class thunar"
+    "opacity 0.88,match:class obsidian"
+    "opacity 0.85,match:class neovim"
   ] ++ gecko;
 
   windowrulev2 = let
@@ -378,11 +376,6 @@ in {
     "float,class:^(org.twosheds.iwgtk)$"
     "float,class:^(blueberry.py)$"
     "float,class:^(xdg-desktop-portal-gtk)$"
-    "opacity 0.0 override,class:^(xwaylandvideobridge)$"
-    "noanim,class:^(xwaylandvideobridge)$"
-    "noinitialfocus,class:^(xwaylandvideobridge)$"
-    "maxsize 1 1,class:^(xwaylandvideobridge)$"
-    "noblur,class:^(xwaylandvideobridge)$"
     "bordersize 0, floating:0, onworkspace:w[t1]"
     "rounding 0, floating:0, onworkspace:w[t1]"
     "bordersize 0, floating:0, onworkspace:w[tg1]"
