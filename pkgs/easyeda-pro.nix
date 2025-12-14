@@ -1,5 +1,5 @@
 { stdenv, fetchurl, unzip, autoPatchelfHook, pkgs, makeWrapper, lib
-, wrapGAppsHook }:
+, wrapGAppsHook3 }:
 
 stdenv.mkDerivation rec {
   name = "easyeda-pro";
@@ -11,7 +11,7 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-X2g4yXzuWAz1vzG5C+6q62s8zxSj8r+EMkOJhQc6+nI=";
   };
 
-  nativeBuildInputs = [ unzip autoPatchelfHook makeWrapper wrapGAppsHook ];
+  nativeBuildInputs = [ unzip autoPatchelfHook makeWrapper wrapGAppsHook3 ];
 
   buildInputs = with pkgs; [ glib nss libdrm mesa alsa-lib libGL udev ];
 

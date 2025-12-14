@@ -113,10 +113,6 @@
       qemu = {
         package = pkgs.qemu_full;
         runAsRoot = true;
-        ovmf = {
-          enable = true;
-          packages = [ pkgs.OVMFFull.fd pkgs.OVMFFull ];
-        };
         swtpm.enable = true;
         verbatimConfig = ''
           cgroup_device_acl = [
