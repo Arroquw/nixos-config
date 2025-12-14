@@ -1,7 +1,7 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{ pkgs, ... }: {
+{ pkgs, lib, ... }: {
   nix.settings = {
     substituters = [ "https://hyprland.cachix.org" ];
     trusted-substituters = [ "https://hyprland.cachix.org" ];
@@ -153,8 +153,12 @@
           #!/usr/bin/env bash
           set -euo pipefail
           card=$(readlink /proc/asound/GoMic | grep -o '[0-9]' ||:)
-          numid=$(${pkgs.alsa-utils}/bin/amixer -c "''${card}" controls | grep "'Mic Playback Switch'" | cut -d, -f1 | grep -o '[0-9]' ||:)
-          ${pkgs.alsa-utils}/bin/amixer -c "''${card}" cset numid="''${numid}" mute
+          numid=$(${
+            lib.getExe' pkgs.alsa-utils "amixer"
+          } -c "''${card}" controls | grep "'Mic Playback Switch'" | cut -d, -f1 | grep -o '[0-9]' ||:)
+          ${
+            lib.getExe' pkgs.alsa-utils "amixer"
+          } -c "''${card}" cset numid="''${numid}" mute
         '';
       };
     };

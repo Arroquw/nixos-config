@@ -1,19 +1,19 @@
 { self, config, lib, pkgs, ... }:
 let
   # Dependencies
-  cut = "${pkgs.coreutils}/bin/cut";
-  grep = "${pkgs.gnugrep}/bin/grep";
-  tail = "${pkgs.coreutils}/bin/tail";
-  wc = "${pkgs.coreutils}/bin/wc";
-  xargs = "${pkgs.findutils}/bin/xargs";
+  cut = "${lib.getExe' pkgs.coreutils "cut"}";
+  grep = "${lib.getExe' pkgs.gnugrep "grep"}";
+  tail = "${lib.getExe' pkgs.coreutils "tail"}";
+  wc = "${lib.getExe' pkgs.coreutils "wc"}";
+  xargs = "${lib.getExe' pkgs.findutils "xargs"}";
 
-  jq = "${pkgs.jq}/bin/jq";
-  gamemoded = "${pkgs.gamemode}/bin/gamemoded";
-  systemctl = "${pkgs.systemd}/bin/systemctl";
-  journalctl = "${pkgs.systemd}/bin/journalctl";
-  playerctl = "${pkgs.playerctl}/bin/playerctl";
-  playerctld = "${pkgs.playerctl}/bin/playerctld";
-  pavucontrol = "${pkgs.pavucontrol}/bin/pavucontrol";
+  jq = "${lib.getExe' pkgs.jq "jq"}";
+  gamemoded = "${lib.getExe' pkgs.gamemode "gamemoded"}";
+  systemctl = "${lib.getExe' pkgs.systemd "systemctl"}";
+  journalctl = "${lib.getExe' pkgs.systemd "journalctl"}";
+  playerctl = "${lib.getExe' pkgs.playerctl "playerctl"}";
+  playerctld = "${lib.getExe' pkgs.playerctl "playerctld"}";
+  pavucontrol = "${lib.getExe' pkgs.pavucontrol "pavucontrol"}";
   wallpaper-script =
     "${self.packages.${pkgs.system}.changewallpaper}/bin/changewallpaper";
   powermenu-script =

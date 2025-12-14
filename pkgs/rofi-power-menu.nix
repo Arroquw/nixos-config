@@ -1,11 +1,13 @@
-{ pkgs, stdenv, procps, gnused, ... }:
+{ pkgs, stdenv, procps, gnused, lib, ... }:
 let
   powerMenuScript = pkgs.writeShellScriptBin "rofi-power-menu" ''
-    #!${pkgs.bash}/bin/bash
+    #!${lib.getExe' pkgs.bash "bash"}
     dir="~/.config/rofi"
     theme='style'
     # CMDs
-    uptime="$(${pkgs.procps}/bin/uptime -p | ${pkgs.gnused}/bin/sed -e 's/up //g')"
+    uptime="$(${lib.getExe' pkgs.procps "uptime"} -p | ${
+      lib.getExe' pkgs.gnused "sed"
+    } -e 's/up //g')"
     # Options
     shutdown=''
     reboot=''
@@ -17,7 +19,7 @@ let
 
     # Rofi CMD
     rofi_cmd() {
-    	${pkgs.rofi}/bin/rofi -dmenu \
+    ${lib.getExe' pkgs.rofi "rofi"} -dmenu \
     		-p "Uptime: $uptime" \
     		-mesg "Uptime: $uptime" \
     		-theme "''${dir}/''${theme}.rasi"
@@ -25,7 +27,9 @@ let
 
     # Confirmation CMD
     confirm_cmd() {
-    	${pkgs.rofi}/bin/rofi -theme-str 'window {location: center; anchor: center; fullscreen: false; width: 350px;}' \
+    ${
+       lib.getExe' pkgs.rofi "rofi"
+     } -theme-str 'window {location: center; anchor: center; fullscreen: false; width: 350px;}' \
     		-theme-str 'mainbox {children: [ "message", "listview" ];}' \
     		-theme-str 'listview {columns: 2; lines: 1;}' \
     		-theme-str 'element-text {horizontal-align: 0.5;}' \
@@ -55,8 +59,8 @@ let
     		elif [[ $1 == '--reboot' ]]; then
     			systemctl reboot
     		elif [[ $1 == '--suspend' ]]; then
-    			${pkgs.playerctl}/bin/playerctl pause
-    			${pkgs.alsa-utils}/bin/amixer set Master mute
+                       ${lib.getExe' pkgs.playerctl "playerctl"} pause
+                       ${lib.getExe' pkgs.alsa-utils "amixer"} set Master mute
     			systemctl suspend
     		elif [[ $1 == '--logout' ]]; then
                 if [[ "$DESKTOP_SESSION" == 'openbox' ]]; then
@@ -68,7 +72,7 @@ let
                 elif [[ "$DESKTOP_SESSION" == 'plasma' ]]; then
                     qdbus org.kde.ksmserver /KSMServer logout 0 0 0
                 elif [[ "$DESKTOP_SESSION" == 'hyprland' ]]; then
-                    ${pkgs.hyprland}/bin/hyprctl dispatch exit 1
+                    ${lib.getExe' pkgs.hyprland "hyprctl"} dispatch exit 1
                 fi
             fi
     	else
@@ -91,9 +95,9 @@ let
     	elif [ "$(command -v i3lock)" ]; then
     		i3lock
       elif [ "$(command -v hyprlock)" ]; then
-        ${pkgs.hyprlock}/bin/hyprlock
+        ${lib.getExe' pkgs.hyprlock "hyprlock"}
     	elif [ "$(command -v swaylock)" ]; then
-    		${pkgs.swaylock-effects}/bin/swaylock -fF
+               ${lib.getExe' pkgs.swaylock-effects "swaylock"} -fF
     	fi
             ;;
         "$suspend")

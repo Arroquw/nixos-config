@@ -34,7 +34,8 @@
         })
         (pkgs.makeDesktopItem {
           name = "realvnc";
-          exec = "${self.packages.${pkgs.system}.realvnc}/bin/realvnc-viewer";
+          exec = "${lib.getExe' self.packages.${pkgs.system}.realvnc
+            "realvnc-viewer"}";
           desktopName = "RealVNC";
           icon =
             "${pkgs.tokyonight-gtk-theme}/share/icons/Tokyonight-Light/apps/64/realvnc-vncviewer.svg";

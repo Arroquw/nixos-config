@@ -20,8 +20,9 @@
       packages = with pkgs; [
         (pkgs.makeDesktopItem {
           name = "discord";
-          exec =
-            "${pkgs.discord}/bin/discord --use-gl=desktop --enable-gpu-rasterization --enable-features=UseOzonePlatform --ozone-platform=wayland";
+          exec = "${
+              lib.getExe' pkgs.discord "discord"
+            } --use-gl=desktop --enable-gpu-rasterization --enable-features=UseOzonePlatform --ozone-platform=wayland";
           desktopName = "Discord";
           icon =
             "${pkgs.xfce.xfce4-icon-theme}/share/icons/apps/scalable/discord.svg";
@@ -113,10 +114,12 @@
         zfs
         looking-glass-client
         scream
+        virtiofsd
         (pkgs.makeDesktopItem {
           name = "microsoft-edge-wl";
-          exec =
-            "${pkgs.microsoft-edge}/bin/microsoft-edge --enable-features=UseOzonePlatform --ozone-platform=wayland --use-gl=desktop";
+          exec = "${
+              lib.getExe' pkgs.microsoft-edge "microsoft-edge"
+            } --enable-features=UseOzonePlatform --ozone-platform=wayland --use-gl=desktop";
           desktopName = "microsoft-edge-wayland";
         })
       ];

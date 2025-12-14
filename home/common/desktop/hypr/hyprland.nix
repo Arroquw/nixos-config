@@ -145,30 +145,32 @@ in {
       "push-to-talk -v -k KEY_PAUSE -n Pause /dev/input/by-id/usb-SONiX_USB_DEVICE-event-kbd"
     ];
   in [
-    "${pkgs.systemd}/bin/systemctl --user import-environment PATH && systemctl --user restart xdg-desktop-portal.service"
-    "${pkgs.poweralertd}/bin/poweralertd"
+    "${
+      lib.getExe' pkgs.systemd "systemctl"
+    } --user import-environment PATH && systemctl --user restart xdg-desktop-portal.service"
+    "${lib.getExe' pkgs.poweralertd "poweralertd"}"
     "${wallpaper-script}"
-    "${pkgs.blueman}/bin/blueman-applet"
+    "${lib.getExe' pkgs.blueman "blueman-applet"}"
   ] ++ gecko;
 
   bind = let
-    playerctl = "${pkgs.playerctl}/bin/playerctl";
-    #grimshot = "${pkgs.sway-contrib.grimshot}/bin/grimshot";
-    #grim = "${pkgs.grim}/bin/grim";
-    terminal = "${pkgs.kitty}/bin/kitty";
-    rofi = "${pkgs.rofi}/bin/rofi";
-    thunar = "${pkgs.xfce.thunar}/bin/thunar";
-    wlogout = "${pkgs.wlogout}/bin/wlogout";
-    htop = "${pkgs.htop}/bin/htop";
-    rofimoji = "${pkgs.rofimoji}/bin/rofimoji";
-    wpctl = "${pkgs.wireplumber}/bin/wpctl";
-    speedcrunch = "${pkgs.speedcrunch}/bin/speedcrunch";
-    spotify = "${pkgs.spotify}/bin/spotify";
-    gtk-launch = "${pkgs.gtk3}/bin/gtk-launch";
-    xdg-mime = "${pkgs.xdg-utils}/bin/xdg-mime";
+    playerctl = "${lib.getExe' pkgs.playerctl "playerctl"}";
+    #grimshot = "${lib.getExe' pkgs.sway-contrib.grimshot "grimshot"}";
+    #grim = "${lib.getExe' pkgs.grim "grim"}";
+    terminal = "${lib.getExe' pkgs.kitty "kitty"}";
+    rofi = "${lib.getExe' pkgs.rofi "rofi"}";
+    thunar = "${lib.getExe' pkgs.xfce.thunar "thunar"}";
+    wlogout = "${lib.getExe' pkgs.wlogout "wlogout"}";
+    htop = "${lib.getExe' pkgs.htop "htop"}";
+    rofimoji = "${lib.getExe' pkgs.rofimoji "rofimoji"}";
+    wpctl = "${lib.getExe' pkgs.wireplumber "wpctl"}";
+    speedcrunch = "${lib.getExe' pkgs.speedcrunch "speedcrunch"}";
+    spotify = "${lib.getExe' pkgs.spotify "spotify"}";
+    gtk-launch = "${lib.getExe' pkgs.gtk3 "gtk-launch"}";
+    xdg-mime = "${lib.getExe' pkgs.xdg-utils "xdg-mime"}";
     defaultApp = type: "${gtk-launch} $(${xdg-mime} query default ${type})";
     browser = defaultApp "x-scheme-handler/https";
-    #lock = "${pkgs.swaylock-effects}/bin/swaylock -fF";
+    #lock = "${lib.getExe' pkgs.swaylock-effects "swaylock -fF"}";
     # https://github.com/hyprwm/hyprlock/issues/59#issuecomment-2023025535
     # Need to take a screenshot with `grim` before idling
     #hyprlockCmd = builtins.concatStringsSep " && " (map (m:
@@ -267,9 +269,9 @@ in {
   bindm = [ "$mainMod,mouse:272,movewindow" "$mainMod,mouse:273,resizewindow" ];
 
   bindr = let
-    wpctl = "${pkgs.wireplumber}/bin/wpctl";
-    playerctl = "${pkgs.playerctl}/bin/playerctl";
-    brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
+    wpctl = "${lib.getExe' pkgs.wireplumber "wpctl"}";
+    playerctl = "${lib.getExe' pkgs.playerctl "playerctl"}";
+    brightnessctl = "${lib.getExe' pkgs.brightnessctl "brightnessctl"}";
   in [
     "$mainMod SHIFT,left,resizeactive,-40 0"
     "$mainMod SHIFT,right,resizeactive,40 0"

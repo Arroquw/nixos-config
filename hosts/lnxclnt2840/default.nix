@@ -41,7 +41,9 @@
 
   environment.etc."request-key.conf" = {
     source = lib.mkForce (pkgs.writeText "request-key.conf" ''
-      create id_resolver * * /nix/store/4mgp5ybsvnhh11082gf5gix22dq8xwnv-nfs-utils-2.6.2/bin/nfsidmap -t 600 %k %d
+      create id_resolver * * ${
+        lib.getExe' pkgs.nfs-utils "nfsidmap"
+      } -t 600 %k %d
       create dns_resolver * * /run/current-system/sw/bin/key.dns_resolver %k
     '');
   };

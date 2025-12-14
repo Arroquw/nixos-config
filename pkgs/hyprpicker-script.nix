@@ -1,12 +1,18 @@
-{ stdenv, pkgs, ... }:
+{ stdenv, pkgs, lib, ... }:
 let
-  wl-paste = "${pkgs.wl-clipboard}/bin/wl-paste";
-  wl-copy = "${pkgs.wl-clipboard}/bin/wl-copy";
-  hyprpicker = "${pkgs.hyprpicker}/bin/hyprpicker";
+  wl-paste = "${lib.getExe' pkgs.wl-clipboard "wl-paste"}";
+  wl-copy = "${lib.getExe' pkgs.wl-clipboard "wl-copy"}";
+  hyprpicker = "${lib.getExe' pkgs.hyprpicker "hyprpicker"}";
   hyprpickerScript = pkgs.writeShellScriptBin "hyprpicker-script" ''
-    ${hyprpicker} --format hex | ${pkgs.busybox}/bin/head -c -1 | ${wl-copy}
-    ${pkgs.imagemagick}/bin/convert -size 100x100 xc:$(${wl-paste}) /tmp/color.png
-    ${pkgs.dunst}/bin/dunstify --icon=/tmp/color.png "$(${wl-paste})"  "Copied to your clipboard!"
+    ${hyprpicker} --format hex | ${
+      lib.getExe' pkgs.busybox "head"
+    } -c -1 | ${wl-copy}
+    ${
+      lib.getExe' pkgs.imagemagick "convert"
+    } -size 100x100 xc:$(${wl-paste}) /tmp/color.png
+    ${
+      lib.getExe' pkgs.dunst "dunstify"
+    } --icon=/tmp/color.png "$(${wl-paste})"  "Copied to your clipboard!"
   '';
 in stdenv.mkDerivation {
   name = "hyprpicker-script";

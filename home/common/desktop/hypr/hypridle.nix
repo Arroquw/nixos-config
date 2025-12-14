@@ -4,9 +4,9 @@ let
   timeUntilScreenOff = timeUntilLock + 30;
   timeUntilSuspend = 30 * 60;
 
-  hyprctl = "${pkgs.hyprland}/bin/hyprctl";
-  loginctl = "${pkgs.systemd}/bin/loginctl";
-  systemctl = "${pkgs.systemd}/bin/systemctl";
+  hyprctl = "${lib.getExe' pkgs.hyprland "hyprctl"}";
+  loginctl = "${lib.getExe' pkgs.systemd "loginctl"}";
+  systemctl = "${lib.getExe' pkgs.systemd "systemctl"}";
 in {
   services = {
     wlsunset = {
@@ -48,13 +48,16 @@ in {
         listener = [
           {
             timeout = timeUntilLock - 30;
-            on-timeout = "${pkgs.brightnessctl}/bin/brightnessctl s 30%";
-            on-resume = "${pkgs.brightnessctl}/bin/brightnessctl s 100%";
+            on-timeout =
+              "${lib.getExe' pkgs.brightnessctl "brightnessctl"} s 30%";
+            on-resume =
+              "${lib.getExe' pkgs.brightnessctl "brightnessctl"} s 100%";
           }
           {
             timeout = timeUntilLock;
-            on-timeout =
-              "${pkgs.procps}/bin/pgrep hyprlock ||  ${loginctl} lock-session"; # lock screen when timeout has passed, don't lock when hyprlock was manually started
+            on-timeout = "${
+                lib.getExe' pkgs.procps "pgrep"
+              } hyprlock ||  ${loginctl} lock-session"; # lock screen when timeout has passed, don't lock when hyprlock was manually started
           }
 
           {
