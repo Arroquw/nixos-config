@@ -10,10 +10,13 @@
 
   home.packages = with pkgs; [ thunderbird gnome-calculator ];
   #  ------   -----   ------
-  # | DP-5/7 | | DP-4/6 |
+  # | DP-4/6 | | DP-5/7 |
   #              |eDP-1|
   #  ------   -----   ------
-  monitors = [
+  monitors = let
+    left = "Dell Inc. DELL U2722D 2H9TQ83";
+    right = "Dell Inc. DELL U2722D CC9TQ83";
+  in [
     {
       name = "eDP-1";
       width = 1920;
@@ -24,8 +27,8 @@
       workspace = [ "1" "4" ];
     }
     {
-      name = "DP-4";
-      desc = "Dell Inc. DELL U2719D H537023";
+      name = "DP-5";
+      desc = right;
       width = 2560;
       height = 1440;
       refreshRate = 60;
@@ -34,8 +37,8 @@
       primary = true;
     }
     {
-      name = "DP-5";
-      desc = "Dell Inc. DELL U2719D HD37023";
+      name = "DP-4";
+      desc = left;
       width = 2560;
       height = 1440;
       refreshRate = 60;
