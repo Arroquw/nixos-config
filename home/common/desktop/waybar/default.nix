@@ -111,11 +111,59 @@ in {
         };
         cpu = {
           tooltip = true;
-          format = "  {}%";
-          states = {
-            heavy = 70;
-            full = 90;
-          };
+          format = "{icon0}{icon1}{icon2}{icon3}{icon4}{icon5}{icon6}{icon7}";
+          format-icons = [
+            "🁣"
+            "🁤"
+            "🁥"
+            "🁦"
+            "🁧"
+            "🁨"
+            "🁩"
+            "🁪"
+            "🁫"
+            "🁬"
+            "🁭"
+            "🁮"
+            "🁯"
+            "🁰"
+            "🁱"
+            "🁲"
+            "🁳"
+            "🁴"
+            "🁵"
+            "🁶"
+            "🁷"
+            "🁸"
+            "🁹"
+            "🁺"
+            "🁻"
+            "🁼"
+            "🁽"
+            "🁾"
+            "🁿"
+            "🂀"
+            "🂁"
+            "🂂"
+            "🂃"
+            "🂄"
+            "🂅"
+            "🂆"
+            "🂇"
+            "🂈"
+            "🂉"
+            "🂊"
+            "🂋"
+            "🂌"
+            "🂍"
+            "🂎"
+            "🂏"
+            "🂐"
+            "🂑"
+            "🂒"
+            "🂓"
+            "🁢"
+          ];
         };
         idle_inhibitor = {
           format = "{icon}";
@@ -207,7 +255,7 @@ in {
             tooltip = "$player ($count available)";
             text = "$more";
           };
-          format = "{icon}{}";
+          format = "{icon}{text}";
           format-icons = {
             "No player active" = " ";
             "Celluloid" = "󰎁 ";
@@ -231,7 +279,7 @@ in {
           return-type = "json";
           interval = 2;
           max-length = 30;
-          format = "{icon} {}";
+          format = "{icon} {text}";
           format-icons = {
             "Playing" = "󰐊";
             "Paused" = "󰏤 ";
