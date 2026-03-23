@@ -125,7 +125,10 @@
   nixpkgs.config.allowUnfreePredicate = pkg:
     builtins.elem (lib.getName pkg) [ "vscode" "spotify" ];
 
-  security.pam.services.hyprlock.text = "auth include login";
+  security.pam.services = {
+    hyprlock.text = "auth include login";
+    greetd.enableGnomeKeyring = true;
+  };
   programs = {
     nix-ld.enable = true;
     nix-ld.libraries = with pkgs; [

@@ -21,13 +21,15 @@
 
   monitors = [
     {
-      name = "DP-3";
+      name = "DP-4";
+      desc = "Dell Inc. DELL U2719D CK3WTS2";
       width = 2560;
       height = 1440;
       workspace = [ "2" "5" ];
     }
     {
-      name = "DP-2";
+      name = "DP-5";
+      desc = "Microstep MAG274QRF-QD CA8A270B00307";
       width = 2560;
       height = 1440;
       refreshRate = 165;

@@ -26,8 +26,9 @@ in {
       enable = true;
       settings = {
         default_session = {
-          command =
-            "${lib.getExe' pkgs.tuigreet "tuigreet"} --time --cmd Hyprland";
+          command = "${
+              lib.getExe' pkgs.tuigreet "tuigreet"
+            } --time --cmd start-hyprland";
           user = "greeter";
         };
       };

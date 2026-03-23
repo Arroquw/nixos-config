@@ -192,7 +192,7 @@ in {
       "${self.packages.${pkgs.system}.hypr-resolution}/bin/hypr-resolution";
     hyprshot = "${self.packages.${pkgs.system}.hyprshot}/bin/hyprshot";
     discordPtt = lib.optionals (config.home.username == "justin")
-      [ ",mouse:276, pass, class:^(discord)$" ];
+      [ ",mouse:276, pass, match:class discord" ];
   in [
     "$mainMod,return,exec,${terminal}"
     "$mainMod,Q,killactive,"
@@ -266,7 +266,7 @@ in {
     "$mainMod SHIFT,9,movetoworkspacesilent,9"
     "$mainMod SHIFT,0,movetoworkspacesilent,10"
     "$mainMod,P,exec,${resolution-script}"
-    #",mouse:276, pass, class:^(vesktop)$" -- Vesktop does not have support for this yet, works on main discord app
+    #",mouse:276, pass, match:class vesktop" -- Vesktop does not have support for this yet, works on main discord app
   ] ++ discordPtt;
 
   bindm = [ "$mainMod,mouse:272,movewindow" "$mainMod,mouse:273,resizewindow" ];
@@ -318,8 +318,47 @@ in {
     ];
 
   windowrule = let
-    gecko = lib.optionals (config.home.username == "justin")
-      [ "opacity 0.96,class:^(discord)$" ];
+    gecko = lib.optionals (config.home.username == "justin") [
+      "match:class discord, opacity 0.96"
+      "match:class discord, workspace 5 silent"
+      "match:class steam, workspace 5 silent"
+      "tag +alt1app, match:title Alt1 Lite app"
+      "no_max_size on, match:tag alt1app"
+      "float on, match:tag alt1app"
+      "no_blur on, match:tag alt1app"
+      "no_initial_focus on, match:tag alt1app"
+      "border_size 0, match:tag alt1app"
+      "immediate on, match:tag alt1app"
+      "allows_input on, match:tag alt1app"
+      "tag +alt1overlay, match:title Alt1Lite overlay window"
+      "pin on, match:tag alt1overlay"
+      # "border_size 5, match:tag alt1overlay"
+      "no_focus on, match:tag alt1overlay"
+      "no_initial_focus on, match:tag alt1overlay"
+      "no_follow_mouse on, match:tag alt1overlay"
+      "no_blur on, match:tag alt1overlay"
+      "border_size 0, match:tag alt1overlay"
+      "fullscreen_state -1 2, match:tag alt1overlay"
+      "float on, match:tag alt1overlay"
+      "size 2560 1390, match:tag alt1overlay"
+      "persistent_size on, match:tag alt1overlay"
+      "suppress_event activate activatefocus fullscreen, match:tag alt1overlay"
+      "render_unfocused on, match:tag alt1overlay"
+      "workspace 1, match:tag alt1overlay"
+      "tile on, match:class rs2client.exe"
+      "workspace 1, match:class rs2client.exe"
+      "idle_inhibit always, match:class rs2client.exe"
+      "workspace 1, match:tag alt1"
+      "workspace 3, match:class jagexlauncher.exe"
+      "render_unfocused on, match:class runescape.exe"
+      "fullscreen_state -1 2, match:title GeForce NOW.*,match:class msedge-.*"
+      "no_shortcuts_inhibit on, match:title GeForce NOW.*,match:class msedge-.*"
+      "suppress_event fullscreen, match:title GeForce NOW.*,match:class msedge-.*"
+      "suppress_event fullscreen, match:title Heroes of the Storm"
+      "fullscreen_state -1 2, match:title Heroes of the Storm"
+      "workspace 1, match:title Heroes of the Storm"
+      "content game, match:title Factorio"
+    ];
   in [
     "match:class rofi,animation overshoot 1 4 slide"
     "match:class rofi, float on"
@@ -331,62 +370,16 @@ in {
     "opacity 0.92,match:class thunar"
     "opacity 0.88,match:class obsidian"
     "opacity 0.85,match:class neovim"
-  ] ++ gecko;
-
-  windowrulev2 = let
-    gecko = lib.optionals (config.home.username == "justin") [
-      "workspace 5 silent, title^()$,class:^(discord)$"
-      "workspace 5 silent, title^()$,class:^(steam)$"
-      "stayfocused, title:^()$,class:^(steam)$"
-      "minsize 1 1, title:^()$,class:^(steam)$"
-      "tag +alt1app, title:^(Alt1 Lite app)$"
-      "nomaxsize, tag:alt1app"
-      "float, tag:alt1app"
-      "noblur, tag:alt1app"
-      "noinitialfocus, tag:alt1app"
-      "noborder, tag:alt1app"
-      "immediate, tag:alt1app"
-      "allowsinput, tag:alt1app"
-      "tag +alt1overlay, title:^(Alt1Lite overlay window)$"
-      # "pin, tag:alt1overlay"
-      # "bordersize 5, tag:alt1overlay"
-      "nofocus, tag:alt1overlay"
-      "noinitialfocus, tag:alt1overlay"
-      "nofollowmouse, tag:alt1overlay"
-      "noblur, tag:alt1overlay"
-      "noborder, tag:alt1overlay"
-      "fullscreenstate -1 2, tag:alt1overlay"
-      # "float, tag:alt1overlay"
-      "size 2560 1390, tag:alt1overlay"
-      "persistentsize, tag:alt1overlay"
-      "suppressevent activate activatefocus fullscreen, tag:alt1overlay"
-      "renderunfocused, tag:alt1overlay"
-      "workspace 1, tag:alt1overlay"
-      "tile, class:^(rs2client.exe)$"
-      "workspace 1, class:^(rs2client.exe)$"
-      "idleinhibit always, class:^(rs2client.exe)$"
-      "workspace 1, tag:alt1"
-      "workspace 3, class:^(jagexlauncher.exe)$"
-      "renderunfocused, class:^(runescape.exe)$"
-      "fullscreenstate -1 2, title:^(GeForce NOW.*)$,class:^(msedge-.*)$"
-      "noshortcutsinhibit, title:^(GeForce NOW.*)$,class:^(msedge-.*)$"
-      "suppressevent fullscreen, title:^(GeForce NOW.*)$,class:^(msedge-.*)$"
-      "suppressevent fullscreen, title:^(Heroes of the Storm)$"
-      "fullscreenstate -1 2, title:^(Heroes of the Storm)$"
-      "workspace 1, title:^(Heroes of the Storm)$"
-      "content:game, title:^(Factorio)$"
-    ];
-  in [
-    "float,class:^(blueman-manager)$"
-    "float,class:^(org.twosheds.iwgtk)$"
-    "float,class:^(blueberry.py)$"
-    "float,class:^(xdg-desktop-portal-gtk)$"
-    "bordersize 0, floating:0, onworkspace:w[t1]"
-    "rounding 0, floating:0, onworkspace:w[t1]"
-    "bordersize 0, floating:0, onworkspace:w[tg1]"
-    "rounding 0, floating:0, onworkspace:w[tg1]"
-    "bordersize 0, floating:0, onworkspace:f[1]"
-    "rounding 0, floating:0, onworkspace:f[1]"
+    "float on,match:class blueman-manager"
+    "float on,match:class org.twosheds.iwgtk"
+    "float on,match:class blueberry.py"
+    "float on,match:class xdg-desktop-portal-gtk"
+    "border_size 0, match:float false, match:workspace w[t1]"
+    "rounding 0, match:float false, match:workspace w[t1]"
+    "border_size 0, match:float false, match:workspace w[tg1]"
+    "rounding 0, match:float false, match:workspace w[tg1]"
+    "border_size 0, match:float false, match:workspace f[1]"
+    "rounding 0, match:float false, match:workspace f[1]"
   ] ++ gecko;
 
 }
