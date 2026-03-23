@@ -14,4 +14,9 @@
       options = "--delete-older-than +5";
     };
   };
+
+  programs.appimage = {
+    enable = true;
+    binfmt = true;
+  };
 }

@@ -16,6 +16,8 @@
     ../common/optional/pipewire.nix
   ];
 
+
+  bambuStudio.enable = true;
   arroquw = {
     desktop = {
       enable = true;

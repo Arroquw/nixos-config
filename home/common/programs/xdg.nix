@@ -24,6 +24,7 @@ let
     "x-scheme-handler/discord" = [ "discordcanary.desktop" ];
     "x-scheme-handler/spotify" = [ "spotify.desktop" ];
     "x-scheme-handler/tg" = [ "telegramdesktop.desktop" ];
+    "x-scheme-handler/bambustudio" = [ "BambuStudio.desktop" ];
   };
 in {
   home.packages = with pkgs; [ xdg-utils ];

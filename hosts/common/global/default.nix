@@ -10,7 +10,9 @@
     ./zsh.nix
     ./blueman.nix
     ./steam.nix
+    ./bambu-studio.nix
   ];
+
 
   nixpkgs = { overlays = [ ]; };
 
