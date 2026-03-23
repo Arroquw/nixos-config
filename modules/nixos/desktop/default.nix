@@ -47,6 +47,15 @@ in {
         useOSProber = true;
         configurationLimit = 5;
         inherit (cfg) gfxmodeEfi;
+        extraEntries = ''
+          menuentry 'MacOS' $menuentry_id_option 'macOS-efi' {
+            search --set=root --fs-uuid DE8A-5AF9
+            insmod chain
+            insmod part_gpt
+            insmod fat
+            chainloader /EFI/Mac/OC/OpenCore.efi
+          }
+        '';
         theme = pkgs.fetchzip {
           # https://github.com/AdisonCavani/distro-grub-themes
           url =

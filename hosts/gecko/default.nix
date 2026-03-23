@@ -63,13 +63,13 @@
 
   fileSystems = {
     "/mnt/brokenconn" = {
-      device = "/dev/disk/by-path/pci-0000:00:17.0-ata-4-part2";
+      device = "/dev/disk/by-label/MICRON_BROKEN_CONN";
       fsType = "ntfs-3g";
       options = [ "rw" "uid=1000" "nofail" "x-systemd.device-timeout=5s" ];
     };
 
     "/mnt/hdd" = {
-      device = "/dev/disk/by-path/pci-0000:00:17.0-ata-6-part1";
+      device = "/dev/disk/by-label/HDD";
       fsType = "ntfs-3g";
       options = [ "rw" "uid=1000" ];
     };
@@ -113,12 +113,28 @@
     </network>
   '';
 
+  networking = {
+    bridges = { "br0" = { interfaces = [ "enp5s0" ]; }; };
+    useDHCP = false;
+    interfaces = {
+      "br0" = {
+        useDHCP = false;
+        ipv4.addresses = [{
+          address = "192.168.2.1";
+          prefixLength = 24;
+        }];
+      };
+      "enp5s0" = { useDHCP = false; };
+      "eno1".useDHCP = true;
+    };
+  };
+
   virtualisation = {
     libvirtd = {
       enable = true;
       qemu = {
         package = pkgs.qemu_full;
-        runAsRoot = true;
+        runAsRoot = false;
         swtpm.enable = true;
         verbatimConfig = ''
           cgroup_device_acl = [
@@ -143,7 +159,6 @@
 
   systemd = {
     tmpfiles.rules = [
-      "f /dev/shm/scream 0660 justin qemu-libvirtd -"
       "f /dev/shm/looking-glass 0660 justin qemu-libvirtd -"
       "f /dev/kvmfr0 0660 justin qemu-libvirtd -"
     ];

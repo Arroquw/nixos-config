@@ -113,8 +113,9 @@
         libvirt-glib
         zfs
         looking-glass-client
-        scream
+        (scream.override (finalAttrs: { pcapSupport = true; }))
         virtiofsd
+        OVMFFull
         (pkgs.makeDesktopItem {
           name = "microsoft-edge-wl";
           exec = "${
