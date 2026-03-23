@@ -85,6 +85,10 @@
       fsType = "ntfs-3g";
       options = [ "rw" "uid=1000" ];
     };
+    "/export/share" = {
+      device = "/mnt/intel-nvme/Pictures";
+      options = [ "bind" ];
+    };
   };
 
   environment.etc."drirc" = {
@@ -162,8 +166,22 @@
     };
   };
 
-  services.udev.extraRules = ''
-    ATTRS{idProduct}=="beba", ATTRS{idVendor}=="1209", MODE:="666"
-    ATTRS{idProduct}=="3752", ATTRS{idVendor}=="0483", MODE:="666"
-  '';
+  services = {
+    nfs = {
+      server = {
+        enable = true;
+        lockdPort = 4001;
+        mountdPort = 4002;
+        statdPort = 4000;
+        extraNfsdConfig = "";
+        exports = ''
+          /export/share 192.168.2.0/24(rw,sync,no_subtree_check,no_root_squash)
+        '';
+      };
+    };
+    udev.extraRules = ''
+      ATTRS{idProduct}=="beba", ATTRS{idVendor}=="1209", MODE:="666"
+      ATTRS{idProduct}=="3752", ATTRS{idVendor}=="0483", MODE:="666"
+    '';
+  };
 }

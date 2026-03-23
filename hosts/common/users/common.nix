@@ -118,6 +118,12 @@
         xarchiver
         wireshark
         file-roller
+        gnome-keyring
+        libsecret
+        glib-networking
+        nss
+        nginx
+        php
       ];
     };
   };
