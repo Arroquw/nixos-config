@@ -2,6 +2,7 @@
 {
   imports = [
     ./hypr
+    ./sway
     ./rofi
     ./waybar
     ./gtk.nix

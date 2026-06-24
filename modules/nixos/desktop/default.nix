@@ -36,6 +36,9 @@ in
           command = "${lib.getExe' pkgs.tuigreet "tuigreet"} --time --cmd start-hyprland";
           user = "greeter";
         };
+        sway_session = {
+          command = "${lib.getExe' pkgs.tuigreet "tuigreet"} --time --cmd sway";
+        };
       };
     };
 

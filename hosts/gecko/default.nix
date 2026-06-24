@@ -14,10 +14,9 @@
     ../common/users/justin
     ../common/optional/hyprland.nix
     ../common/optional/pipewire.nix
+    ../common/optional/niri.nix
   ];
 
-
-  bambuStudio.enable = true;
   arroquw = {
     desktop = {
       enable = true;
