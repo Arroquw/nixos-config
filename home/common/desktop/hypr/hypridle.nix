@@ -12,7 +12,10 @@ let
   hyprctl = "${lib.getExe' pkgs.hyprland "hyprctl"}";
   loginctl = "${lib.getExe' pkgs.systemd "loginctl"}";
   systemctl = "${lib.getExe' pkgs.systemd "systemctl"}";
-in {
+
+  dpms_cmd = arg: "${hyprctl} dispatch \"hl.dsp.dpms({${arg}})\"";
+in
+{
   services = {
     wlsunset = {
       enable = true;
@@ -30,35 +33,26 @@ in {
       enable = true;
       settings = {
         general = {
-          lock_cmd = "${lib.getExe' pkgs.procps "pgrep"} hyprlock || ${
-              lib.getExe' pkgs.hyprlock "hyprlock"
-            }"; # avoid starting multiple hyprlock instances.
+          lock_cmd = "${lib.getExe' pkgs.procps "pgrep"} hyprlock || ${lib.getExe' pkgs.hyprlock "hyprlock"}"; # avoid starting multiple hyprlock instances.
           before_sleep_cmd = "${loginctl} lock-session"; # lock before suspend.
-          after_sleep_cmd =
-            "${hyprctl} dispatch dpms on"; # to avoid having to press a key twice to turn on the display.
+          after_sleep_cmd = dpms_cmd "off"; # to avoid having to press a key twice to turn on the display.
         };
 
         listener = [
           {
             timeout = timeUntilLock - 30;
-            on-timeout =
-              "${lib.getExe' pkgs.brightnessctl "brightnessctl"} s 30%";
-            on-resume =
-              "${lib.getExe' pkgs.brightnessctl "brightnessctl"} s 100%";
+            on-timeout = "${lib.getExe' pkgs.brightnessctl "brightnessctl"} s 30%";
+            on-resume = "${lib.getExe' pkgs.brightnessctl "brightnessctl"} s 100%";
           }
           {
             timeout = timeUntilLock;
-            on-timeout = "${
-                lib.getExe' pkgs.procps "pgrep"
-              } hyprlock ||  ${loginctl} lock-session"; # lock screen when timeout has passed, don't lock when hyprlock was manually started
+            on-timeout = "${lib.getExe' pkgs.procps "pgrep"} hyprlock ||  ${loginctl} lock-session"; # lock screen when timeout has passed, don't lock when hyprlock was manually started
           }
 
           {
             timeout = timeUntilScreenOff;
-            on-timeout =
-              "${hyprctl} dispatch dpms off"; # screen off when timeout has passed
-            on-resume =
-              "${hyprctl} dispatch dpms on"; # screen on when activity is detected after timeout has fired.
+            on-timeout = dpms_cmd "on"; # screen off when timeout has passed
+            on-resume = dpms_cmd "off"; # screen on when activity is detected after timeout has fired.
           }
 
           {

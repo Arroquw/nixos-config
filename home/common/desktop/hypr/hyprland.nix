@@ -14,21 +14,37 @@ let
     middle_button_emulation = 1;
     tap-to-click = 1;
   };
-  closehook = pkgs.writeShellScriptBin "onwindowclose.sh" ''
-    rscloseid="$(dd if=/dev/random count=4 bs=1 | xxd -p)"
-    echo "''${1}" >"/tmp/hyprhook_close_''${rscloseid}"
-    if cat "/tmp/hyprhook_close_''${rscloseid}" | sed -r 's/^},/}/' | jq -e 'select(.class == "runescape.exe")' >/dev/null; then
-      xdotool search --classname "runescape.exe" | while read -r id; do
-        if grep -q "720x480" <<<"$(xdotool getwindowgeometry "''${id}")"; then
-            echo "Closing phantom window"
-            xdotool windowclose "''${id}"
-        fi
-      done
-    fi
-  '';
-in {
-  "$mainMod" = "SUPER";
-  input = {
+  hyprshutdown = lib.getExe pkgs.hyprshutdown;
+  runapp = lib.getExe pkgs.runapp;
+  mainmod = "SUPER";
+  mkRaw = lib.generators.mkLuaInline;
+  mkRawLong =
+    string: mkRaw (lib.strings.replaceStrings [ "\n" "\r" "\t" "  " ] [ "" "" "" "" ] string);
+  bind = args: { _args = args; };
+  bindl = args: bind (args ++ [ { locked = true; } ]);
+  bindr = args: bind (args ++ [ { release = true; } ]);
+  bindel =
+    args:
+    bind (
+      args
+      ++ [
+        {
+          locked = true;
+          repeat = true;
+        }
+      ]
+    );
+  bindm = args: bind (args ++ [ { mouse = true; } ]);
+
+  keys = keys: lib.concatStringsSep " + " keys;
+  mkeys = akeys: keys ([ mainmod ] ++ akeys);
+  mkey = key: mkeys [ key ];
+
+  exec = cmd: mkRaw "hl.dsp.exec_cmd(\"${cmd}\")";
+  rexec = cmd: exec "${runapp} ${cmd}";
+in
+{
+  config.input = {
     repeat_rate = 50;
     repeat_delay = 240;
     kb_layout = "us";
@@ -36,21 +52,20 @@ in {
     kb_options = "compose:ralt";
     follow_mouse = 1;
     sensitivity = 0;
-  } // (if builtins.elem "${config.home.username}" touchpad_users then {
-    inherit touchpad;
-  } else
-    { });
+  }
+  // (
+    if builtins.elem "${config.home.username}" touchpad_users then
+      {
+        inherit touchpad;
+      }
+    else
+      { }
+  );
 
-  gestures = if builtins.elem "${config.home.username}" touchpad_users then
-    [ "3, swipe, workspace" ]
-  else
-    [ ];
+  config.gestures =
+    if builtins.elem "${config.home.username}" touchpad_users then [ "3, swipe, workspace" ] else [ ];
 
-  "plugin" = {
-    "hyprhook" = { "closeWindow" = "${closehook}/bin/onwindowclose.sh"; };
-  };
-
-  general = {
+  config.general = {
     layout = "dwindle";
     gaps_in = 1;
     gaps_out = 1;
@@ -60,15 +75,14 @@ in {
     allow_tearing = true;
   };
 
-  group = rec {
+  config.group = rec {
     insert_after_current = true;
     groupbar = {
       height = 10;
       scrolling = false;
       stacked = 1;
       text_color = "rgb(000000)";
-      "col.active" =
-        "rgba(2a4fc05e)"; # #2a4fc0 - these 4 are gradients so they blend in with the wallpaper
+      "col.active" = "rgba(2a4fc05e)"; # #2a4fc0 - these 4 are gradients so they blend in with the wallpaper
       "col.inactive" = "rgba(2527a55e)"; # #2527a5
       "col.locked_active" = "rgba(4a4aff5e)"; # #4a4aff
       "col.locked_inactive" = "rgba(152f755e)"; # #152f75
@@ -80,7 +94,7 @@ in {
     "col.border_locked_active" = groupbar."col.locked_active";
   };
 
-  decoration = {
+  config.decoration = {
     rounding = 2;
     active_opacity = 0.99;
     inactive_opacity = 0.99;
@@ -99,40 +113,100 @@ in {
     };
   };
 
-  blurls = "waybar";
+  config.animations = {
+    enabled = true;
+  };
 
-  animations = {
-    enabled = 1;
-    bezier = "overshot,0.28,0.99,0.29,1.01";
-    animation = [
-      "windows,1,4,overshot,slide"
-      "fadeIn,1,10,default"
-      "workspaces,1,5.1,overshot,slide"
-      "border,1,14,default"
+  curve =
+    let
+      curve =
+        { name, ... }@args:
+        {
+          _args = [
+            name
+            (lib.attrsets.removeAttrs args [ "name" ])
+          ];
+        };
+      bezier =
+        { name, points }:
+        (curve {
+          inherit name points;
+          type = "bezier";
+        });
+    in
+    [
+      (bezier {
+        name = "overshot";
+        points = [
+          [
+            0.28
+            0.99
+          ]
+          [
+            0.29
+            1.01
+          ]
+        ];
+      })
     ];
-  };
 
-  dwindle = {
-    pseudotile = 1;
+  animation = [
+    {
+      leaf = "windows";
+      enabled = true;
+      speed = 4;
+      bezier = "overshot";
+      style = "slide";
+    }
+    {
+      leaf = "windowsIn";
+      enabled = true;
+      speed = 8;
+      bezier = "default";
+      style = "popin 80%";
+    }
+    {
+      leaf = "fadeIn";
+      enabled = true;
+      speed = 10;
+      bezier = "default";
+    }
+    {
+      leaf = "workspaces";
+      enabled = true;
+      speed = 5.1;
+      bezier = "overshot";
+      style = "slide";
+    }
+    {
+      leaf = "border";
+      enabled = true;
+      bezier = "default";
+      speed = 14;
+    }
+  ];
+
+  config.dwindle = {
     force_split = 0;
-    animation = "windows,1,8,default,popin 80%";
   };
 
-  master = { new_on_top = true; };
+  config.master = {
+    new_on_top = true;
+  };
 
-  render = { direct_scanout = 1; };
+  config.render = {
+    direct_scanout = 1;
+  };
 
-  misc = {
+  config.misc = {
     disable_hyprland_logo = true;
     disable_splash_rendering = true;
     key_press_enables_dpms = true;
-    mouse_move_enables_dpms =
-      if "${config.home.username}" != "justin" then true else false;
-    vfr = true;
+    mouse_move_enables_dpms = if "${config.home.username}" != "justin" then true else false;
     allow_session_lock_restore = true;
   };
 
-  cursor = {
+  config.cursor = {
     sync_gsettings_theme = true;
     hide_on_key_press = true;
     no_hardware_cursors = 1;
@@ -141,170 +215,462 @@ in {
     use_cpu_buffer = 2;
   };
 
-  exec-once = let
-    wallpaper-script =
-      "${self.packages.${pkgs.system}.changewallpaper}/bin/changewallpaper";
-    gecko = lib.optionals (config.home.username == "justin") [
-      "gtk-launch steam"
-      "gtk-launch discord"
-      "push-to-talk -v -k BTN_EXTRA -n Pause /dev/input/by-id/usb-Logitech_USB_Receiver-if02-event-mouse"
-      "push-to-talk -v -k KEY_PAUSE -n Pause /dev/input/by-id/usb-SONiX_USB_DEVICE-event-kbd"
+  layer_rule = {
+    match = {
+      namespace = "waybar";
+    };
+    blur = true;
+  };
+
+  on._args =
+    let
+      wallpaper-script = "${lib.getExe' self.packages.${pkgs.system}.changewallpaper "changewallpaper"}";
+      gecko = lib.optionals (config.home.username == "justin") [
+        "gtk-launch steam"
+        "gtk-launch discord"
+        "${
+          lib.getExe' self.packages.${pkgs.system}.wayland-push-to-talk "push-to-talk"
+        } -v -k BTN_EXTRA -n Pause /dev/input/by-id/usb-Logitech_USB_Receiver-if02-event-mouse"
+        "${
+          lib.getExe' self.packages.${pkgs.system}.wayland-push-to-talk "push-to-talk"
+        } -v -k KEY_PAUSE -n Pause /dev/input/by-id/usb-SONiX_USB_DEVICE-event-kbd"
+      ];
+      programs = [
+        "${lib.getExe' pkgs.poweralertd "poweralertd"}"
+        "${wallpaper-script}"
+        "${lib.getExe' pkgs.blueman "blueman-applet"}"
+      ]
+      ++ gecko;
+      tabbed = map (s: "\thl.exec_cmd(\"${s}\")") programs;
+      lines = lib.concatStringsSep "\n" tabbed;
+      func = mkRaw ''
+        function()
+          ${lines}
+        end'';
+    in
+    [
+      "hyprland.start"
+      func
     ];
-  in [
-    "${
-      lib.getExe' pkgs.systemd "systemctl"
-    } --user import-environment PATH && systemctl --user restart xdg-desktop-portal.service"
-    "${lib.getExe' pkgs.poweralertd "poweralertd"}"
-    "${wallpaper-script}"
-    "${lib.getExe' pkgs.blueman "blueman-applet"}"
-  ] ++ gecko;
 
-  bind = let
-    playerctl = "${lib.getExe' pkgs.playerctl "playerctl"}";
-    #grimshot = "${lib.getExe' pkgs.sway-contrib.grimshot "grimshot"}";
-    #grim = "${lib.getExe' pkgs.grim "grim"}";
-    terminal = "${lib.getExe' pkgs.kitty "kitty"}";
-    rofi = "${lib.getExe' pkgs.rofi "rofi"}";
-    thunar = "${lib.getExe' pkgs.xfce.thunar "thunar"}";
-    wlogout = "${lib.getExe' pkgs.wlogout "wlogout"}";
-    htop = "${lib.getExe' pkgs.htop "htop"}";
-    rofimoji = "${lib.getExe' pkgs.rofimoji "rofimoji"}";
-    wpctl = "${lib.getExe' pkgs.wireplumber "wpctl"}";
-    speedcrunch = "${lib.getExe' pkgs.speedcrunch "speedcrunch"}";
-    spotify = "${lib.getExe' pkgs.spotify "spotify"}";
-    gtk-launch = "${lib.getExe' pkgs.gtk3 "gtk-launch"}";
-    xdg-mime = "${lib.getExe' pkgs.xdg-utils "xdg-mime"}";
-    defaultApp = type: "${gtk-launch} $(${xdg-mime} query default ${type})";
-    browser = defaultApp "x-scheme-handler/https";
-    #lock = "${lib.getExe' pkgs.swaylock-effects "swaylock -fF"}";
-    # https://github.com/hyprwm/hyprlock/issues/59#issuecomment-2023025535
-    # Need to take a screenshot with `grim` before idling
-    #hyprlockCmd = builtins.concatStringsSep " && " (map (m:
-    #  let
-    #    screen = m.name;
-    #    screenShotfile = "/tmp/screenshot-${m.name}.png";
-    #  in "${grim} -o ${screen} ${screenShotfile}") config.monitors);
-    #"${grim} -o ${monitors.left} ${screenshotFiles.left} && ${grim} -o ${monitors.right} ${screenshotFiles.right} && ${lib.getExe' pkgs.hyprlock "hyprlock"}";
-    #lock = hyprlockCmd + " && ${lib.getExe' pkgs.hyprlock "hyprlock"}";
-    lock = ''
-      ${lib.getExe' pkgs.procps "pgrep"} hyprlock || ${
-        lib.getExe' pkgs.systemd "loginctl"
-      } "lock-session"
-    '';
-    keybind = "${self.packages.${pkgs.system}.hyprkeybinds}/bin/hyprkeybinds";
-    hyprpicker =
-      "${self.packages.${pkgs.system}.hyprpicker-script}/bin/hyprpicker-script";
-    resolution-script =
-      "${self.packages.${pkgs.system}.hypr-resolution}/bin/hypr-resolution";
-    hyprshot = "${self.packages.${pkgs.system}.hyprshot}/bin/hyprshot";
-    discordPtt = lib.optionals (config.home.username == "justin")
-      [ ",mouse:276, pass, match:class discord" ];
-  in [
-    "$mainMod,return,exec,${terminal}"
-    "$mainMod,Q,killactive,"
-    "$mainMod,R,exec,${rofi} -show drun"
-    "$mainMod,E,exec,${thunar}"
-    "$mainMod,M,exit,"
-    "$mainMod,T,togglefloating,"
-    "$mainMod SHIFT,P,pseudo,"
-    "$mainMod,G,togglesplit,"
-    "$mainMod,S,togglegroup,"
-    "$mainMod,F,fullscreen,1"
-    "$mainMod,F1,exec,${keybind}"
-    "$mainMod SHIFT,C,exec,${hyprpicker}"
-    ''$mainMod CTRL,P,exec,sh -c "hyprprop >> /tmp/hyprprop.log"''
-    "$mainMod SHIFT,F,fullscreen,0"
-    "$mainMod,ESCAPE,exec,${wlogout}"
-    "$mainMod,SPACE,exec,${lock}"
-    "$mainMod SHIFT,E,exec,${rofimoji} --keybinding-copy ctrl+c"
-    "ALTCTRL,DELETE,exec,${htop}"
-    "$mainMod,up,changegroupactive,b"
-    "$mainMod,down,changegroupactive,f"
-    "$mainMod,right,workspace,+1"
-    "$mainMod,left,workspace,-1"
-    "$mainMod SHIFT,s,moveintogroup,r"
-    "$mainMod,J,movefocus,d"
-    "$mainMod,K,movefocus,u"
-    "$mainMod,H,movefocus,l"
-    "$mainMod,L,movefocus,r"
-    "$mainMod CTRL,J,movewindoworgroup,l"
-    "$mainMod CTRL,K,movewindoworgroup,r"
-    "$mainMod CTRL,H,movewindoworgroup,u"
-    "$mainMod CTRL,L,movewindoworgroup,d"
-    "$mainMod SHIFT,J,movewindow,l"
-    "$mainMod SHIFT,K,movewindow,r"
-    "$mainMod SHIFT,H,movewindow,u"
-    "$mainMod SHIFT,L,movewindow,d"
-    "$mainMod,mouse_down,workspace,e+1"
-    "$mainMod,mouse_up,workspace,e-1"
-    ",XF86AudioMute,exec,${wpctl} set-mute @DEFAULT_AUDIO_SINK@ toggle"
-    ",XF86AudioPlay,exec,${playerctl} play-pause -i firefox"
-    ",XF86Explorer,exec,${thunar}"
-    ",XF86HomePage,exec,${browser}"
-    ",XF86Calculator,exec,${speedcrunch}"
-    ",XF86Tools,exec,${spotify}"
-    ",XF86AudioStop,exec,${playerctl} stop"
-    "$mainMod ALT,Print,exec, ${hyprshot} -m active -m output"
-    "$mainMod SHIFT,Print,exec, ${hyprshot} -zm region"
-    "$mainMod,Print,exec, ${hyprshot} -m active -m window"
-    "ALTSHIFT,Print,exec, ${hyprshot} -m active -m output --clipboard-only"
-    "CTRLSHIFT,Print,exec, ${hyprshot} -m active -m window --clipboard-only"
-    "SHIFT,Print,exec, ${hyprshot} -zm region --clipboard-only"
-    "$mainMod SHIFT,RETURN,layoutmsg,swapwithmaster"
-    "$mainMod,1,workspace,1"
-    "$mainMod,2,workspace,2"
-    "$mainMod,3,workspace,3"
-    "$mainMod,4,workspace,4"
-    "$mainMod,5,workspace,5"
-    "$mainMod,6,workspace,6"
-    "$mainMod,7,workspace,7"
-    "$mainMod,8,workspace,8"
-    "$mainMod,9,workspace,9"
-    "$mainMod,0,workspace,10"
-    "$mainMod SHIFT,1,movetoworkspacesilent,1"
-    "$mainMod SHIFT,2,movetoworkspacesilent,2"
-    "$mainMod SHIFT,3,movetoworkspacesilent,3"
-    "$mainMod SHIFT,4,movetoworkspacesilent,4"
-    "$mainMod SHIFT,5,movetoworkspacesilent,5"
-    "$mainMod SHIFT,6,movetoworkspacesilent,6"
-    "$mainMod SHIFT,7,movetoworkspacesilent,7"
-    "$mainMod SHIFT,8,movetoworkspacesilent,8"
-    "$mainMod SHIFT,9,movetoworkspacesilent,9"
-    "$mainMod SHIFT,0,movetoworkspacesilent,10"
-    "$mainMod,P,exec,${resolution-script}"
-    #",mouse:276, pass, match:class vesktop" -- Vesktop does not have support for this yet, works on main discord app
-  ] ++ discordPtt;
-
-  bindm = [ "$mainMod,mouse:272,movewindow" "$mainMod,mouse:273,resizewindow" ];
-
-  bindr = let
-    wpctl = "${lib.getExe' pkgs.wireplumber "wpctl"}";
-    playerctl = "${lib.getExe' pkgs.playerctl "playerctl"}";
-    brightnessctl = "${lib.getExe' pkgs.brightnessctl "brightnessctl"}";
-  in [
-    "$mainMod SHIFT,left,resizeactive,-40 0"
-    "$mainMod SHIFT,right,resizeactive,40 0"
-    "$mainMod SHIFT,up,resizeactive,0 -40"
-    "$mainMod SHIFT,down,resizeactive,0 40"
-    ",XF86AudioRaiseVolume,exec,${wpctl} set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 2%+"
-    ",XF86AudioLowerVolume,exec,${wpctl} set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 2%-"
-    ",XF86AudioNext,exec,${playerctl} next -i firefox"
-    ",XF86AudioPrev,exec,${playerctl} previous -i firefox"
-    ",XF86MonBrightnessUp,exec,${brightnessctl} set 10%+"
-    ",XF86MonBrightnessDown,exec,${brightnessctl} set 10%-"
-  ];
+  bind =
+    let
+      playerctl = "${lib.getExe' pkgs.playerctl "playerctl"}";
+      terminal = "${lib.getExe' pkgs.kitty "kitty"}";
+      rofi = "${lib.getExe' pkgs.rofi "rofi"}";
+      thunar = "${lib.getExe' pkgs.thunar "thunar"}";
+      wlogout = "${lib.getExe' pkgs.wlogout "wlogout"}";
+      htop = "${lib.getExe' pkgs.htop "htop"}";
+      rofimoji = "${lib.getExe' pkgs.rofimoji "rofimoji"}";
+      wpctl = "${lib.getExe' pkgs.wireplumber "wpctl"}";
+      speedcrunch = "${lib.getExe' pkgs.speedcrunch "speedcrunch"}";
+      spotify = "${lib.getExe' pkgs.spotify "spotify"}";
+      gtk-launch = "${lib.getExe' pkgs.gtk3 "gtk-launch"}";
+      xdg-mime = "${lib.getExe' pkgs.xdg-utils "xdg-mime"}";
+      defaultApp = type: "${gtk-launch} $(${xdg-mime} query default ${type})";
+      browser = defaultApp "x-scheme-handler/https";
+      lock = "${lib.getExe' pkgs.procps "pgrep"} hyprlock || ${lib.getExe' pkgs.systemd "loginctl"} lock-session";
+      keybind = "${self.packages.${pkgs.system}.hyprkeybinds}/bin/hyprkeybinds";
+      hyprpicker = "${self.packages.${pkgs.system}.hyprpicker-script}/bin/hyprpicker-script";
+      resolution-script = "${self.packages.${pkgs.system}.hypr-resolution}/bin/hypr-resolution";
+      hyprshot = "${self.packages.${pkgs.system}.hyprshot}/bin/hyprshot";
+      discordPtt = lib.optionals (config.home.username == "justin") [
+        (bindm [
+          (keys [ "mouse:276" ])
+          (mkRaw ''hl.dsp.pass({window = "class:^(discord)$"})'')
+        ])
+      ];
+    in
+    [
+      (bind [
+        (mkey "return")
+        (exec "${terminal}")
+      ])
+      (bind [
+        (mkey "Q")
+        (mkRaw "hl.dsp.window.close()")
+      ])
+      (bind [
+        (mkey "R")
+        (exec "${rofi} -show drun")
+      ])
+      (bind [
+        (mkey "E")
+        (rexec "${thunar}")
+      ])
+      (bind [
+        (mkey "M")
+        (exec hyprshutdown)
+      ])
+      (bind [
+        (mkey "F1")
+        (exec "${keybind}")
+      ])
+      (bind [
+        (mkeys [
+          "SHIFT"
+          "C"
+        ])
+        (exec "${hyprpicker}")
+      ])
+      (bind [
+        (mkeys [
+          "CTRL"
+          "P"
+        ])
+        (exec "sh -c 'hyprprop >> /tmp/hyprprop.log'")
+      ])
+      (bind [
+        (mkey "ESCAPE")
+        (exec "${wlogout}")
+      ])
+      (bind [
+        (mkey "SPACE")
+        (exec "${lock}")
+      ])
+      (bind [
+        (keys [
+          "ALT"
+          "CTRL"
+          "DELETE"
+        ])
+        (rexec "${htop}")
+      ])
+      (bind [
+        (mkey "T")
+        (mkRaw ''hl.dsp.window.float({ action = "toggle" })'')
+      ])
+      (bind [
+        (mkey "G")
+        (mkRaw ''hl.dsp.layout("togglesplit")'')
+      ])
+      (bind [
+        (mkeys [
+          "SHIFT"
+          "P"
+        ])
+        (mkRaw "hl.dsp.window.pseudo()")
+      ])
+      (bind [
+        (mkey "P")
+        (exec "${resolution-script}")
+      ])
+      (bind [
+        (mkey "F")
+        (mkRaw ''hl.dsp.window.fullscreen({mode = "maximized", action = "toggle" })'')
+      ])
+      (bind [
+        (mkeys [
+          "SHIFT"
+          "F"
+        ])
+        (mkRaw ''hl.dsp.window.fullscreen({mode = "fullscreen", action = "toggle" })'')
+      ])
+      (bind [
+        (mkey "S")
+        (mkRaw "hl.dsp.group.toggle()")
+      ])
+      (bind [
+        (mkey "up")
+        (mkRaw "hl.dsp.group.next()")
+      ])
+      (bind [
+        (mkey "down")
+        (mkRaw "hl.dsp.group.prev()")
+      ])
+      (bind [
+        (mkey "right")
+        (mkRaw ''hl.dsp.focus({workspace = "+1"})'')
+      ])
+      (bind [
+        (mkey "left")
+        (mkRaw ''hl.dsp.focus({workspace = "-1"})'')
+      ])
+      (bind [
+        (mkey "J")
+        (mkRaw ''hl.dsp.focus({direction = "d"})'')
+      ])
+      (bind [
+        (mkey "K")
+        (mkRaw ''hl.dsp.focus({direction = "u"})'')
+      ])
+      (bind [
+        (mkey "H")
+        (mkRaw ''hl.dsp.focus({direction = "l"})'')
+      ])
+      (bind [
+        (mkey "L")
+        (mkRaw ''hl.dsp.focus({direction = "r"})'')
+      ])
+      (bind [
+        (mkeys [
+          "SHIFT"
+          "S"
+        ])
+        (mkRaw ''hl.dsp.window.move({into_group = "r"})'')
+      ])
+      (bind [
+        (mkeys [
+          "CTRL"
+          "J"
+        ])
+        (mkRaw ''hl.dsp.window.move({direction = "l", group_aware = "true"})'')
+      ])
+      (bind [
+        (mkeys [
+          "CTRL"
+          "K"
+        ])
+        (mkRaw ''hl.dsp.window.move({direction = "r", group_aware = "true"})'')
+      ])
+      (bind [
+        (mkeys [
+          "CTRL"
+          "H"
+        ])
+        (mkRaw ''hl.dsp.window.move({direction = "u", group_aware = "true"})'')
+      ])
+      (bind [
+        (mkeys [
+          "CTRL"
+          "L"
+        ])
+        (mkRaw ''hl.dsp.window.move({direction = "d", group_aware = "true"})'')
+      ])
+      (bind [
+        (mkeys [
+          "SHIFT"
+          "J"
+        ])
+        (mkRaw ''hl.dsp.window.move({direction = "l", group_aware = "false"})'')
+      ])
+      (bind [
+        (mkeys [
+          "SHIFT"
+          "K"
+        ])
+        (mkRaw ''hl.dsp.window.move({direction = "r", group_aware = "false"})'')
+      ])
+      (bind [
+        (mkeys [
+          "SHIFT"
+          "H"
+        ])
+        (mkRaw ''hl.dsp.window.move({direction = "u", group_aware = "false"})'')
+      ])
+      (bind [
+        (mkeys [
+          "SHIFT"
+          "L"
+        ])
+        (mkRaw ''hl.dsp.window.move({direction = "d", group_aware = "false"})'')
+      ])
+      (bindm [
+        (mkey "mouse_down")
+        (mkRaw ''hl.dsp.window.move({workspace = "e+1"})'')
+      ])
+      (bindm [
+        (mkey "mouse_down")
+        (mkRaw ''hl.dsp.window.move({workspace = "e-1"})'')
+      ])
+      (bind [
+        (keys [ "XF86AudioMute" ])
+        (exec "${wpctl} set-mute @DEFAULT_AUDIO_SINK@ toggle")
+      ])
+      (bind [
+        (keys [ "XF86AudioPlay" ])
+        (exec "${playerctl} play-pause -i firefox")
+      ])
+      (bind [
+        (keys [ "XF86AudioStop" ])
+        (exec "${playerctl} stop")
+      ])
+      (bind [
+        (keys [ "XF86Explorer" ])
+        (rexec "thunar")
+      ])
+      (bind [
+        (keys [ "XF86HomePage" ])
+        (exec "${browser}")
+      ])
+      (bind [
+        (keys [ "XF86Calculator" ])
+        (rexec "${speedcrunch}")
+      ])
+      (bind [
+        (keys [ "XF86Tools" ])
+        (rexec "${spotify}")
+      ])
+      (bind [
+        (mkeys [
+          "ALT"
+          "PRINT"
+        ])
+        (exec "${hyprshot} -m active -m output")
+      ])
+      (bind [
+        (mkeys [
+          "SHIFT"
+          "PRINT"
+        ])
+        (exec "${hyprshot} -zm region")
+      ])
+      (bind [
+        (mkey "Print")
+        (exec " ${hyprshot} -m active -m window")
+      ])
+      (bind [
+        (keys [
+          "ALT"
+          "SHIFT"
+          "Print"
+        ])
+        (exec "${hyprshot} -m active -m output --clipboard-only")
+      ])
+      (bind [
+        (keys [
+          "CTRL"
+          "SHIFT"
+          "Print"
+        ])
+        (exec "${hyprshot} -m active -m window --clipboard-only")
+      ])
+      (bind [
+        (keys [
+          "SHIFT"
+          "Print"
+        ])
+        (exec "${hyprshot} -zm region --clipboard-only")
+      ])
+      (bind [
+        (mkeys [
+          "SHIFT"
+          "RETURN"
+        ])
+        (mkRaw ''hl.dsp.layout("swapwithmaster")'')
+      ])
+    ]
+    ++ lib.flatten (
+      (map (
+        n:
+        let
+          mod = a: b: a - (b * (a / b));
+          key = toString (mod n 10);
+          ws = toString n;
+        in
+        [
+          (bind [
+            (mkey key)
+            (mkRaw ''hl.dsp.focus({workspace = "${ws}"})'')
+          ])
+          (bind [
+            (mkeys [
+              "SHIFT"
+              key
+            ])
+            (mkRaw ''hl.dsp.window.move({workspace = "${ws}"})'')
+          ])
+        ]
+      ) (lib.range 1 10))
+    )
+    ++ discordPtt
+    ++ [
+      (bindm [
+        (mkey "mouse:272")
+        (mkRaw "hl.dsp.window.drag()")
+      ])
+      (bindm [
+        (mkey "mouse:273")
+        (mkRaw "hl.dsp.window.resize()")
+      ])
+    ]
+    ++ (
+      let
+        wpctl = "${lib.getExe' pkgs.wireplumber "wpctl"}";
+        playerctl = "${lib.getExe' pkgs.playerctl "playerctl"}";
+        brightnessctl = "${lib.getExe' pkgs.brightnessctl "brightnessctl"}";
+      in
+      [
+        (bindr [
+          (mkeys [
+            "SHIFT"
+            "left"
+          ])
+          (mkRaw ''hl.dsp.window.resize({x = "-40", y = "0", relative = "true"})'')
+        ])
+        (bindr [
+          (mkeys [
+            "SHIFT"
+            "right"
+          ])
+          (mkRaw ''hl.dsp.window.resize({x = "40", y = "0", relative = "true"})'')
+        ])
+        (bindr [
+          (mkeys [
+            "SHIFT"
+            "up"
+          ])
+          (mkRaw ''hl.dsp.window.resize({x = "0", y = "-40", relative = "true"})'')
+        ])
+        (bindr [
+          (mkeys [
+            "SHIFT"
+            "down"
+          ])
+          (mkRaw ''hl.dsp.window.resize({x = "0", y = "40", relative = "true"})'')
+        ])
+        (bindr [
+          (keys [ "XF86AudioRaiseVolume" ])
+          (exec "${wpctl} set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 2%+")
+        ])
+        (bindr [
+          (keys [ "XF86AudioLowerVolume" ])
+          (exec "${wpctl} set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 2%-")
+        ])
+        (bindr [
+          (keys [ "XF86AudioNext" ])
+          (exec "${playerctl} next -i firefox")
+        ])
+        (bindr [
+          (keys [ "XF86AudioPrev" ])
+          (exec "${playerctl} previous -i firefox")
+        ])
+        (bindr [
+          (keys [ "XF86MonBrightnessUp" ])
+          (exec "${brightnessctl} set 10%+")
+        ])
+        (bindr [
+          (keys [ "XF86MonBrightnessDown" ])
+          (exec "${brightnessctl} set 10%-")
+        ])
+      ]
+    );
 
   # Map the monitors set to hyprland config strings. Uses monitor description by default if set, otherwise name (e.g. DP-2)
-  monitor = map (m:
+  monitor = map (
+    m:
     let
-      resolution =
-        "${toString m.width}x${toString m.height}@${toString m.refreshRate}";
+      resolution = "${toString m.width}x${toString m.height}@${toString m.refreshRate}";
       position = "${toString m.x}x${toString m.y}";
       monitorString = if m.desc != null then "desc:${m.desc}" else "${m.name}";
-      vrr = if m.vrr != null then ",vrr,${toString m.vrr}" else "";
-    in "${monitorString},${
-      if m.enabled then "${resolution},${position},1${vrr}" else "disable,1"
-    }") config.monitors;
+    in
+    if m.enabled then
+      mkRawLong ''
+        {
+                disabled = false,
+                output = "${monitorString}",
+                mode = "${resolution}",
+                position = "${position}",
+                scale = "${lib.toString m.scale}",
+                vrr = ${lib.toString m.vrr},
+              }''
+    else
+      mkRawLong ''
+        {
+                disabled = true,
+                output = "${monitorString}",
+              }''
+  ) config.monitors;
 
   #  workspace as string instead of list: (only allows one workspace per monitor to be specified)
   #  workspace = map (m:
@@ -313,79 +679,190 @@ in {
   #    (lib.filter (m: m.enabled && m.workspace != null) config.monitors);
 
   # Gotta concat to take the double list into account
-  workspace = builtins.concatMap (m:
-    let
-      monitorString = if m.desc != null then "desc:${m.desc}" else "${m.name}";
-    in map (w: "${w}, monitor:${monitorString}, default:true") m.workspace)
-    (lib.filter (m: m.enabled && m.workspace != null) config.monitors) ++ [
-      "w[t1], gapsout:0, gapsin:0"
-      "w[tg1], gapsout:0, gapsin:0"
-      "f[1], gapsout:0, gapsin:0"
+  workspace_rule =
+    builtins.concatMap (
+      m:
+      let
+        monitorString = if m.desc != null then "desc:${m.desc}" else "${m.name}";
+      in
+      map (w: mkRaw "{ workspace = ${w}, monitor = \"${monitorString}\", default = true }") m.workspace
+    ) (lib.filter (m: m.enabled && m.workspace != null) config.monitors)
+    ++ [
+      (mkRaw "{workspace = \"w[t1]\", gaps_out = 0, gaps_in = 0}")
+      (mkRaw "{workspace = \"w[tg1]\", gaps_out = 0, gaps_in = 0}")
+      (mkRaw "{workspace = \"f[1]\", gaps_out = 0, gaps_in = 0}")
     ];
 
-  windowrule = let
-    gecko = lib.optionals (config.home.username == "justin") [
-      "match:class discord, opacity 0.96"
-      "match:class discord, workspace 5 silent"
-      "match:class steam, workspace 5 silent"
-      "tag +alt1app, match:title Alt1 Lite app"
-      "no_max_size on, match:tag alt1app"
-      "float on, match:tag alt1app"
-      "no_blur on, match:tag alt1app"
-      "no_initial_focus on, match:tag alt1app"
-      "border_size 0, match:tag alt1app"
-      "immediate on, match:tag alt1app"
-      "allows_input on, match:tag alt1app"
-      "tag +alt1overlay, match:title Alt1Lite overlay window"
-      "pin on, match:tag alt1overlay"
-      # "border_size 5, match:tag alt1overlay"
-      "no_focus on, match:tag alt1overlay"
-      "no_initial_focus on, match:tag alt1overlay"
-      "no_follow_mouse on, match:tag alt1overlay"
-      "no_blur on, match:tag alt1overlay"
-      "border_size 0, match:tag alt1overlay"
-      "fullscreen_state -1 2, match:tag alt1overlay"
-      "float on, match:tag alt1overlay"
-      "size 2560 1390, match:tag alt1overlay"
-      "persistent_size on, match:tag alt1overlay"
-      "suppress_event activate activatefocus fullscreen, match:tag alt1overlay"
-      "render_unfocused on, match:tag alt1overlay"
-      "workspace 1, match:tag alt1overlay"
-      "tile on, match:class rs2client.exe"
-      "workspace 1, match:class rs2client.exe"
-      "idle_inhibit always, match:class rs2client.exe"
-      "workspace 1, match:tag alt1"
-      "workspace 3, match:class jagexlauncher.exe"
-      "render_unfocused on, match:class runescape.exe"
-      "fullscreen_state -1 2, match:title GeForce NOW.*,match:class msedge-.*"
-      "no_shortcuts_inhibit on, match:title GeForce NOW.*,match:class msedge-.*"
-      "suppress_event fullscreen, match:title GeForce NOW.*,match:class msedge-.*"
-      "suppress_event fullscreen, match:title Heroes of the Storm"
-      "fullscreen_state -1 2, match:title Heroes of the Storm"
-      "workspace 1, match:title Heroes of the Storm"
-      "content game, match:title Factorio"
-    ];
-  in [
-    "match:class rofi,animation overshoot 1 4 slide"
-    "match:class rofi, float on"
-    "match:class org.pulseaudio.pavucontrol, float on"
-    "size 200 200,match:title float_kitty"
-    "float on,match:title full_kitty"
-    "tile on,match:title kitty"
-    "float on,match:title fly_is_kitty"
-    "opacity 0.92,match:class thunar"
-    "opacity 0.88,match:class obsidian"
-    "opacity 0.85,match:class neovim"
-    "float on,match:class blueman-manager"
-    "float on,match:class org.twosheds.iwgtk"
-    "float on,match:class blueberry.py"
-    "float on,match:class xdg-desktop-portal-gtk"
-    "border_size 0, match:float false, match:workspace w[t1]"
-    "rounding 0, match:float false, match:workspace w[t1]"
-    "border_size 0, match:float false, match:workspace w[tg1]"
-    "rounding 0, match:float false, match:workspace w[tg1]"
-    "border_size 0, match:float false, match:workspace f[1]"
-    "rounding 0, match:float false, match:workspace f[1]"
-  ] ++ gecko;
+  window_rule =
+    let
+      gecko = lib.optionals (config.home.username == "justin") [
+        {
+          match.class = "discord";
+          opacity = "0.96";
+          workspace = "5 silent";
+        }
+        {
+          match.class = "steam";
+          workspace = "5 silent";
+        }
+        {
+          match.title = "Alt1 Lite app";
+          tag = "+alt1app";
+        }
+        {
+          match.tag = "alt1app";
+          no_max_size = true;
+          float = true;
+          no_blur = true;
+          no_initial_focus = true;
+          border_size = 0;
+          immediate = true;
+          allows_input = true;
+        }
+        {
+          match.title = "Alt1Lite overlay window";
+          tag = "+alt1overlay";
+        }
+        {
+          match.tag = "alt1overlay";
+          pin = true;
+          no_focus = true;
+          no_initial_focus = true;
+          no_follow_mouse = true;
+          no_blur = true;
+          border_size = 0;
+          fullscreen_state = "-1 2";
+          float = true;
+          size = [
+            2560
+            1390
+          ];
+          persistent_size = true;
+          suppress_event = "activate activatefocus fullscreen";
+          render_unfocused = true;
+          workspace = 1;
+        }
+        {
+          match.class = "rs2client.exe";
+          tile = true;
+          workspace = 1;
+          idle_inhibit = "always";
+        }
+        {
+          match.tag = "alt1";
+          workspace = 1;
+        }
+        {
+          match.class = "jagexlauncher.exe";
+          workspace = 3;
+        }
+        {
+          match.class = "runescape.exe";
+          render_unfocused = true;
+        }
+        {
+          match = {
+            title = "GeForce NOW.*";
+            class = "msedge-.*";
+          };
+          fullscreen_state = "-1 2";
+          no_shortcuts_inhibit = true;
+          suppress_event = "fullscreen";
+        }
+        {
+          match.title = "Heroes of the Storm";
+          suppress_event = "fullscreen";
+          fullscreen_state = "-1 2";
+          workspace = 1;
+        }
+        {
+          match.title = "Factorio";
+          content = "game";
+        }
+      ];
+    in
+    [
+      {
+        match.class = "rofi";
+        float = true;
+      }
+      {
+        match.class = "org.pulseaudio.pavucontrol";
+        float = true;
+      }
+      {
+        match.title = "float_kitty";
+        size = [
+          200
+          200
+        ];
+        float = true;
+      }
+      {
+        match.title = "full_kitty";
+        float = true;
+      }
+      {
+        match.title = "kitty";
+        tile = true;
+      }
+      {
+        match.title = "fly_is_kitty";
+        float = true;
+      }
+      {
+        match.class = "thunar";
+        opacity = 0.92;
+      }
+      {
+        match.class = "obsidian";
+        opacity = 0.88;
+      }
+      {
+        match.class = "neovim";
+        opacity = 0.85;
+      }
+      {
+        match.class = "blueman-manager";
+        float = true;
+      }
+      {
+        match.class = "org.twosheds.iwgtk";
+        float = true;
+      }
+      {
+        match.class = "blueberry.py";
+        float = true;
+      }
+      {
+        match.class = "xdg-desktop-portal-gtk";
+        float = true;
+      }
+      {
+        match = {
+          float = false;
+          workspace = "w[t1]";
+        };
+        border_size = 0;
+        rounding = 0;
+      }
+      {
+        match = {
+          float = false;
+          workspace = "w[tg1]";
+        };
+        border_size = 0;
+        rounding = 0;
+      }
+      {
+        match = {
+          float = false;
+          workspace = "f[1]";
+        };
+        border_size = 0;
+        rounding = 0;
+      }
+    ]
+    ++ gecko;
 
 }
