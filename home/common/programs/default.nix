@@ -10,7 +10,7 @@
 
   home.packages = with pkgs; [
     gnumake
-    neofetch
+    fastfetch
     catppuccin-cursors.mochaDark
 
     # Utils

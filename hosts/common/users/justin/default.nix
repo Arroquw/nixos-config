@@ -80,7 +80,7 @@
         pkgs.gamescope-wsi
         (lutris.override (finalAttrs: {
           extraPkgs = pkgs: [
-            pkgs.wineWowPackages.stagingFull
+            pkgs.wineWow64Packages.stagingFull
             pkgs.winetricks
             pkgs.libappindicator-gtk2
             pkgs.libappindicator-gtk3
@@ -91,28 +91,23 @@
             pkgs.mangohud
           ];
         }))
+        bambu-studio
         libappindicator-gtk2
         libappindicator-gtk3
         v4l-utils
         samba
         dosbox
         winetricks
-        wine-staging
-        bottles
         nodejs
         procps
         gcc
         mesa
         gtk3
         xdotool
-        xorg.xwininfo
-        vesktop
+        xwininfo
         kdePackages.plasma-workspace
         microsoft-edge
-        clang-tools
         bear
-        gcc-arm-embedded
-        glibc_multi
         stm32cubemx
         mangohud
         virt-manager
@@ -138,5 +133,4 @@
     neededForUsers = true;
   };
 
-  programs.adb.enable = true;
 }

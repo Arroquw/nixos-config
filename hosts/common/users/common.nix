@@ -51,32 +51,28 @@
         wlogout
         wayland-protocols
         wayland-utils
-        rofimoji # Drawer + notifications
-        jellyfin-ffmpeg # multimedia libs
-        viewnior # image viewr
+        jellyfin-ffmpeg
+        viewnior
         speedcrunch
-        vlc # Video player
-        amberol # Music player
-        wf-recorder # Video recorder
-        sway-contrib.grimshot # Screenshot
-        ffmpegthumbnailer # thumbnailer
+        vlc
+        amberol
+        wf-recorder
         nordic
         xcur2png
         rubyPackages.glib2
-        libcanberra-gtk3 # notification sound
+        libcanberra-gtk3
         gtk4
         gtk3
         libadwaita
-        gnome-system-monitor
         libnotify
         dbus
         xdg-utils
         xdg-launch
         wine64Packages.waylandFull
-        wineWowPackages.stable
-        wineWowPackages.staging
+        wineWow64Packages.stable
+        wineWow64Packages.staging
         winetricks
-        wineWowPackages.waylandFull
+        wineWow64Packages.waylandFull
         wine
         (wine.override { wineBuild = "wine64"; })
         curl
@@ -89,11 +85,8 @@
         procps
         kdePackages.okular
         telegram-desktop
-        imagemagick
         htop
-        grim
         jq
-        slurp
         cifs-utils
         pay-respects
         haruna
