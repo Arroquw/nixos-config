@@ -1,10 +1,18 @@
-{ lib, pkgs, config, ... }:
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
 with lib;
 let
   cfg = config.arroquw.nvidia;
-  nvidiaPackage = config.boot.kernelPackages.nvidiaPackages.latest;
-in {
-  options.arroquw.nvidia = { enable = mkEnableOption "nvidia drivers"; };
+  # nvidiaPackage = config.boot.kernelPackages.nvidiaPackages.latest;
+in
+{
+  options.arroquw.nvidia = {
+    enable = mkEnableOption "nvidia drivers";
+  };
 
   config = mkIf cfg.enable {
     nixpkgs.config.nvidia.acceptLicense = true;
@@ -29,14 +37,12 @@ in {
       nvidia = {
         modesetting.enable = true;
         powerManagement.enable = true; # Disable if issues with sleep/suspend
-        package = nvidiaPackage;
+        # package = nvidiaPackage;
         nvidiaSettings = true;
         open = true;
       };
-      opengl.enable = true;
       graphics = {
         enable = true;
-        #driSupport = true;
         enable32Bit = true;
         extraPackages = with pkgs; [
           nvidia-vaapi-driver

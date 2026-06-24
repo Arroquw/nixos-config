@@ -1,13 +1,18 @@
-{ pkgs, stdenv, procps, gnused, lib, ... }:
+{
+  pkgs,
+  stdenv,
+  procps,
+  gnused,
+  lib,
+  ...
+}:
 let
   powerMenuScript = pkgs.writeShellScriptBin "rofi-power-menu" ''
     #!${lib.getExe' pkgs.bash "bash"}
     dir="~/.config/rofi"
     theme='style'
     # CMDs
-    uptime="$(${lib.getExe' pkgs.procps "uptime"} -p | ${
-      lib.getExe' pkgs.gnused "sed"
-    } -e 's/up //g')"
+    uptime="$(${lib.getExe' pkgs.procps "uptime"} -p | ${lib.getExe' pkgs.gnused "sed"} -e 's/up //g')"
     # Options
     shutdown=''
     reboot=''
@@ -27,9 +32,7 @@ let
 
     # Confirmation CMD
     confirm_cmd() {
-    ${
-       lib.getExe' pkgs.rofi "rofi"
-     } -theme-str 'window {location: center; anchor: center; fullscreen: false; width: 350px;}' \
+    ${lib.getExe' pkgs.rofi "rofi"} -theme-str 'window {location: center; anchor: center; fullscreen: false; width: 350px;}' \
     		-theme-str 'mainbox {children: [ "message", "listview" ];}' \
     		-theme-str 'listview {columns: 2; lines: 1;}' \
     		-theme-str 'element-text {horizontal-align: 0.5;}' \
@@ -108,7 +111,8 @@ let
             ;;
     esac
   '';
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   name = "rofi-power-menu";
 
   src = powerMenuScript;
@@ -121,4 +125,3 @@ in stdenv.mkDerivation {
     install -Dm 744 $src/bin/rofi-power-menu $out/bin/rofi-power-menu
   '';
 }
-

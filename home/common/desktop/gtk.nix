@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   gtk = {
     enable = true;
     font.name = "TeX Gyre Adventor 10";
@@ -41,7 +42,9 @@
         name = "Adwaita-dark";
         package = pkgs.adwaita-qt;
       };
-      extraConfig = { gtk-application-prefer-dark-theme = 1; };
+      extraConfig = {
+        gtk-application-prefer-dark-theme = 1;
+      };
     };
   };
 }

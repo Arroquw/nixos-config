@@ -1,19 +1,39 @@
-{ stdenv, fetchurl, unzip, autoPatchelfHook, pkgs, makeWrapper, lib
-, wrapGAppsHook3 }:
+{
+  stdenv,
+  fetchurl,
+  unzip,
+  autoPatchelfHook,
+  pkgs,
+  makeWrapper,
+  lib,
+  wrapGAppsHook3,
+}:
 
 stdenv.mkDerivation rec {
   name = "easyeda-pro";
   version = "2.2.45.4";
 
   src = fetchurl {
-    url =
-      "https://image.easyeda.com/files/easyeda-pro-linux-x64-${version}.zip";
+    url = "https://image.easyeda.com/files/easyeda-pro-linux-x64-${version}.zip";
     sha256 = "sha256-rLYVfPisNhVU2YiHVhCGQf5coWrPccYR2qbtVJENUAI=";
   };
 
-  nativeBuildInputs = [ unzip autoPatchelfHook makeWrapper wrapGAppsHook3 ];
+  nativeBuildInputs = [
+    unzip
+    autoPatchelfHook
+    makeWrapper
+    wrapGAppsHook3
+  ];
 
-  buildInputs = with pkgs; [ glib nss libdrm mesa alsa-lib libGL udev ];
+  buildInputs = with pkgs; [
+    glib
+    nss
+    libdrm
+    mesa
+    alsa-lib
+    libGL
+    udev
+  ];
 
   unpackPhase = ''
     unzip $src -d .
@@ -33,9 +53,7 @@ stdenv.mkDerivation rec {
 
   postFixup = ''
     makeWrapper $out/opt/easyeda-pro/easyeda-pro $out/bin/easyeda-pro \
-      --prefix LD_LIBRARY_PATH : ${
-        lib.makeLibraryPath buildInputs
-      }:$out/opt/easyeda-pro
+      --prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath buildInputs}:$out/opt/easyeda-pro
   '';
 
   meta = with lib; {

@@ -3,7 +3,8 @@ let
   timeUntilLock = 5 * 60;
   timeUntilScreenOff = timeUntilLock + 30;
 
-in {
+in
+{
   programs.hyprlock = {
     enable = true;
     settings = {
@@ -15,17 +16,19 @@ in {
         no_fade_in = false;
       };
 
-      background = [{
-        contrast = 0.8916;
-        brightness = 0.8172;
-        vibrancy = 0.1696;
-        vibrancy_darkness = 0.0;
-        blur_passes = 3;
-        blur_size = 8;
-        color = "rgb(64,64,64)"; # #404040
-        monitor = "";
-        path = "screenshot";
-      }];
+      background = [
+        {
+          contrast = 0.8916;
+          brightness = 0.8172;
+          vibrancy = 0.1696;
+          vibrancy_darkness = 0.0;
+          blur_passes = 3;
+          blur_size = 8;
+          color = "rgb(64,64,64)"; # #404040
+          monitor = "";
+          path = "screenshot";
+        }
+      ];
       label = [
         {
           monitor = "";
@@ -47,21 +50,21 @@ in {
         }
       ];
 
-      input-field = [{
-        monitor = "";
-        size = "250, 60";
-        outline_thickness = 2;
-        position = "0, -120";
-        dots_center = true;
-        fade_on_empty = false;
-        font_color = "rgb(202, 211, 245)";
-        inner_color = "rgb(91, 96, 120)";
-        outer_color = "rgb(24, 25, 38)";
-        placeholder_text =
-          ''<span foreground="##cad3f5">Input password...</span>'';
-        shadow_passes = 2;
-      }];
+      input-field = [
+        {
+          monitor = "";
+          size = "250, 60";
+          outline_thickness = 2;
+          position = "0, -120";
+          dots_center = true;
+          fade_on_empty = false;
+          font_color = "rgb(202, 211, 245)";
+          inner_color = "rgb(91, 96, 120)";
+          outer_color = "rgb(24, 25, 38)";
+          placeholder_text = ''<span foreground="##cad3f5">Input password...</span>'';
+          shadow_passes = 2;
+        }
+      ];
     };
   };
 }
-

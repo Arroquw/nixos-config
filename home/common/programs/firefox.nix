@@ -1,8 +1,9 @@
-{ pkgs, ... }: {
+{ pkgs, config, ... }:
+{
   programs.firefox = {
     enable = true;
-    package =
-      pkgs.firefox; # inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin;
+    package = pkgs.firefox; # inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin;
+    configPath = "${config.xdg.configHome}/mozilla/firefox";
     # package = pkgs.wrapFirefox pkgs.firefox-wayland {
     #   extraExtensions = [
     #     (fetchfirefoxaddon {
@@ -42,6 +43,8 @@
     #     };
     #   };
     # };
-    profiles.default = { isDefault = true; };
+    profiles.default = {
+      isDefault = true;
+    };
   };
 }

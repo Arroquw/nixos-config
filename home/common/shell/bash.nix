@@ -1,5 +1,9 @@
-{ pkgs, ... }: {
-  home.packages = with pkgs; [ zsh-fzf-history-search fzf-zsh fzf ];
+{ pkgs, ... }:
+{
+  home.packages = with pkgs; [
+    zsh-fzf-history-search
+    fzf
+  ];
   programs = {
     bash = {
       enable = true;
@@ -29,7 +33,10 @@
       };
       oh-my-zsh = {
         enable = true;
-        plugins = [ "fzf" "git" ];
+        plugins = [
+          "fzf"
+          "git"
+        ];
         theme = "robbyrussell";
       };
       initContent = ''

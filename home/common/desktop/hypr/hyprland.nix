@@ -1,4 +1,10 @@
-{ config, self, pkgs, lib, ... }:
+{
+  config,
+  self,
+  pkgs,
+  lib,
+  ...
+}:
 let
   touchpad_users = [ "jusson" ];
   touchpad = {

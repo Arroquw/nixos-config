@@ -26,7 +26,8 @@ let
     "x-scheme-handler/tg" = [ "telegramdesktop.desktop" ];
     "x-scheme-handler/bambustudio" = [ "BambuStudio.desktop" ];
   };
-in {
+in
+{
   home.packages = with pkgs; [ xdg-utils ];
 
   xdg = {

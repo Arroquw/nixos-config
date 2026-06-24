@@ -110,7 +110,10 @@
   keymaps = [
     # Show which-key
     {
-      mode = [ "n" "v" ];
+      mode = [
+        "n"
+        "v"
+      ];
       key = "<C-Space>";
       action = "<cmd>WhichKey<CR>";
       options.desc = "Which Key";
@@ -137,25 +140,37 @@
     }
     # Clipboard
     {
-      mode = [ "n" "v" ];
+      mode = [
+        "n"
+        "v"
+      ];
       key = "<leader>y";
       action = ''"+y'';
       options.desc = "Copy to system clipboard";
     }
     {
-      mode = [ "n" "v" ];
+      mode = [
+        "n"
+        "v"
+      ];
       key = "<leader>Y";
       action = ''"+yg_'';
       options.desc = "Copy from cursor till end of line to system clipboard";
     }
     {
-      mode = [ "n" "v" ];
+      mode = [
+        "n"
+        "v"
+      ];
       key = "<leader>p";
       action = ''"+p'';
       options.desc = "Paste from system clipboard";
     }
     {
-      mode = [ "n" "v" ];
+      mode = [
+        "n"
+        "v"
+      ];
       key = "<leader>d";
       action = ''"+d'';
       options.desc = "Cut to system clipboard";
@@ -298,9 +313,14 @@
     end, {})
   '';
 
-  autoCmd = [{
-    event = [ "FileType" ];
-    pattern = [ "*.c" "*.h" ];
-    callback = "SetCFileTypeSettings()";
-  }];
+  autoCmd = [
+    {
+      event = [ "FileType" ];
+      pattern = [
+        "*.c"
+        "*.h"
+      ];
+      callback = "SetCFileTypeSettings()";
+    }
+  ];
 }

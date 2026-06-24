@@ -1,4 +1,13 @@
-{ stdenv, fetchFromGitHub, lib, gcc, libevdev, xdotool, pkg-config, libX11, ...
+{
+  stdenv,
+  fetchFromGitHub,
+  lib,
+  gcc,
+  libevdev,
+  xdotool,
+  pkg-config,
+  libX11,
+  ...
 }:
 stdenv.mkDerivation (finalAttrs: {
   pname = "wayland-push-to-talk-fix";
@@ -11,7 +20,13 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-ZRSgrQHnNdEF2PyaflmI5sUoKCxtZ0mQY/bb/9PH64c=";
   };
 
-  buildInputs = [ libevdev pkg-config gcc xdotool libX11 ];
+  buildInputs = [
+    libevdev
+    pkg-config
+    gcc
+    xdotool
+    libX11
+  ];
 
   installPhase = ''
     mkdir -p $out/bin

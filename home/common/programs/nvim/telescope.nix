@@ -6,6 +6,7 @@
     extensions = {
       fzf-native.enable = true;
       media-files.enable = true;
+      file-browser.enable = true;
     };
   };
 }

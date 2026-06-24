@@ -1,12 +1,12 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{ pkgs, lib, ... }: {
+{ pkgs, lib, ... }:
+{
   nix.settings = {
     substituters = [ "https://hyprland.cachix.org" ];
     trusted-substituters = [ "https://hyprland.cachix.org" ];
-    trusted-public-keys =
-      [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
+    trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
   };
   imports = [
     ./hardware-configuration.nix
@@ -40,12 +40,12 @@
   ];
 
   environment.etc."request-key.conf" = {
-    source = lib.mkForce (pkgs.writeText "request-key.conf" ''
-      create id_resolver * * ${
-        lib.getExe' pkgs.nfs-utils "nfsidmap"
-      } -t 600 %k %d
-      create dns_resolver * * /run/current-system/sw/bin/key.dns_resolver %k
-    '');
+    source = lib.mkForce (
+      pkgs.writeText "request-key.conf" ''
+        create id_resolver * * ${lib.getExe' pkgs.nfs-utils "nfsidmap"} -t 600 %k %d
+        create dns_resolver * * /run/current-system/sw/bin/key.dns_resolver %k
+      ''
+    );
   };
 
   fileSystems = {

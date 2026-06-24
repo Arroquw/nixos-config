@@ -1,7 +1,15 @@
-{ lib, pkgs, config, inputs, ... }:
+{
+  lib,
+  pkgs,
+  config,
+  inputs,
+  ...
+}:
 with lib;
-let cfg = config.arroquw.desktop;
-in {
+let
+  cfg = config.arroquw.desktop;
+in
+{
   options.arroquw.desktop = {
     enable = mkEnableOption "the default desktop configuration";
 
@@ -16,8 +24,7 @@ in {
       type = types.str;
       default = "auto";
       example = "1024x768";
-      description =
-        "The gfxmode to pass to GRUB when loading a graphical boot interface under EFI.";
+      description = "The gfxmode to pass to GRUB when loading a graphical boot interface under EFI.";
     };
   };
 
@@ -26,9 +33,7 @@ in {
       enable = true;
       settings = {
         default_session = {
-          command = "${
-              lib.getExe' pkgs.tuigreet "tuigreet"
-            } --time --cmd start-hyprland";
+          command = "${lib.getExe' pkgs.tuigreet "tuigreet"} --time --cmd start-hyprland";
           user = "greeter";
         };
       };
@@ -58,8 +63,7 @@ in {
         '';
         theme = pkgs.fetchzip {
           # https://github.com/AdisonCavani/distro-grub-themes
-          url =
-            "https://github.com/AdisonCavani/distro-grub-themes/raw/master/themes/nixos.tar";
+          url = "https://github.com/AdisonCavani/distro-grub-themes/raw/master/themes/nixos.tar";
           hash = "sha256-ivi68lkV2mypf99BOEnRiTpc4bqupfGJR7Q0Fm898kM=";
           stripRoot = false;
         };
@@ -77,8 +81,24 @@ in {
       '';
       firewall = {
         enable = true;
-        allowedTCPPorts =
-          [ 80 111 443 21 22 25 53 110 143 445 2049 3389 4000 4001 4002 5900 ];
+        allowedTCPPorts = [
+          80
+          111
+          443
+          21
+          22
+          25
+          53
+          110
+          143
+          445
+          2049
+          3389
+          4000
+          4001
+          4002
+          5900
+        ];
         extraCommands = ''
           iptables -t raw -A OUTPUT -p udp -m udp --dport 137 -j CT --helper netbios-ns
           iptables -I OUTPUT 1 -m owner --gid-owner no-internet -j DROP
@@ -120,23 +140,26 @@ in {
     };
 
     # TODO: decide what to do with this
-    environment.variables = let
-      modifiers = lib.optionalAttrs (cfg.hostname == "lnxclnt2840") {
-        WLR_DRM_NO_MODIFIERS = "1";
-        AQ_NO_MODIFIERS = "1";
-      };
-    in {
-      BROWSER = "firefox";
-      NIXOS_OZONE_WL = "1";
-      DIRENV_LOG_FORMAT = "";
-      MOZ_ENABLE_WAYLAND = "1";
-      CLUTTER_BACKEND = "wayland";
-    } // modifiers;
+    environment.variables =
+      let
+        modifiers = lib.optionalAttrs (cfg.hostname == "lnxclnt2840") {
+          WLR_DRM_NO_MODIFIERS = "1";
+          AQ_NO_MODIFIERS = "1";
+        };
+      in
+      {
+        BROWSER = "firefox";
+        NIXOS_OZONE_WL = "1";
+        DIRENV_LOG_FORMAT = "";
+        MOZ_ENABLE_WAYLAND = "1";
+        CLUTTER_BACKEND = "wayland";
+      }
+      // modifiers;
 
     programs = {
       thunar = {
         enable = true;
-        plugins = with pkgs.xfce; [
+        plugins = with pkgs; [
           thunar-archive-plugin
           thunar-volman
           thunar-media-tags-plugin

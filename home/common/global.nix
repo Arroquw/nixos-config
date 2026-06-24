@@ -1,11 +1,21 @@
-{ inputs, outputs, lib, config, nixvim, ... }:
-let inherit (inputs.nix-colors) colorSchemes;
-in {
+{
+  inputs,
+  outputs,
+  lib,
+  config,
+  nixvim,
+  ...
+}:
+let
+  inherit (inputs.nix-colors) colorSchemes;
+in
+{
   imports = [
     ./shell
     inputs.nix-colors.homeManagerModule
     inputs.nixvim.homeModules.nixvim
-  ] ++ (builtins.attrValues outputs.homeModules);
+  ]
+  ++ (builtins.attrValues outputs.homeModules);
   colorscheme = lib.mkDefault colorSchemes.tokyo-night-storm;
 
   programs = {

@@ -1,4 +1,13 @@
-{ lib, gnumake, libusb1, pkg-config, stdenv, gcc, coreutils, fetchFromGitHub }:
+{
+  lib,
+  gnumake,
+  libusb1,
+  pkg-config,
+  stdenv,
+  gcc,
+  coreutils,
+  fetchFromGitHub,
+}:
 stdenv.mkDerivation (finalAttrs: rec {
   pname = "SF100Linux";
   version = "V1.14.20.x";
@@ -10,7 +19,12 @@ stdenv.mkDerivation (finalAttrs: rec {
     hash = "sha256-hQvBZIwaWEC41vj2flaekIUP9Fwtj/JPi3XwRxfUbD0=";
   };
 
-  nativeBuildInputs = [ gnumake pkg-config gcc coreutils ];
+  nativeBuildInputs = [
+    gnumake
+    pkg-config
+    gcc
+    coreutils
+  ];
 
   buildInputs = [ libusb1 ];
 
@@ -24,8 +38,7 @@ stdenv.mkDerivation (finalAttrs: rec {
   '';
 
   meta = {
-    description =
-      "Linux software for Dediprog SF100 and SF600 SPI flash programmers";
+    description = "Linux software for Dediprog SF100 and SF600 SPI flash programmers";
     homepage = "https://www.dediprog.com/";
     license = lib.licenses.gpl2;
     maintainers = with lib.maintainers; [ arroquw ];

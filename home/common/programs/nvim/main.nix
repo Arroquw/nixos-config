@@ -25,6 +25,8 @@ _: {
     refactoring = {
       enable = true;
       enableTelescope = true;
+      autoLoad = true;
+      callSetup = true;
     };
 
     indent-blankline = {

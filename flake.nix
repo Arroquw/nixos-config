@@ -47,23 +47,31 @@
   };
 
   outputs =
-    inputs@{ self, nixpkgs, home-manager, pre-commit-hooks, nixvim, ... }:
+    inputs@{
+      self,
+      nixpkgs,
+      home-manager,
+      pre-commit-hooks,
+      nixvim,
+      ...
+    }:
     let
       inherit (self) outputs;
       lib = nixpkgs.lib // home-manager.lib;
       systems = [ "x86_64-linux" ];
-      forEachSystem = f:
-        lib.genAttrs systems (system: f system pkgsFor.${system});
-      pkgsFor = lib.genAttrs systems (system:
+      forEachSystem = f: lib.genAttrs systems (system: f system pkgsFor.${system});
+      pkgsFor = lib.genAttrs systems (
+        system:
         import nixpkgs {
           inherit system;
           config.allowUnfree = true;
-        });
+        }
+      );
       addPreCommitCheck = system: {
         pre-commit-check = pre-commit-hooks.lib.${system}.run {
           src = ./.;
           hooks = {
-            nixfmt-classic.enable = true;
+            nixfmt.enable = true;
             nil.enable = true;
             shellcheck.enable = true;
             black.enable = true;
@@ -77,88 +85,142 @@
             };
             statix = {
               enable = true;
-              settings = { ignore = [ "hardware-configuration.nix" ]; };
+              settings = {
+                ignore = [ "hardware-configuration.nix" ];
+              };
             };
           };
         };
       };
-    in {
-      nixosModules = builtins.listToAttrs (map (x: {
-        name = x;
-        value = import (./modules/nixos + "/${x}");
-      }) (builtins.attrNames (builtins.readDir ./modules/nixos)));
+    in
+    {
+      nixosModules = builtins.listToAttrs (
+        map (x: {
+          name = x;
+          value = import (./modules/nixos + "/${x}");
+        }) (builtins.attrNames (builtins.readDir ./modules/nixos))
+      );
 
       homeModules = import ./modules/home-manager;
       checks = forEachSystem (system: pkgs: addPreCommitCheck system);
       packages = forEachSystem (system: pkgs: import ./pkgs { inherit pkgs; });
-      devShells = forEachSystem
-        (system: pkgs: import ./shell.nix { inherit self system pkgs; });
+      devShells = forEachSystem (system: pkgs: import ./shell.nix { inherit self system pkgs; });
 
-      formatter = forEachSystem (system: pkgs: pkgs.nixfmt-classic);
+      formatter = forEachSystem (system: pkgs: pkgs.nixfmt);
 
       nixosConfigurations = {
         # Main desktop
-        gecko = let user = "justin";
-        in lib.nixosSystem {
-          modules = [
-            ./hosts/gecko
-            home-manager.nixosModules.default
-            {
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                extraSpecialArgs = {
-                  inherit user self inputs outputs nixvim;
-                  pkgs = pkgsFor.x86_64-linux;
+        gecko =
+          let
+            user = "justin";
+          in
+          lib.nixosSystem {
+            modules = [
+              ./hosts/gecko
+              home-manager.nixosModules.default
+              {
+                home-manager = {
+                  useGlobalPkgs = true;
+                  useUserPackages = true;
+                  extraSpecialArgs = {
+                    inherit
+                      user
+                      self
+                      inputs
+                      outputs
+                      nixvim
+                      ;
+                    pkgs = pkgsFor.x86_64-linux;
+                  };
+                  users."${user}" = {
+                    imports = [ ./home/justin/gecko.nix ];
+                  };
                 };
-                users."${user}" = { imports = [ ./home/justin/gecko.nix ]; };
-              };
-            }
-            { imports = builtins.attrValues self.nixosModules; }
-          ];
-          specialArgs = { inherit user self inputs outputs; };
-        };
+              }
+              { imports = builtins.attrValues self.nixosModules; }
+            ];
+            specialArgs = {
+              inherit
+                user
+                self
+                inputs
+                outputs
+                ;
+            };
+          };
         # Work laptop
-        lnxclnt2840 = let user = "jusson";
-        in lib.nixosSystem {
-          modules = [
-            ./hosts/lnxclnt2840
-            home-manager.nixosModules.default
-            {
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                extraSpecialArgs = {
-                  inherit user self inputs outputs nixvim;
-                  pkgs = pkgsFor.x86_64-linux;
+        lnxclnt2840 =
+          let
+            user = "jusson";
+          in
+          lib.nixosSystem {
+            modules = [
+              ./hosts/lnxclnt2840
+              home-manager.nixosModules.default
+              {
+                home-manager = {
+                  useGlobalPkgs = true;
+                  useUserPackages = true;
+                  extraSpecialArgs = {
+                    inherit
+                      user
+                      self
+                      inputs
+                      outputs
+                      nixvim
+                      ;
+                    pkgs = pkgsFor.x86_64-linux;
+                  };
+                  users."${user}" = {
+                    imports = [ ./home/jusson/lnxclnt2840.nix ];
+                  };
                 };
-                users."${user}" = {
-                  imports = [ ./home/jusson/lnxclnt2840.nix ];
-                };
-              };
-            }
+              }
 
-            { imports = builtins.attrValues self.nixosModules; }
-          ];
-          specialArgs = { inherit user self inputs outputs; };
-        };
+              { imports = builtins.attrValues self.nixosModules; }
+            ];
+            specialArgs = {
+              inherit
+                user
+                self
+                inputs
+                outputs
+                ;
+            };
+          };
       };
 
       homeConfigurations = {
         # Desktops
         "jusson@lnxclnt2840" = lib.homeManagerConfiguration {
-          modules = [ ./home/jusson/lnxclnt2840.nix ./home/common/nixpkgs.nix ];
+          modules = [
+            ./home/jusson/lnxclnt2840.nix
+            ./home/common/nixpkgs.nix
+          ];
           pkgs = pkgsFor.x86_64-linux;
           extraSpecialArgs = {
-            inherit self inputs outputs nixvim;
+            inherit
+              self
+              inputs
+              outputs
+              nixvim
+              ;
             user = "jusson";
           };
         };
         "justin@gecko" = lib.homeManagerConfiguration {
-          modules = [ ./home/justin/gecko.nix ./home/common/nixpkgs.nix ];
+          modules = [
+            ./home/justin/gecko.nix
+            ./home/common/nixpkgs.nix
+          ];
           pkgs = pkgsFor.x86_64-linux;
           extraSpecialArgs = {
-            inherit self inputs outputs nixvim;
+            inherit
+              self
+              inputs
+              outputs
+              nixvim
+              ;
             user = "justin";
           };
         };

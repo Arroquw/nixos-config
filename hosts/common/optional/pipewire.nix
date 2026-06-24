@@ -1,4 +1,5 @@
-{ pkgs, user, ... }: {
+{ pkgs, user, ... }:
+{
   # Enable sound with pipewire.
   #  sound.enable = true;
   security.rtkit.enable = true;

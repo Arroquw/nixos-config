@@ -1,5 +1,11 @@
-{ pkgs, ... }: {
-  imports = [ ./bash.nix ./direnv.nix ./git.nix ./starship.nix ];
+{ pkgs, ... }:
+{
+  imports = [
+    ./bash.nix
+    ./direnv.nix
+    ./git.nix
+    ./starship.nix
+  ];
 
   home.packages = with pkgs; [
     ripgrep # Better grep
@@ -8,7 +14,7 @@
     fd # Better find
 
     nil # Nix LSP
-    nixfmt-classic # Nix formatter
+    nixfmt # Nix formatter
     deadnix
   ];
 }

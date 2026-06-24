@@ -1,7 +1,14 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 with lib;
-let cfg = config.arroquw.games;
-in {
+let
+  cfg = config.arroquw.games;
+in
+{
   options.arroquw.games = {
     enable = mkEnableOption "Whether to include games or not";
   };
@@ -12,8 +19,8 @@ in {
     programs.steam = {
       enable = true;
       package = pkgs.steam.override {
-        extraPkgs = pkgs:
-          with pkgs; [
+        extraPkgs =
+          pkgs: with pkgs; [
             gamescope-wsi
             gamescope
             gamemode

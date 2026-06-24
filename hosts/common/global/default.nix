@@ -1,4 +1,10 @@
-{ lib, pkgs, ... }: {
+{
+  self,
+  lib,
+  pkgs,
+  ...
+}:
+{
   imports = [
     ./acme.nix
     ./nix.nix
@@ -20,7 +26,9 @@
 
   environment = {
     shells = with pkgs; [ zsh ];
-    variables = { EDITOR = "vim"; };
+    variables = {
+      EDITOR = "vim";
+    };
     loginShellInit = ''
       if [ -e $HOME/.profile ]
       then
@@ -38,7 +46,13 @@
       VIDEOS=$HOME/Video
     '';
 
-    systemPackages = with pkgs; [ vim git coreutils procps busybox ];
+    systemPackages = with pkgs; [
+      vim
+      git
+      coreutils
+      procps
+      busybox
+    ];
   };
 
   # Set your time zone.
@@ -46,7 +60,9 @@
 
   boot.supportedFilesystems = [ "ntfs" ];
 
-  hardware = { bluetooth.enable = true; };
+  hardware = {
+    bluetooth.enable = true;
+  };
 
   systemd.user.extraConfig = ''
     DefaultEnvironment="PATH=/run/wrappers/bin:/home/jusson/.local/state/nix/profile/bin:/etc/profiles/per-user/jusson/bin:/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin"

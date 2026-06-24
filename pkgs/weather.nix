@@ -1,4 +1,9 @@
-{ stdenv, pkgs, nix, ... }:
+{
+  stdenv,
+  pkgs,
+  nix,
+  ...
+}:
 
 stdenv.mkDerivation {
   name = "waybar-weather";
@@ -7,8 +12,12 @@ stdenv.mkDerivation {
 
   buildInputs = [
     nix
-    (pkgs.python311.withPackages
-      (pythonPackages: with pythonPackages; [ hjson requests ]))
+    (pkgs.python3.withPackages (
+      pythonPackages: with pythonPackages; [
+        hjson
+        requests
+      ]
+    ))
   ];
 
   dontUnpack = true;
@@ -18,4 +27,3 @@ stdenv.mkDerivation {
     install -Dm 744 $src $out/bin/waybar-weather
   '';
 }
-

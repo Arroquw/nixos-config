@@ -1,4 +1,10 @@
-{ config, pkgs, lib, ... }: {
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+{
   # Needed for firefox and thunderbird
   home.packages = [ pkgs.libnotify ];
 
@@ -21,9 +27,7 @@
       layer = "overlay";
     };
     extraConfig = ''
-      on-notify=exec ${
-        lib.getExe' pkgs.libcanberra-gtk3 "canberra-gtk-play"
-      } -i window-attention
+      on-notify=exec ${lib.getExe' pkgs.libcanberra-gtk3 "canberra-gtk-play"} -i window-attention
       [app-name="prospect-mail"]
       invisible=1
       on-notify=exec :

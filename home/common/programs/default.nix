@@ -1,4 +1,5 @@
-{ pkgs, nixvim, ... }: {
+{ pkgs, nixvim, ... }:
+{
   imports = [
     ./firefox.nix
     ./kitty.nix

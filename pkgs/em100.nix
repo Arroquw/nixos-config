@@ -1,4 +1,13 @@
-{ lib, gnumake, libusb1, pkg-config, stdenv, gcc, curl, fetchgit }:
+{
+  lib,
+  gnumake,
+  libusb1,
+  pkg-config,
+  stdenv,
+  gcc,
+  curl,
+  fetchgit,
+}:
 stdenv.mkDerivation (finalAttrs: rec {
   pname = "em100";
   version = "main";
@@ -9,8 +18,15 @@ stdenv.mkDerivation (finalAttrs: rec {
     hash = "sha256-JDgzJgUfDl42W0SnPLU82mcmUAqqJF73oCbVRMrRjCw=";
   };
 
-  nativeBuildInputs = [ gnumake pkg-config gcc ];
-  buildInputs = [ libusb1 curl ];
+  nativeBuildInputs = [
+    gnumake
+    pkg-config
+    gcc
+  ];
+  buildInputs = [
+    libusb1
+    curl
+  ];
 
   installPhase = ''
       mkdir -p $etc $out
@@ -19,8 +35,7 @@ stdenv.mkDerivation (finalAttrs: rec {
   '';
 
   meta = {
-    description =
-      "This open source tool allows operating a Dediprog EM100Pro SPI NOR Flash Emulator under Linux and OSX";
+    description = "This open source tool allows operating a Dediprog EM100Pro SPI NOR Flash Emulator under Linux and OSX";
     homepage = "https://review.coreboot.org/q/project:em100";
     license = lib.licenses.gpl2;
     maintainers = with lib.maintainers; [ arroquw ];

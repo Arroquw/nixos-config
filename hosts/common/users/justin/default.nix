@@ -1,4 +1,10 @@
-{ self, pkgs, config, ... }: {
+{
+  self,
+  pkgs,
+  config,
+  ...
+}:
+{
   imports = [ ../common.nix ];
   nixpkgs.config.allowUnfree = true;
   users = {
@@ -20,26 +26,25 @@
       packages = with pkgs; [
         (pkgs.makeDesktopItem {
           name = "discord";
-          exec = "${
-              lib.getExe' pkgs.discord "discord"
-            } --use-gl=desktop --enable-gpu-rasterization --enable-features=UseOzonePlatform --ozone-platform=wayland";
+          exec = "${lib.getExe' pkgs.discord "discord"} --use-gl=desktop --enable-gpu-rasterization --enable-features=UseOzonePlatform --ozone-platform=wayland";
           desktopName = "Discord";
-          icon =
-            "${pkgs.xfce.xfce4-icon-theme}/share/icons/apps/scalable/discord.svg";
+          icon = "${pkgs.xfce4-icon-theme}/share/icons/apps/scalable/discord.svg";
         })
         discord
-        (pkgs.appimageTools.wrapType1 (let
-          pname = "arduino-ide";
-          version = "2.3.4";
-        in {
-          inherit pname version;
-          src = pkgs.fetchurl {
-            url =
-              "https://downloads.arduino.cc/arduino-ide/${pname}_${version}_Linux_64bit.AppImage";
-            sha256 = "sha256-PyW3fJPEQmo0+ZYi/HubW8J66KeAnoN2RhYr9Yu2WU8=";
-          };
-          extraPkgs = pkgs: [ libsecret ];
-        }))
+        (pkgs.appimageTools.wrapType1 (
+          let
+            pname = "arduino-ide";
+            version = "2.3.4";
+          in
+          {
+            inherit pname version;
+            src = pkgs.fetchurl {
+              url = "https://downloads.arduino.cc/arduino-ide/${pname}_${version}_Linux_64bit.AppImage";
+              sha256 = "sha256-PyW3fJPEQmo0+ZYi/HubW8J66KeAnoN2RhYr9Yu2WU8=";
+            };
+            extraPkgs = pkgs: [ libsecret ];
+          }
+        ))
         # (let
         #   pname = "citra";
         #   version = "608383e";
@@ -54,16 +59,18 @@
         #     '';
         #   };
         # in pkgs.appimageTools.wrapType1 { inherit pname version src; })
-        (let
-          pname = "azahar";
-          version = "2122.1";
-          src = pkgs.fetchurl {
-            name = "azahar";
-            url =
-              "https://github.com/azahar-emu/azahar/releases/download/${version}/azahar.AppImage";
-            sha256 = "sha256-x90f43LNxS/TSFtEs7j/luYFkHwC59lKhROqv68V0YE=";
-          };
-        in pkgs.appimageTools.wrapType1 { inherit pname version src; })
+        (
+          let
+            pname = "azahar";
+            version = "2122.1";
+            src = pkgs.fetchurl {
+              name = "azahar";
+              url = "https://github.com/azahar-emu/azahar/releases/download/${version}/azahar.AppImage";
+              sha256 = "sha256-x90f43LNxS/TSFtEs7j/luYFkHwC59lKhROqv68V0YE=";
+            };
+          in
+          pkgs.appimageTools.wrapType1 { inherit pname version src; }
+        )
         self.packages.${pkgs.system}.krisp-patch
         self.packages.${pkgs.system}.dcpl2530dwlpr
         self.packages.${pkgs.system}.dcpl2530dwlpr-scan
@@ -113,14 +120,14 @@
         libvirt-glib
         zfs
         looking-glass-client
-        (scream.override (finalAttrs: { pcapSupport = true; }))
+        (scream.override (finalAttrs: {
+          pcapSupport = true;
+        }))
         virtiofsd
         OVMFFull
         (pkgs.makeDesktopItem {
           name = "microsoft-edge-wl";
-          exec = "${
-              lib.getExe' pkgs.microsoft-edge "microsoft-edge"
-            } --enable-features=UseOzonePlatform --ozone-platform=wayland --use-gl=desktop";
+          exec = "${lib.getExe' pkgs.microsoft-edge "microsoft-edge"} --enable-features=UseOzonePlatform --ozone-platform=wayland --use-gl=desktop";
           desktopName = "microsoft-edge-wayland";
         })
       ];

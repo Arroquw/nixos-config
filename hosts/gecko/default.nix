@@ -1,12 +1,12 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{ pkgs, lib, ... }: {
+{ pkgs, lib, ... }:
+{
   nix.settings = {
     substituters = [ "https://hyprland.cachix.org" ];
     trusted-substituters = [ "https://hyprland.cachix.org" ];
-    trusted-public-keys =
-      [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
+    trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
   };
   imports = [
     ./hardware-configuration.nix
@@ -42,21 +42,20 @@
     };
     pipewire.wireplumber = {
       configPackages = [
-        (pkgs.writeTextDir
-          "share/wireplumber/wireplumber.conf.d/51-alsa-disable.conf" ''
-            rule = {
-                matches = {
-                  {
-                    { "device.name","equals","alsa_card.pci-0000_01_00.1" },
-                  },
+        (pkgs.writeTextDir "share/wireplumber/wireplumber.conf.d/51-alsa-disable.conf" ''
+          rule = {
+              matches = {
+                {
+                  { "device.name","equals","alsa_card.pci-0000_01_00.1" },
                 },
-                apply_properties = {
-                  ["device.disabled"] = true,
-                },
-              }
+              },
+              apply_properties = {
+                ["device.disabled"] = true,
+              },
+            }
 
-              table.insert(alsa_monitor.rules,rules)
-          '')
+            table.insert(alsa_monitor.rules,rules)
+        '')
       ];
     };
   };
@@ -65,28 +64,43 @@
     "/mnt/brokenconn" = {
       device = "/dev/disk/by-label/MICRON_BROKEN_CONN";
       fsType = "ntfs-3g";
-      options = [ "rw" "uid=1000" "nofail" "x-systemd.device-timeout=5s" ];
+      options = [
+        "rw"
+        "uid=1000"
+        "nofail"
+        "x-systemd.device-timeout=5s"
+      ];
     };
 
     "/mnt/hdd" = {
       device = "/dev/disk/by-label/HDD";
       fsType = "ntfs-3g";
-      options = [ "rw" "uid=1000" ];
+      options = [
+        "rw"
+        "uid=1000"
+      ];
     };
 
     "/mnt/intel-nvme" = {
       device = "/dev/disk/by-label/NVME_1TB";
       fsType = "ntfs-3g";
-      options = [ "rw" "uid=1000" ];
+      options = [
+        "rw"
+        "uid=1000"
+      ];
     };
 
     "/mnt/windows" = {
       device = "/dev/disk/by-path/pci-0000:02:00.0-nvme-1-part2";
       fsType = "ntfs-3g";
-      options = [ "rw" "uid=1000" ];
+      options = [
+        "rw"
+        "uid=1000"
+      ];
     };
     "/export/share" = {
       device = "/mnt/intel-nvme/Pictures";
+      fsType = "ntfs-3g";
       options = [ "bind" ];
     };
   };
@@ -114,17 +128,25 @@
   '';
 
   networking = {
-    bridges = { "br0" = { interfaces = [ "enp5s0" ]; }; };
+    bridges = {
+      "br0" = {
+        interfaces = [ "enp5s0" ];
+      };
+    };
     useDHCP = false;
     interfaces = {
       "br0" = {
         useDHCP = false;
-        ipv4.addresses = [{
-          address = "192.168.2.1";
-          prefixLength = 24;
-        }];
+        ipv4.addresses = [
+          {
+            address = "192.168.2.1";
+            prefixLength = 24;
+          }
+        ];
       };
-      "enp5s0" = { useDHCP = false; };
+      "enp5s0" = {
+        useDHCP = false;
+      };
       "eno1".useDHCP = true;
     };
   };
@@ -170,12 +192,8 @@
           #!/usr/bin/env bash
           set -euo pipefail
           card=$(readlink /proc/asound/GoMic | grep -o '[0-9]' ||:)
-          numid=$(${
-            lib.getExe' pkgs.alsa-utils "amixer"
-          } -c "''${card}" controls | grep "'Mic Playback Switch'" | cut -d, -f1 | grep -o '[0-9]' ||:)
-          ${
-            lib.getExe' pkgs.alsa-utils "amixer"
-          } -c "''${card}" cset numid="''${numid}" mute
+          numid=$(${lib.getExe' pkgs.alsa-utils "amixer"} -c "''${card}" controls | grep "'Mic Playback Switch'" | cut -d, -f1 | grep -o '[0-9]' ||:)
+          ${lib.getExe' pkgs.alsa-utils "amixer"} -c "''${card}" cset numid="''${numid}" mute
         '';
       };
     };

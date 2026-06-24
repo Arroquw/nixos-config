@@ -1,4 +1,5 @@
-{ lib, ... }: {
+{ lib, ... }:
+{
   plugins = {
     cmp = {
       enable = true;
@@ -44,8 +45,7 @@
             name = "buffer";
             groupIndex = 3;
             keywordLength = 3;
-            option = lib.nixvim.mkRaw
-              "{ get_bufnrs = function() return vim.api.nvim_list_bufs() end },";
+            option = lib.nixvim.mkRaw "{ get_bufnrs = function() return vim.api.nvim_list_bufs() end },";
           }
           {
             name = "path";
@@ -65,30 +65,32 @@
         };
       };
 
-      cmdline = let
-        common = {
-          mapping.__raw = # lua
-            ''
-              cmp.mapping.preset.cmdline({
-                ["<C-Space>"] = cmp.mapping.complete(), -- Open list without typing
-              })
-            '';
-          sources = [{ name = "buffer"; }];
+      cmdline =
+        let
+          common = {
+            mapping.__raw = # lua
+              ''
+                cmp.mapping.preset.cmdline({
+                  ["<C-Space>"] = cmp.mapping.complete(), -- Open list without typing
+                })
+              '';
+            sources = [ { name = "buffer"; } ];
+          };
+        in
+        {
+          "/" = common;
+          "?" = common;
+          ":" = {
+            inherit (common) mapping;
+            sources = [
+              {
+                name = "path";
+                option.trailing_slash = true;
+              }
+              { name = "cmdline"; }
+            ];
+          };
         };
-      in {
-        "/" = common;
-        "?" = common;
-        ":" = {
-          inherit (common) mapping;
-          sources = [
-            {
-              name = "path";
-              option.trailing_slash = true;
-            }
-            { name = "cmdline"; }
-          ];
-        };
-      };
     };
   };
 

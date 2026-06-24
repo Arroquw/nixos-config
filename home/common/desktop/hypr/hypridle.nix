@@ -1,4 +1,9 @@
-{ lib, config, pkgs, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 let
   timeUntilLock = 5 * 60;
   timeUntilScreenOff = timeUntilLock + 30;

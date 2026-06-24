@@ -1,5 +1,6 @@
 { pkgs }:
-with pkgs; {
+with pkgs;
+{
   hyprkeybinds = callPackage ./hyprkeybinds.nix { };
   hyprpicker-script = callPackage ./hyprpicker-script.nix { };
   hyprshot = callPackage ./hyprshot.nix { };

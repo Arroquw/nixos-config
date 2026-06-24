@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   programs.swaylock = {
     enable = true;
     package = pkgs.swaylock-effects;
@@ -7,8 +8,7 @@
       ignore-empty-password = true;
       font = "Liga SFMono Nerd Font";
 
-      image =
-        "~/Desktop/wallpapers/lockscreen/serey-morm-Z9G2Cm3n080-unsplash.jpg";
+      image = "~/Desktop/wallpapers/lockscreen/serey-morm-Z9G2Cm3n080-unsplash.jpg";
 
       indicator = true;
       indicator-radius = 100;

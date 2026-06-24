@@ -1,4 +1,12 @@
-{ self, pkgs, user, lib, inputs, ... }: {
+{
+  self,
+  pkgs,
+  user,
+  lib,
+  inputs,
+  ...
+}:
+{
   users = {
     users.${user} = {
       extraGroups = [
@@ -12,33 +20,32 @@
         "wireshark"
       ];
       packages = with pkgs; [
-        (let
-          pname = "prospect-mail";
-          version = "0.5.4";
-          src = pkgs.fetchurl {
-            url =
-              "https://github.com/julian-alarcon/prospect-mail/releases/download/v${version}/Prospect-Mail-${version}.AppImage";
-            sha256 = "sha256-gG9y2FDhLcJLeROWgbpMse5tRoT0niAMiaQE5yQPhGg=";
-          };
-          appimageContents =
-            pkgs.appimageTools.extractType1 { inherit pname version src; };
-        in pkgs.appimageTools.wrapType1 {
-          inherit pname version src;
-          extraPkgs = appimageTools.defaultFhsEnvArgs.multiPkgs;
-          extraInstallCommands = ''
-            install -m 444 -D ${appimageContents}/${pname}.desktop $out/share/applications/${pname}.desktop
-            install -m 444 -D ${appimageContents}/${pname}.png $out/share/icons/hicolor/512x512/apps/${pname}.png
-            substituteInPlace $out/share/applications/${pname}.desktop \
-              --replace 'Exec=AppRun --no-sandbox %U' 'Exec=${pname} %U'
-          '';
-        })
+        (
+          let
+            pname = "prospect-mail";
+            version = "0.5.4";
+            src = pkgs.fetchurl {
+              url = "https://github.com/julian-alarcon/prospect-mail/releases/download/v${version}/Prospect-Mail-${version}.AppImage";
+              sha256 = "sha256-gG9y2FDhLcJLeROWgbpMse5tRoT0niAMiaQE5yQPhGg=";
+            };
+            appimageContents = pkgs.appimageTools.extractType1 { inherit pname version src; };
+          in
+          pkgs.appimageTools.wrapType1 {
+            inherit pname version src;
+            extraPkgs = appimageTools.defaultFhsEnvArgs.multiPkgs;
+            extraInstallCommands = ''
+              install -m 444 -D ${appimageContents}/${pname}.desktop $out/share/applications/${pname}.desktop
+              install -m 444 -D ${appimageContents}/${pname}.png $out/share/icons/hicolor/512x512/apps/${pname}.png
+              substituteInPlace $out/share/applications/${pname}.desktop \
+                --replace 'Exec=AppRun --no-sandbox %U' 'Exec=${pname} %U'
+            '';
+          }
+        )
         (pkgs.makeDesktopItem {
           name = "realvnc";
-          exec = "${lib.getExe' self.packages.${pkgs.system}.realvnc
-            "realvnc-viewer"}";
+          exec = "${lib.getExe' self.packages.${pkgs.system}.realvnc "realvnc-viewer"}";
           desktopName = "RealVNC";
-          icon =
-            "${pkgs.tokyonight-gtk-theme}/share/icons/Tokyonight-Light/apps/64/realvnc-vncviewer.svg";
+          icon = "${pkgs.tokyonight-gtk-theme}/share/icons/Tokyonight-Light/apps/64/realvnc-vncviewer.svg";
         })
         wl-clipboard
         wlogout
@@ -101,35 +108,34 @@
         self.packages.${pkgs.system}.realvnc
         self.packages.${pkgs.system}.wayland-push-to-talk
         kdePackages.kcrash
-        hyprlock
-        hypridle
         wayvnc
         zip
         unzip
+        alacritty
         gzip
         p7zip
-        inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland
-        xdg-desktop-portal-gtk
         gnome-text-editor
-        home-manager
         gnome-font-viewer
         gnome-calculator
+        gnome-system-monitor
+        gnome-keyring
         peazip
         xarchiver
         wireshark
         file-roller
-        gnome-keyring
         libsecret
         glib-networking
         nss
-        nginx
-        php
       ];
     };
   };
 
-  nixpkgs.config.allowUnfreePredicate = pkg:
-    builtins.elem (lib.getName pkg) [ "vscode" "spotify" ];
+  nixpkgs.config.allowUnfreePredicate =
+    pkg:
+    builtins.elem (lib.getName pkg) [
+      "vscode"
+      "spotify"
+    ];
 
   security.pam.services = {
     hyprlock.text = "auth include login";
@@ -146,7 +152,7 @@
       openssl
       curl
       expat
-      python311
+      python3
       file-roller
     ];
     wireshark = {

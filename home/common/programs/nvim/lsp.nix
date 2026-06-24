@@ -27,7 +27,10 @@
           enable = true;
           settings = {
             diagnostic = {
-              suppress = [ "sema-escaping-width" "var-bind-to-this" ];
+              suppress = [
+                "sema-escaping-width"
+                "var-bind-to-this"
+              ];
             };
           };
         };

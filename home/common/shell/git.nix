@@ -1,10 +1,14 @@
-{ pkgs, ... }: {
-  home.packages = with pkgs; [ gitflow gitui ];
+{ pkgs, ... }:
+{
+  home.packages = with pkgs; [
+    gitflow
+    gitui
+  ];
 
   programs.git = {
     enable = true;
     package = pkgs.git;
-    extraConfig = {
+    settings = {
       merge.tool = "vscode";
       diff.tool = "vscode";
       core.editor = "vim";
@@ -13,7 +17,7 @@
         vscode.cmd = "code --wait --new-window --diff $LOCAL $REMOTE";
       };
     };
-    aliases = {
+    settings.alias = {
       co = "checkout";
       br = "branch";
       st = "status --short --branch";
@@ -31,8 +35,7 @@
       cauthor = "commit --amend --reset-author --no-edit";
       logdiff = "log --pretty=oneline HEAD..";
       slog = "log --pretty=oneline";
-      hist =
-        "log --pretty=format:'%C(yellow)[%ad]%C(reset) %C(green)[%h]%C(reset) | %C(red)%s %C(bold red){{%an}}%C(reset) %C(blue)%d%C(reset)' --graph --date=short";
+      hist = "log --pretty=format:'%C(yellow)[%ad]%C(reset) %C(green)[%h]%C(reset) | %C(red)%s %C(bold red){{%an}}%C(reset) %C(blue)%d%C(reset)' --graph --date=short";
     };
   };
 }

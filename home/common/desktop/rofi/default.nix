@@ -7,12 +7,15 @@ let
   active = "#414868";
   urgent = "#ECD3A0";
   inherit (config.lib.formats.rasi) mkLiteral;
-in {
+in
+{
   programs.rofi = {
     enable = true;
     package = pkgs.rofi;
     font = "JetBrains Mono Nerd Font 11.6";
-    extraConfig = { modes = "window,drun,run,filebrowser"; };
+    extraConfig = {
+      modes = "window,drun,run,filebrowser";
+    };
     theme = {
       "configuration" = {
         show-icons = true;
@@ -92,7 +95,11 @@ in {
         border-color = mkLiteral "#6f91c9";
         background-color = mkLiteral "transparent";
         transparency = "real";
-        children = map mkLiteral [ "inputbar" "message" "listview" ];
+        children = map mkLiteral [
+          "inputbar"
+          "message"
+          "listview"
+        ];
       };
 
       # ****----- Inputbar -----****
@@ -106,8 +113,11 @@ in {
         border-color = mkLiteral "@border-colour";
         background-color = mkLiteral "transparent";
         text-color = mkLiteral "@foreground-colour";
-        children =
-          map mkLiteral [ "textbox-prompt-colon" "entry" "mode-switcher" ];
+        children = map mkLiteral [
+          "textbox-prompt-colon"
+          "entry"
+          "mode-switcher"
+        ];
       };
 
       "prompt" = {

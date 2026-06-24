@@ -12,4 +12,3 @@ stdenv.mkDerivation {
     install -Dm 744 $src $out/bin/hypr-resolution
   '';
 }
-

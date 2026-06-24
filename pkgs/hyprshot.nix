@@ -1,4 +1,9 @@
-{ stdenv, pkgs, fetchFromGitHub, ... }:
+{
+  stdenv,
+  pkgs,
+  fetchFromGitHub,
+  ...
+}:
 
 stdenv.mkDerivation {
   name = "hyprshot";
@@ -10,7 +15,12 @@ stdenv.mkDerivation {
     hash = "sha256-+LCQDilin6yKzfXjUV4MIhNHA/VXhuoh81rq0f0Wkso=";
   };
 
-  buildInputs = with pkgs; [ slurp grim jq wl-clipboard ];
+  buildInputs = with pkgs; [
+    slurp
+    grim
+    jq
+    wl-clipboard
+  ];
 
   buildPhase = ''
     ls -alh
@@ -22,4 +32,3 @@ stdenv.mkDerivation {
     install -Dm 744 hyprshot $out/bin/hyprshot
   '';
 }
-

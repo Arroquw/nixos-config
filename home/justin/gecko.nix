@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   imports = [
     ../common/global.nix
 
@@ -14,8 +15,7 @@
     packages = with pkgs; [ gnome-calculator ];
 
     file = {
-      ".config/citra-emu/sdl2-config.ini".source =
-        ../../scripts/sdl2-config.ini;
+      ".config/citra-emu/sdl2-config.ini".source = ../../scripts/sdl2-config.ini;
     };
   };
 
@@ -25,7 +25,10 @@
       desc = "Dell Inc. DELL U2719D CK3WTS2";
       width = 2560;
       height = 1440;
-      workspace = [ "2" "5" ];
+      workspace = [
+        "2"
+        "5"
+      ];
     }
     {
       name = "DP-5";
@@ -35,7 +38,7 @@
       refreshRate = 165;
       x = 2560;
       primary = true;
-      vrr = 2;
+      vrr = 3;
     }
     {
       name = "Unknown-1";

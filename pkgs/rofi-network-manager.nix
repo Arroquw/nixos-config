@@ -1,4 +1,10 @@
-{ pkgs, stdenv, fetchFromGitHub, lib, ... }:
+{
+  pkgs,
+  stdenv,
+  fetchFromGitHub,
+  lib,
+  ...
+}:
 
 stdenv.mkDerivation {
   name = "rofi-network-manager";
@@ -12,9 +18,7 @@ stdenv.mkDerivation {
 
   buildPhase = ''
     ls -alh
-    sed -ri 's@rofi -dmenu@${
-      lib.getExe' pkgs.rofi "rofi"
-    } -dmenu@g' rofi-network-manager.sh
+    sed -ri 's@rofi -dmenu@${lib.getExe' pkgs.rofi "rofi"} -dmenu@g' rofi-network-manager.sh
     patchShebangs rofi-network-manager.sh
   '';
 
@@ -23,4 +27,3 @@ stdenv.mkDerivation {
     install -Dm 744 rofi-network-manager.sh $out/bin/rofi-network-manager
   '';
 }
-

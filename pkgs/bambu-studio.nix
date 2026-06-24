@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.bambuStudio;
@@ -7,8 +12,7 @@ let
 
   # Fetch the AppImage once
   appimageSource = pkgs.fetchurl {
-    url =
-      "https://github.com/bambulab/BambuStudio/releases/download/v${version}/Bambu_Studio_ubuntu-24.04_PR-9540.AppImage";
+    url = "https://github.com/bambulab/BambuStudio/releases/download/v${version}/Bambu_Studio_ubuntu-24.04_PR-9540.AppImage";
     hash = "sha256-JrwH3MsE3y5GKx4Do3ZlCSAcRuJzEqFYRPb11/3x3r0=";
   };
 
@@ -36,8 +40,8 @@ let
       export MESA_LOADER_DRIVER_OVERRIDE=nvidia
     '';
 
-    extraPkgs = pkgs:
-      with pkgs; [
+    extraPkgs =
+      pkgs: with pkgs; [
         cacert
         curl
         glib
@@ -62,11 +66,11 @@ let
       cp ${appimageContents}/.DirIcon $out/share/pixmaps/bambu-studio.png 2>/dev/null || true
     '';
   };
-in {
+in
+{
   options.bambuStudio = {
     enable = lib.mkEnableOption "Bambu Studio AppImage";
   };
 
-  config =
-    lib.mkIf cfg.enable { environment.systemPackages = [ bambu-studio ]; };
+  config = lib.mkIf cfg.enable { environment.systemPackages = [ bambu-studio ]; };
 }
