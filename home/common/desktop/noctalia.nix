@@ -208,7 +208,6 @@ in
         };
         tray = {
           type = "tray";
-          match_adjacent_spacing = false;
           capsule = true;
           capsule_fill = color "base03";
           capsule_padding = 6.0;
