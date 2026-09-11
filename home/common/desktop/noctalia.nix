@@ -146,7 +146,7 @@ in
         # Size and look. These are noctalia's defaults, listed here to tune.
         thickness = 34;
         padding = 14;
-        widget_spacing = 6;
+        widget_spacing = 14;
         font_scale = 1.0;
         background_opacity = 1.0;
         shadow = true;
@@ -184,6 +184,8 @@ in
           type = "volume";
           device = "output";
           actions.left = exec pkgs.pavucontrol "pavucontrol";
+          actions.scroll_up = "volume-up 1%";
+          actions.scroll_down = "volume-down 1%";
         };
         input_volume = {
           type = "volume";
@@ -204,10 +206,22 @@ in
           tooltip = "Random wallpaper";
           actions.left = exec changewallpaper "changewallpaper";
         };
+        tray = {
+          type = "tray";
+          match_adjacent_spacing = false;
+          capsule = true;
+          capsule_fill = color "base03";
+          capsule_padding = 6.0;
+        };
         hostname = {
           type = "custom_button";
           glyph = "user";
           label = "${config.home.username}@${hostname}";
+          capsule = true;
+          capsule_fill = color "base05";
+          capsule_padding = 10.0;
+          color = color "base00";
+          icon_color = color "base00";
         };
         "work-mounts" = {
           type = "custom_button";
