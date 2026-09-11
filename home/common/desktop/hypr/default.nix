@@ -3,7 +3,6 @@
   self,
   config,
   pkgs,
-  inputs,
   ...
 }:
 {
@@ -38,8 +37,9 @@
     slurp
   ];
 
+  services.blueman-applet.enable = true;
+
   services.hyprpolkitagent.enable = true;
-  programs.hyprshot.enable = true;
 
   systemd.user.services.hyprpolkitagent.Unit = {
     After = lib.mkAfter [ "xdg-desktop-portal.service" ];

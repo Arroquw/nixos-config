@@ -6,6 +6,7 @@
   ...
 }:
 let
+  inherit (pkgs.stdenv.hostPlatform) system;
   touchpad_users = [ "jusson" ];
   touchpad = {
     disable_while_typing = 1;
@@ -224,21 +225,19 @@ in
 
   on._args =
     let
-      wallpaper-script = "${lib.getExe' self.packages.${pkgs.system}.changewallpaper "changewallpaper"}";
+      wallpaper-script = "${lib.getExe' self.packages.${system}.changewallpaper "changewallpaper"}";
       gecko = lib.optionals (config.home.username == "justin") [
-        "gtk-launch steam"
-        "gtk-launch discord"
+        "/run/current-system/sw/bin/steam"
+        "${lib.getExe' pkgs.discord "discord"}"
         "${
-          lib.getExe' self.packages.${pkgs.system}.wayland-push-to-talk "push-to-talk"
+          lib.getExe' self.packages.${system}.wayland-push-to-talk "push-to-talk"
         } -v -k BTN_EXTRA -n Pause /dev/input/by-id/usb-Logitech_USB_Receiver-if02-event-mouse"
         "${
-          lib.getExe' self.packages.${pkgs.system}.wayland-push-to-talk "push-to-talk"
+          lib.getExe' self.packages.${system}.wayland-push-to-talk "push-to-talk"
         } -v -k KEY_PAUSE -n Pause /dev/input/by-id/usb-SONiX_USB_DEVICE-event-kbd"
       ];
       programs = [
-        "${lib.getExe' pkgs.poweralertd "poweralertd"}"
         "${wallpaper-script}"
-        "${lib.getExe' pkgs.blueman "blueman-applet"}"
       ]
       ++ gecko;
       tabbed = map (s: "\thl.exec_cmd(\"${s}\")") programs;
@@ -270,10 +269,10 @@ in
       defaultApp = type: "${gtk-launch} $(${xdg-mime} query default ${type})";
       browser = defaultApp "x-scheme-handler/https";
       lock = "${lib.getExe' pkgs.procps "pgrep"} hyprlock || ${lib.getExe' pkgs.systemd "loginctl"} lock-session";
-      keybind = "${self.packages.${pkgs.system}.hyprkeybinds}/bin/hyprkeybinds";
-      hyprpicker = "${self.packages.${pkgs.system}.hyprpicker-script}/bin/hyprpicker-script";
-      resolution-script = "${self.packages.${pkgs.system}.hypr-resolution}/bin/hypr-resolution";
-      hyprshot = "${self.packages.${pkgs.system}.hyprshot}/bin/hyprshot";
+      keybind = "${self.packages.${system}.hyprkeybinds}/bin/hyprkeybinds";
+      hyprpicker = "${self.packages.${system}.hyprpicker-script}/bin/hyprpicker-script";
+      resolution-script = "${self.packages.${system}.hypr-resolution}/bin/hypr-resolution";
+      hyprshot = "${self.packages.${system}.hyprshot}/bin/hyprshot";
       discordPtt = lib.optionals (config.home.username == "justin") [
         (bindm [
           (keys [ "mouse:276" ])
