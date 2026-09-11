@@ -40,10 +40,6 @@ in
         recursive = true;
         executable = true;
       };
-      ".config/discord/settings.json" = {
-        text = ''{ "SKIP_HOST_UPDATE": true }'';
-        executable = true;
-      };
     };
     shellAliases."v" = "nvim";
     sessionVariables = {
