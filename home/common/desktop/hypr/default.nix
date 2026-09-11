@@ -25,9 +25,6 @@
     };
     package = null;
     portalPackage = null;
-    plugins = [
-      inputs.hyprwm-contrib.packages.${pkgs.stdenv.hostPlatform.system}.hyprprop
-    ];
   };
 
   home.packages = with pkgs; [
