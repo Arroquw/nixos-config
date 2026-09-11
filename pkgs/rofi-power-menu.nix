@@ -2,7 +2,6 @@
   pkgs,
   stdenv,
   procps,
-  gnused,
   lib,
   ...
 }:

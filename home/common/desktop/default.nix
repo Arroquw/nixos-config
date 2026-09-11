@@ -10,6 +10,8 @@
     #./swaylock.nix
   ];
 
+  services.playerctld.enable = true;
+
   home.pointerCursor = {
     enable = true;
     package = pkgs.bibata-cursors;

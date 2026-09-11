@@ -4,7 +4,7 @@ _: {
       enable = true;
       enableZshIntegration = true;
       enableBashIntegration = true;
-      historyWidgetOptions = [
+      historyWidget.options = [
         "--no-sort"
         "--exact"
       ];

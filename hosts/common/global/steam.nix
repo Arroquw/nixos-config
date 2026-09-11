@@ -16,31 +16,32 @@ in
   config = mkIf cfg.enable {
     nixpkgs.config.allowUnfree = true;
 
-    programs.steam = {
-      enable = true;
-      package = pkgs.steam.override {
-        extraPkgs =
-          pkgs: with pkgs; [
-            gamescope-wsi
-            gamescope
-            gamemode
-            mangohud
-          ];
-        extraEnv = {
-          MANGOHUD = true;
-          RADV_TEX_ANISO = 16;
+    programs = {
+      steam = {
+        enable = true;
+        package = pkgs.steam.override {
+          extraPkgs =
+            pkgs: with pkgs; [
+              gamescope-wsi
+              gamescope
+              gamemode
+              mangohud
+            ];
+          extraEnv = {
+            MANGOHUD = true;
+            RADV_TEX_ANISO = 16;
+          };
         };
+        extraCompatPackages = with pkgs; [ proton-ge-bin ];
+        remotePlay.openFirewall = true;
       };
-      extraCompatPackages = with pkgs; [ proton-ge-bin ];
-      remotePlay.openFirewall = true;
-    };
-    programs.gamemode.enable = true;
+      gamemode.enable = true;
 
-    programs.gamescope = {
-      enable = true;
-      capSysNice = true;
+      gamescope = {
+        enable = true;
+        capSysNice = true;
+      };
     };
-
     environment.systemPackages = with pkgs; [ protontricks ];
   };
 }

@@ -28,6 +28,7 @@
   };
 
   home.packages = with pkgs; [
+    speedcrunch
     grim
     hyprprop
     hyprsysteminfo

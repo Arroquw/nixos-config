@@ -26,9 +26,9 @@
               url = "https://github.com/IsmaelMartinez/teams-for-linux/releases/download/v${version}/${pname}-${version}.AppImage";
               sha256 = "sha256-UmVU5/oKuR3Wx2YHqD5cWjS/PeE7PTNJYF2VoGVdPcs=";
             };
-            appimageContents = pkgs.appimageTools.extractType1 { inherit version pname src; };
+            appimageContents = pkgs.appimageTools.extract { inherit version pname src; };
           in
-          pkgs.appimageTools.wrapType1 {
+          pkgs.appimageTools.wrapType2 {
             inherit pname version src;
             extraPkgs = appimageTools.defaultFhsEnvArgs.multiPkgs;
             extraInstallCommands = ''

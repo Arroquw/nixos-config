@@ -199,7 +199,7 @@ in
         };
         "custom/mounts" = {
           format = " 💿 ";
-          on-click = "/home/jusson/restart_mounts.sh";
+          on-click = "${config.home.homeDirectory}/restart_mounts.sh";
         };
         battery = {
           bat = "BAT0";

@@ -1,12 +1,10 @@
 {
-  self,
   lib,
   pkgs,
   ...
 }:
 {
   imports = [
-    ./acme.nix
     ./nix.nix
     ./fonts.nix
     ./locale.nix
@@ -17,10 +15,6 @@
     ./blueman.nix
     ./steam.nix
   ];
-
-  nixpkgs = {
-    overlays = [ ];
-  };
 
   virtualisation.waydroid.enable = true;
 

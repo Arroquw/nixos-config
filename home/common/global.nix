@@ -3,7 +3,6 @@
   outputs,
   lib,
   config,
-  nixvim,
   ...
 }:
 let

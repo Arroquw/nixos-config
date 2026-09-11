@@ -20,7 +20,7 @@
     packages =
       with pkgs;
       [
-        (pkgs.appimageTools.wrapType1 (
+        (pkgs.appimageTools.wrapType2 (
           let
             pname = "arduino-ide";
             version = "2.3.4";
@@ -71,7 +71,7 @@
               sha256 = "sha256-x90f43LNxS/TSFtEs7j/luYFkHwC59lKhROqv68V0YE=";
             };
           in
-          pkgs.appimageTools.wrapType1 { inherit pname version src; }
+          pkgs.appimageTools.wrapType2 { inherit pname version src; }
         )
         (pkgs.makeDesktopItem {
           name = "microsoft-edge-wl";
@@ -84,7 +84,6 @@
           extraPkgs = pkgs: [
             pkgs.wineWow64Packages.stagingFull
             pkgs.winetricks
-            pkgs.libappindicator-gtk2
             pkgs.libappindicator-gtk3
             pkgs.appindicator-sharp
             pkgs.mangohud
@@ -108,9 +107,6 @@
         nodejs
 
         # Desktop / misc
-        # NB: libappindicator-gtk2/-gtk3 are not listed here -- they ship the
-        # same AppIndicator3 typelib and collide. Lutris already receives both
-        # through its own extraPkgs above, which is where they're actually used.
         v4l-utils
         xdotool
         xwininfo

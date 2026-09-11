@@ -22,19 +22,19 @@ let
   mkRawLong =
     string: mkRaw (lib.strings.replaceStrings [ "\n" "\r" "\t" "  " ] [ "" "" "" "" ] string);
   bind = args: { _args = args; };
-  bindl = args: bind (args ++ [ { locked = true; } ]);
+  # bindl = args: bind (args ++ [ { locked = true; } ]);
   bindr = args: bind (args ++ [ { release = true; } ]);
-  bindel =
-    args:
-    bind (
-      args
-      ++ [
-        {
-          locked = true;
-          repeat = true;
-        }
-      ]
-    );
+  # bindel =
+  #   args:
+  #   bind (
+  #     args
+  #     ++ [
+  #       {
+  #         locked = true;
+  #         repeat = true;
+  #       }
+  #     ]
+  #   );
   bindm = args: bind (args ++ [ { mouse = true; } ]);
 
   keys = keys: lib.concatStringsSep " + " keys;
@@ -45,79 +45,109 @@ let
   rexec = cmd: exec "${runapp} ${cmd}";
 in
 {
-  config.input = {
-    repeat_rate = 50;
-    repeat_delay = 240;
-    kb_layout = "us";
-    kb_variant = "altgr-intl";
-    kb_options = "compose:ralt";
-    follow_mouse = 1;
-    sensitivity = 0;
-  }
-  // (
-    if builtins.elem "${config.home.username}" touchpad_users then
-      {
-        inherit touchpad;
-      }
-    else
-      { }
-  );
+  config = {
+    input = {
+      repeat_rate = 50;
+      repeat_delay = 240;
+      kb_layout = "us";
+      kb_variant = "altgr-intl";
+      kb_options = "compose:ralt";
+      follow_mouse = 1;
+      sensitivity = 0;
+    }
+    // (
+      if builtins.elem "${config.home.username}" touchpad_users then
+        {
+          inherit touchpad;
+        }
+      else
+        { }
+    );
 
-  config.gestures =
-    if builtins.elem "${config.home.username}" touchpad_users then [ "3, swipe, workspace" ] else [ ];
+    gestures =
+      if builtins.elem "${config.home.username}" touchpad_users then [ "3, swipe, workspace" ] else [ ];
 
-  config.general = {
-    layout = "dwindle";
-    gaps_in = 1;
-    gaps_out = 1;
-    border_size = 2;
-    "col.active_border" = "rgba(5e81acff)"; # 5e81ac ff
-    "col.inactive_border" = "rgba(33333366)"; # 333333 66
-    allow_tearing = true;
-  };
-
-  config.group = rec {
-    insert_after_current = true;
-    groupbar = {
-      height = 10;
-      scrolling = false;
-      stacked = 1;
-      text_color = "rgb(000000)";
-      "col.active" = "rgba(2a4fc05e)"; # #2a4fc0 - these 4 are gradients so they blend in with the wallpaper
-      "col.inactive" = "rgba(2527a55e)"; # #2527a5
-      "col.locked_active" = "rgba(4a4aff5e)"; # #4a4aff
-      "col.locked_inactive" = "rgba(152f755e)"; # #152f75
+    general = {
+      layout = "dwindle";
+      gaps_in = 1;
+      gaps_out = 1;
+      border_size = 2;
+      "col.active_border" = "rgba(5e81acff)"; # 5e81ac ff
+      "col.inactive_border" = "rgba(33333366)"; # 333333 66
+      allow_tearing = true;
     };
-    # use same colours for the borders, default config does this as well but with #ffff00, #777700, #ff5500, #775500
-    "col.border_inactive" = groupbar."col.inactive";
-    "col.border_active" = groupbar."col.active";
-    "col.border_locked_inactive" = groupbar."col.locked_inactive";
-    "col.border_locked_active" = groupbar."col.locked_active";
-  };
 
-  config.decoration = {
-    rounding = 2;
-    active_opacity = 0.99;
-    inactive_opacity = 0.99;
-    blur = {
+    group = rec {
+      insert_after_current = true;
+      groupbar = {
+        height = 10;
+        scrolling = false;
+        stacked = 1;
+        text_color = "rgb(000000)";
+        "col.active" = "rgba(2a4fc05e)"; # #2a4fc0 - these 4 are gradients so they blend in with the wallpaper
+        "col.inactive" = "rgba(2527a55e)"; # #2527a5
+        "col.locked_active" = "rgba(4a4aff5e)"; # #4a4aff
+        "col.locked_inactive" = "rgba(152f755e)"; # #152f75
+      };
+      # use same colours for the borders, default config does this as well but with #ffff00, #777700, #ff5500, #775500
+      "col.border_inactive" = groupbar."col.inactive";
+      "col.border_active" = groupbar."col.active";
+      "col.border_locked_inactive" = groupbar."col.locked_inactive";
+      "col.border_locked_active" = groupbar."col.locked_active";
+    };
+
+    decoration = {
+      rounding = 2;
+      active_opacity = 0.99;
+      inactive_opacity = 0.99;
+      blur = {
+        enabled = true;
+        size = 8;
+        passes = 3;
+        ignore_opacity = true;
+        new_optimizations = true;
+      };
+      shadow = {
+        enabled = true;
+        color = "rgba(a7caffff)"; # #a7caff
+        range = 15;
+        color_inactive = "rgba(00000050)"; # #000000
+      };
+    };
+
+    animations = {
       enabled = true;
-      size = 8;
-      passes = 3;
-      ignore_opacity = true;
-      new_optimizations = true;
     };
-    shadow = {
-      enabled = true;
-      color = "rgba(a7caffff)"; # #a7caff
-      range = 15;
-      color_inactive = "rgba(00000050)"; # #000000
+    dwindle = {
+      force_split = 0;
     };
-  };
 
-  config.animations = {
-    enabled = true;
-  };
+    master = {
+      new_on_top = true;
+    };
 
+    render = {
+      direct_scanout = 1;
+    };
+
+    misc = {
+      disable_hyprland_logo = true;
+      disable_splash_rendering = true;
+      key_press_enables_dpms = true;
+      mouse_move_enables_dpms = if "${config.home.username}" != "justin" then true else false;
+      allow_session_lock_restore = true;
+    };
+
+    cursor = {
+      sync_gsettings_theme = true;
+      hide_on_key_press = true;
+      no_hardware_cursors = 1;
+      no_break_fs_vrr = 2;
+      min_refresh_rate = 60;
+      use_cpu_buffer = 2;
+    };
+
+  };
   curve =
     let
       curve =
@@ -187,35 +217,6 @@ in
     }
   ];
 
-  config.dwindle = {
-    force_split = 0;
-  };
-
-  config.master = {
-    new_on_top = true;
-  };
-
-  config.render = {
-    direct_scanout = 1;
-  };
-
-  config.misc = {
-    disable_hyprland_logo = true;
-    disable_splash_rendering = true;
-    key_press_enables_dpms = true;
-    mouse_move_enables_dpms = if "${config.home.username}" != "justin" then true else false;
-    allow_session_lock_restore = true;
-  };
-
-  config.cursor = {
-    sync_gsettings_theme = true;
-    hide_on_key_press = true;
-    no_hardware_cursors = 1;
-    no_break_fs_vrr = 2;
-    min_refresh_rate = 60;
-    use_cpu_buffer = 2;
-  };
-
   layer_rule = {
     match = {
       namespace = "waybar";
@@ -260,7 +261,6 @@ in
       thunar = "${lib.getExe' pkgs.thunar "thunar"}";
       wlogout = "${lib.getExe' pkgs.wlogout "wlogout"}";
       htop = "${lib.getExe' pkgs.htop "htop"}";
-      rofimoji = "${lib.getExe' pkgs.rofimoji "rofimoji"}";
       wpctl = "${lib.getExe' pkgs.wireplumber "wpctl"}";
       speedcrunch = "${lib.getExe' pkgs.speedcrunch "speedcrunch"}";
       spotify = "${lib.getExe' pkgs.spotify "spotify"}";
@@ -550,7 +550,7 @@ in
       ])
     ]
     ++ lib.flatten (
-      (map (
+      map (
         n:
         let
           mod = a: b: a - (b * (a / b));
@@ -570,8 +570,9 @@ in
             (mkRaw ''hl.dsp.window.move({workspace = "${ws}"})'')
           ])
         ]
-      ) (lib.range 1 10))
+      ) (lib.range 1 10)
     )
+
     ++ discordPtt
     ++ [
       (bindm [
