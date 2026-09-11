@@ -186,9 +186,11 @@
     {
       mode = "n";
       key = "<leader>rr";
+      # refactoring.nvim dropped its telescope extension; select_refactor shows
+      # the same menu through vim.ui.select.
       action.__raw = # lua
         ''
-          require("telescope").extensions.refactoring.refactors
+          function() require("refactoring").select_refactor() end
         '';
       options.desc = "Select refactor";
     }
@@ -201,14 +203,8 @@
     {
       mode = "n";
       key = "<leader>rE";
-      action = ":Refactor extract ";
+      action = ":Refactor extract_func ";
       options.desc = "Extract to function";
-    }
-    {
-      mode = "n";
-      key = "<leader>rb";
-      action = ":Refactor extract_block ";
-      options.desc = "Extract to block";
     }
     {
       mode = "n";
