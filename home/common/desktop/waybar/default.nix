@@ -6,6 +6,7 @@
   ...
 }:
 let
+  inherit (pkgs.stdenv.hostPlatform) system;
   # Dependencies
   cut = "${lib.getExe' pkgs.coreutils "cut"}";
   grep = "${lib.getExe' pkgs.gnugrep "grep"}";
@@ -20,12 +21,10 @@ let
   playerctl = "${lib.getExe' pkgs.playerctl "playerctl"}";
   playerctld = "${lib.getExe' pkgs.playerctl "playerctld"}";
   pavucontrol = "${lib.getExe' pkgs.pavucontrol "pavucontrol"}";
-  wallpaper-script = "${self.packages.${pkgs.system}.changewallpaper}/bin/changewallpaper";
-  powermenu-script = "${self.packages.${pkgs.system}.rofi-power-menu}/bin/rofi-power-menu";
-  network-manager-script = "${
-    self.packages.${pkgs.system}.rofi-network-manager
-  }/bin/rofi-network-manager";
-  weather-py = "${self.packages.${pkgs.system}.waybar-weather}/bin/waybar-weather";
+  wallpaper-script = "${self.packages.${system}.changewallpaper}/bin/changewallpaper";
+  powermenu-script = "${self.packages.${system}.rofi-power-menu}/bin/rofi-power-menu";
+  network-manager-script = "${self.packages.${system}.rofi-network-manager}/bin/rofi-network-manager";
+  weather-py = "${self.packages.${system}.waybar-weather}/bin/waybar-weather";
   # Function to simplify making waybar outputs
   jsonOutput =
     name:
