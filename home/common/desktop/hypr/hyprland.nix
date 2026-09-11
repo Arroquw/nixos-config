@@ -217,11 +217,15 @@ in
     }
   ];
 
+  # Recommended by noctalia's Hyprland guide.
   layer_rule = {
     match = {
-      namespace = "waybar";
+      namespace = "^noctalia-(bar-.+|notification|dock|panel|attached-panel|osd|window-switcher)$";
     };
+    no_anim = true;
+    ignore_alpha = 0.5;
     blur = true;
+    blur_popups = true;
   };
 
   on._args =
@@ -229,7 +233,10 @@ in
       wallpaper-script = "${lib.getExe' self.packages.${system}.changewallpaper "changewallpaper"}";
       gecko = lib.optionals (config.home.username == "justin") [
         "/run/current-system/sw/bin/steam"
-        "${lib.getExe' pkgs.discord "discord"}"
+        # Wait for noctalia's tray (StatusNotifierWatcher) first: Electron only
+        # registers its tray icon once, at startup, so if Discord wins the race
+        # it never appears in the tray. Starts anyway after the timeout.
+        "${lib.getExe' pkgs.glib "gdbus"} wait --session --timeout 120 org.kde.StatusNotifierWatcher; exec ${lib.getExe' config.programs.discord.package "discord"}"
         "${
           lib.getExe' self.packages.${system}.wayland-push-to-talk "push-to-talk"
         } -v -k BTN_EXTRA -n Pause /dev/input/by-id/usb-Logitech_USB_Receiver-if02-event-mouse"
@@ -257,7 +264,7 @@ in
     let
       playerctl = "${lib.getExe' pkgs.playerctl "playerctl"}";
       terminal = "${lib.getExe' pkgs.kitty "kitty"}";
-      rofi = "${lib.getExe' pkgs.rofi "rofi"}";
+      noctalia = "${lib.getExe' config.programs.noctalia.package "noctalia"}";
       thunar = "${lib.getExe' pkgs.thunar "thunar"}";
       wlogout = "${lib.getExe' pkgs.wlogout "wlogout"}";
       htop = "${lib.getExe' pkgs.htop "htop"}";
@@ -269,9 +276,11 @@ in
       defaultApp = type: "${gtk-launch} $(${xdg-mime} query default ${type})";
       browser = defaultApp "x-scheme-handler/https";
       lock = "${lib.getExe' pkgs.procps "pgrep"} hyprlock || ${lib.getExe' pkgs.systemd "loginctl"} lock-session";
-      keybind = "${self.packages.${system}.hyprkeybinds}/bin/hyprkeybinds";
+      # Same noctalia build as the running shell
+      withNoctalia = pkg: pkg.override { noctalia = config.programs.noctalia.package; };
+      keybind = "${withNoctalia self.packages.${system}.hyprkeybinds}/bin/hyprkeybinds";
       hyprpicker = "${self.packages.${system}.hyprpicker-script}/bin/hyprpicker-script";
-      resolution-script = "${self.packages.${system}.hypr-resolution}/bin/hypr-resolution";
+      resolution-script = "${withNoctalia self.packages.${system}.hypr-resolution}/bin/hypr-resolution";
       hyprshot = "${self.packages.${system}.hyprshot}/bin/hyprshot";
       discordPtt = lib.optionals (config.home.username == "justin") [
         (bindm [
@@ -291,11 +300,18 @@ in
       ])
       (bind [
         (mkey "R")
-        (exec "${rofi} -show drun")
+        (exec "${noctalia} msg panel-toggle launcher")
       ])
       (bind [
         (mkey "E")
         (rexec "${thunar}")
+      ])
+      (bind [
+        (mkeys [
+          "SHIFT"
+          "E"
+        ])
+        (exec "${noctalia} msg panel-toggle launcher /emo")
       ])
       (bind [
         (mkey "M")
@@ -782,10 +798,6 @@ in
       ];
     in
     [
-      {
-        match.class = "rofi";
-        float = true;
-      }
       {
         match.class = "org.pulseaudio.pavucontrol";
         float = true;

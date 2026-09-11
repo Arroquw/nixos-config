@@ -83,6 +83,7 @@
                     self
                     inputs
                     outputs
+                    hostname
                     nixvim
                     ;
                 };
@@ -106,6 +107,7 @@
               self
               inputs
               outputs
+              hostname
               nixvim
               ;
           };

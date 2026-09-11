@@ -126,6 +126,9 @@ in
 
       gvfs.enable = true; # Thunar mount, trash, and other functionalities
       tumbler.enable = true; # Thunar thumbnail support for images
+
+      upower.enable = true;
+      power-profiles-daemon.enable = true;
     };
 
     xdg.portal = {

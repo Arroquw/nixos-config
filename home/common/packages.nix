@@ -1,4 +1,9 @@
-{ self, pkgs, ... }:
+{
+  config,
+  self,
+  pkgs,
+  ...
+}:
 {
   home.packages =
     with pkgs;
@@ -63,11 +68,8 @@
     ++ (with self.packages.${pkgs.stdenv.hostPlatform.system}; [
       hyprpicker-script
       hyprshot
-      hyprkeybinds
+      (hyprkeybinds.override { noctalia = config.programs.noctalia.package; })
       changewallpaper
-      waybar-weather
-      rofi-power-menu
-      rofi-network-manager
       wayland-push-to-talk
     ]);
 }

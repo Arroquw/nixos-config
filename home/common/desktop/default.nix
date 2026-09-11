@@ -2,10 +2,8 @@
 {
   imports = [
     ./hypr
-    ./rofi
-    ./waybar
+    ./noctalia.nix
     ./gtk.nix
-    ./mako.nix
     #./swayidle.nix
     #./swaylock.nix
   ];

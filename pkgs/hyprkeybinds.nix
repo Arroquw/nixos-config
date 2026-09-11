@@ -1,25 +1,37 @@
 {
-  stdenv,
-  pkgs,
-  lib,
-  ...
+  writeShellApplication,
+  gawk,
+  gnugrep,
+  gnused,
+  libnotify,
+  noctalia,
 }:
-let
-  gnused = "${lib.getExe' pkgs.gnused "sed"}";
-  keybindScript = pkgs.writeShellScriptBin "hyprkeybinds" ''
-    config_file=~/.config/hypr/hyprland.conf
-    keybinds=$(${lib.getExe' pkgs.gnugrep "grep"} -P '(?<=bind).*=.*' $config_file)
-    keybinds=$(${lib.getExe' pkgs.busybox "echo"} "$keybinds" | ${gnused} 's/bind.*=//g' | ${gnused} 's/,\([^,]\)/ = \1/2' | ${gnused} 's/exec,//g' | ${gnused} 's/^,//g' | ${gnused} 's/$,//g')
-    ${lib.getExe' pkgs.rofi "rofi"} -dmenu -p "Keybinds" -theme custom <<< "$keybinds"
-  '';
-in
-stdenv.mkDerivation {
+writeShellApplication {
   name = "hyprkeybinds";
-  src = keybindScript;
-  phases = "installPhase";
+  runtimeInputs = [
+    gawk
+    gnugrep
+    gnused
+    libnotify # notify-send
+    noctalia # noctalia dmenu
+  ];
+  text = ''
+    config="''${XDG_CONFIG_HOME:-$HOME/.config}/hypr/hyprland.lua"
+    if [ ! -r "$config" ]; then
+      notify-send -u critical "Keybinds" "Cannot read $config"
+      exit 1
+    fi
 
-  installPhase = ''
-    mkdir -p $out/bin
-    install -Dm 744 $src/bin/hyprkeybinds $out/bin/hyprkeybinds
+    grep '^hl\.bind("' "$config" |
+      sed -E \
+        -e 's|/nix/store/[a-z0-9]{32}-[^/"]+/bin/||g' \
+        -e 's|/nix/store/[a-z0-9]{32}-||g' \
+        -e 's/^hl\.bind\("([^"]+)", \((.*)\)\)$/\1\t\2/' \
+        -e 's/^hl\.bind\("([^"]+)", \((.*)\), \{$/\1\t\2/' \
+        -e 's/\thl\.dsp\.exec_cmd\("(.*)"\)$/\t\1/' \
+        -e 's/\thl\.dsp\./\t/' \
+        -e 's/\trunapp /\t/' |
+      awk -F '\t' '{ printf "%s  →  %s\n", $1, $2 }' |
+      noctalia dmenu -p "Keybinds" >/dev/null || true
   '';
 }
