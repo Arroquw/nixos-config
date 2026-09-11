@@ -16,11 +16,11 @@
     ./zsh.nix
     ./blueman.nix
     ./steam.nix
-    ./bambu-studio.nix
   ];
 
-
-  nixpkgs = { overlays = [ ]; };
+  nixpkgs = {
+    overlays = [ ];
+  };
 
   virtualisation.waydroid.enable = true;
 
@@ -63,10 +63,6 @@
   hardware = {
     bluetooth.enable = true;
   };
-
-  systemd.user.extraConfig = ''
-    DefaultEnvironment="PATH=/run/wrappers/bin:/home/jusson/.local/state/nix/profile/bin:/etc/profiles/per-user/jusson/bin:/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin"
-  '';
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

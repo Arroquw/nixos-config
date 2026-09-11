@@ -34,6 +34,13 @@ in
       extraCompatPackages = with pkgs; [ proton-ge-bin ];
       remotePlay.openFirewall = true;
     };
+    programs.gamemode.enable = true;
+
+    programs.gamescope = {
+      enable = true;
+      capSysNice = true;
+    };
+
     environment.systemPackages = with pkgs; [ protontricks ];
   };
 }

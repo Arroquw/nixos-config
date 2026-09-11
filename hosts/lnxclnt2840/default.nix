@@ -1,20 +1,49 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{ pkgs, lib, ... }:
 {
-  nix.settings = {
-    substituters = [ "https://hyprland.cachix.org" ];
-    trusted-substituters = [ "https://hyprland.cachix.org" ];
-    trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
-  };
+  self,
+  pkgs,
+  lib,
+  ...
+}:
+{
   imports = [
     ./hardware-configuration.nix
     ../common/global
-    ../common/users/jusson
+    ../common/users
     ../common/optional/hyprland.nix
     ../common/optional/pipewire.nix
   ];
+
+  security.sudo.extraRules =
+    let
+      systemctl = "/run/current-system/sw/bin/systemctl";
+      units = [
+        "/mnt/pd-common/copydrive"
+        "/mnt/pd-user/projects"
+        "data-projects.automount"
+        "data-tools.automount"
+      ];
+    in
+    [
+      {
+        groups = [ "wheel" ];
+        commands =
+          lib.concatMap
+            (
+              verb:
+              map (unit: {
+                command = "${systemctl} ${verb} ${unit}";
+                options = [ "NOPASSWD" ];
+              }) units
+            )
+            [
+              "start"
+              "restart"
+            ];
+      }
+    ];
   arroquw = {
     desktop = {
       enable = true;
@@ -29,6 +58,11 @@
       enable = true;
       touchpad.tapping = true; # tap
     };
+
+    udev.packages = with self.packages.${pkgs.stdenv.hostPlatform.system}; [
+      sf100linux
+      em100
+    ];
   };
 
   environment.systemPackages = with pkgs; [

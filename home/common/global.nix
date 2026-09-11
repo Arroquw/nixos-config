@@ -25,7 +25,7 @@ in
   };
 
   home = {
-    username = lib.mkDefault "justin";
+    # username is set per-host in home/hosts/<hostname>.nix
     homeDirectory = lib.mkDefault "/home/${config.home.username}";
     file = {
       ".config/rofi/rofi-network-manager.rasi".source =

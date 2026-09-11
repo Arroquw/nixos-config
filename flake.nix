@@ -4,8 +4,6 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    hardware.url = "github:nixos/nixos-hardware";
-    impermanence.url = "github:nix-community/impermanence";
     nix-colors.url = "github:misterio77/nix-colors";
 
     home-manager = {
@@ -15,18 +13,6 @@
     hyprland = {
       url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
       inputs.aquamarine.url = "github:hyprwm/aquamarine";
-    };
-    hyprhook = {
-      url = "github:hyprhook/hyprhook";
-      inputs.hyprland.follows = "hyprland";
-    };
-    hyprwm-contrib = {
-      url = "github:hyprwm/contrib";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    firefox-addons = {
-      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     pre-commit-hooks = {
       url = "github:cachix/pre-commit-hooks.nix";
@@ -67,6 +53,64 @@
           config.allowUnfree = true;
         }
       );
+      hosts = {
+        gecko = "justin";
+        lnxclnt2840 = "jusson";
+      };
+
+      mkNixos =
+        hostname: user:
+        lib.nixosSystem {
+          specialArgs = {
+            inherit
+              user
+              self
+              inputs
+              outputs
+              ;
+          };
+          modules = [
+            ./hosts/${hostname}
+            home-manager.nixosModules.default
+            { imports = builtins.attrValues self.nixosModules; }
+            {
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                extraSpecialArgs = {
+                  inherit
+                    user
+                    self
+                    inputs
+                    outputs
+                    nixvim
+                    ;
+                };
+                users.${user}.imports = [ ./home/hosts/${hostname}.nix ];
+              };
+            }
+          ];
+        };
+
+      mkHome =
+        hostname: user:
+        lib.homeManagerConfiguration {
+          pkgs = pkgsFor.x86_64-linux;
+          modules = [
+            ./home/hosts/${hostname}.nix
+            ./home/common/nixpkgs.nix
+          ];
+          extraSpecialArgs = {
+            inherit
+              user
+              self
+              inputs
+              outputs
+              nixvim
+              ;
+          };
+        };
+
       addPreCommitCheck = system: {
         pre-commit-check = pre-commit-hooks.lib.${system}.run {
           src = ./.;
@@ -108,122 +152,10 @@
 
       formatter = forEachSystem (system: pkgs: pkgs.nixfmt);
 
-      nixosConfigurations = {
-        # Main desktop
-        gecko =
-          let
-            user = "justin";
-          in
-          lib.nixosSystem {
-            modules = [
-              ./hosts/gecko
-              home-manager.nixosModules.default
-              {
-                home-manager = {
-                  useGlobalPkgs = true;
-                  useUserPackages = true;
-                  extraSpecialArgs = {
-                    inherit
-                      user
-                      self
-                      inputs
-                      outputs
-                      nixvim
-                      ;
-                    pkgs = pkgsFor.x86_64-linux;
-                  };
-                  users."${user}" = {
-                    imports = [ ./home/justin/gecko.nix ];
-                  };
-                };
-              }
-              { imports = builtins.attrValues self.nixosModules; }
-            ];
-            specialArgs = {
-              inherit
-                user
-                self
-                inputs
-                outputs
-                ;
-            };
-          };
-        # Work laptop
-        lnxclnt2840 =
-          let
-            user = "jusson";
-          in
-          lib.nixosSystem {
-            modules = [
-              ./hosts/lnxclnt2840
-              home-manager.nixosModules.default
-              {
-                home-manager = {
-                  useGlobalPkgs = true;
-                  useUserPackages = true;
-                  extraSpecialArgs = {
-                    inherit
-                      user
-                      self
-                      inputs
-                      outputs
-                      nixvim
-                      ;
-                    pkgs = pkgsFor.x86_64-linux;
-                  };
-                  users."${user}" = {
-                    imports = [ ./home/jusson/lnxclnt2840.nix ];
-                  };
-                };
-              }
+      nixosConfigurations = lib.mapAttrs mkNixos hosts;
 
-              { imports = builtins.attrValues self.nixosModules; }
-            ];
-            specialArgs = {
-              inherit
-                user
-                self
-                inputs
-                outputs
-                ;
-            };
-          };
-      };
-
-      homeConfigurations = {
-        # Desktops
-        "jusson@lnxclnt2840" = lib.homeManagerConfiguration {
-          modules = [
-            ./home/jusson/lnxclnt2840.nix
-            ./home/common/nixpkgs.nix
-          ];
-          pkgs = pkgsFor.x86_64-linux;
-          extraSpecialArgs = {
-            inherit
-              self
-              inputs
-              outputs
-              nixvim
-              ;
-            user = "jusson";
-          };
-        };
-        "justin@gecko" = lib.homeManagerConfiguration {
-          modules = [
-            ./home/justin/gecko.nix
-            ./home/common/nixpkgs.nix
-          ];
-          pkgs = pkgsFor.x86_64-linux;
-          extraSpecialArgs = {
-            inherit
-              self
-              inputs
-              outputs
-              nixvim
-              ;
-            user = "justin";
-          };
-        };
-      };
+      homeConfigurations = lib.mapAttrs' (
+        hostname: user: lib.nameValuePair "${user}@${hostname}" (mkHome hostname user)
+      ) hosts;
     };
 }

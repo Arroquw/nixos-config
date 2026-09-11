@@ -3,21 +3,19 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 { pkgs, lib, ... }:
 {
-  nix.settings = {
-    substituters = [ "https://hyprland.cachix.org" ];
-    trusted-substituters = [ "https://hyprland.cachix.org" ];
-    trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
-  };
   imports = [
     ./hardware-configuration.nix
     ../common/global
-    ../common/users/justin
+    ../common/users
     ../common/optional/hyprland.nix
     ../common/optional/pipewire.nix
   ];
 
+  programs.virt-manager.enable = true;
 
-  bambuStudio.enable = true;
+  # "input" is needed here for the gaming/emulator controller setup.
+  users.users.justin.extraGroups = [ "input" ];
+
   arroquw = {
     desktop = {
       enable = true;
@@ -155,7 +153,7 @@
     libvirtd = {
       enable = true;
       qemu = {
-        package = pkgs.qemu_full;
+        package = pkgs.qemu_kvm;
         runAsRoot = false;
         swtpm.enable = true;
         verbatimConfig = ''

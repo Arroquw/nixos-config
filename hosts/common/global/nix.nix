@@ -17,8 +17,8 @@
     gc = {
       automatic = true;
       dates = "weekly";
-      # Keep the last 5 generations
-      options = "--delete-older-than +5";
+      # Keep generations from the last 30 days (plus one older rollback anchor).
+      options = "--delete-older-than 30d";
     };
   };
 
