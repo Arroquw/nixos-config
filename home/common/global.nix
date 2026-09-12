@@ -22,7 +22,6 @@ in
     git.enable = true;
     wlogout.enable = true;
   };
-
   xdg.userDirs = {
     enable = true;
     createDirectories = true;
@@ -34,6 +33,7 @@ in
     publicShare = "${config.home.homeDirectory}/Public";
     templates = "${config.home.homeDirectory}/Templates";
     videos = "${config.home.homeDirectory}/Video";
+    setSessionVariables = true;
   };
 
   home = {
