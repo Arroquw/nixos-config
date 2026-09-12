@@ -25,6 +25,8 @@ in
       __GLX_VENDOR_LIBRARY_NAME = "nvidia";
       __GL_GSYNC_ALLOWED = "1";
       __GL_VRR_ALLOWED = "1";
+      # nvidia-vaapi-driver needs this on Wayland; its default backend is X11-only.
+      NVD_BACKEND = "direct";
     };
 
     environment.systemPackages = with pkgs; [
@@ -45,7 +47,6 @@ in
         enable = true;
         enable32Bit = true;
         extraPackages = with pkgs; [
-          nvidia-vaapi-driver
           libvdpau-va-gl
           libva-vdpau-driver
         ];

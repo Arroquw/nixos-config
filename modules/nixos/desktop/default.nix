@@ -142,22 +142,13 @@ in
       config.common.default = [ "*" ];
     };
 
-    # TODO: decide what to do with this
-    environment.variables =
-      let
-        modifiers = lib.optionalAttrs (cfg.hostname == "lnxclnt2840") {
-          WLR_DRM_NO_MODIFIERS = "1";
-          AQ_NO_MODIFIERS = "1";
-        };
-      in
-      {
-        BROWSER = "firefox";
-        NIXOS_OZONE_WL = "1";
-        DIRENV_LOG_FORMAT = "";
-        MOZ_ENABLE_WAYLAND = "1";
-        CLUTTER_BACKEND = "wayland";
-      }
-      // modifiers;
+    environment.variables = {
+      BROWSER = "firefox";
+      NIXOS_OZONE_WL = "1";
+      DIRENV_LOG_FORMAT = "";
+      MOZ_ENABLE_WAYLAND = "1";
+      CLUTTER_BACKEND = "wayland";
+    };
 
     programs = {
       thunar = {

@@ -29,16 +29,6 @@
         . $HOME/.profile
       fi
     '';
-    etc."xdg/user-dirs.defaults".text = ''
-      DESKTOP=$HOME/Desktop
-      DOWNLOAD=$HOME/Downloads
-      TEMPLATES=$HOME/Templates
-      PUBLICSHARE=$HOME/Public
-      DOCUMENTS=$HOME/Documents
-      MUSIC=$HOME/Music
-      PICTURES=$HOME/Photos
-      VIDEOS=$HOME/Video
-    '';
 
     systemPackages = with pkgs; [
       vim
