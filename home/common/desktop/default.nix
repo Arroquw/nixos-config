@@ -4,8 +4,6 @@
     ./hypr
     ./noctalia.nix
     ./gtk.nix
-    #./swayidle.nix
-    #./swaylock.nix
   ];
 
   services.playerctld.enable = true;
