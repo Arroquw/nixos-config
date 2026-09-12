@@ -15,7 +15,7 @@ let
     #!${lib.getExe' pkgs.bash "bash"}
     DIR=$HOME/Desktop/wallpapers
     CURRENT=$(${lib.getExe' pkgs.procps "pgrep"} -a swaybg | ${lib.getExe' pkgs.gnused "sed"} -r 's/.*\-i\ (.*)/\1/g' | ${lib.getExe' pkgs.findutils "xargs"} ${lib.getExe' pkgs.coreutils "basename"} 2>/dev/null)
-    PICS=($(${lib.getExe' pkgs.findutils "find"} -L "''${DIR}" -maxdepth 1 ! -name "''${CURRENT}" -type f -exec ${lib.getExe' pkgs.coreutils "basename"} {} \;))
+    PICS=($(${lib.getExe' pkgs.findutils "find"} -L "''${DIR}" -maxdepth 1 ! -name "''${CURRENT}" -type f \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' \) -exec ${lib.getExe' pkgs.coreutils "basename"} {} \;))
 
     RANDOMPICS=''${PICS[ $RANDOM % ''${#PICS[@]} ]}
 
