@@ -1,6 +1,10 @@
 keys:
-  - &admin_justin age1rj8pdlg2c32sld2mnxp6djmclhtzvwkqknad5uzn6tc3lkx92vvqf7hwy6
-  - &host_gecko age1rl4l8xjnn0knf09xa3a3ljcys47h8cud2wysaz4er24hyx5gwynsaxjmjg
+  # Personal admin key, held in ~/.config/sops/age/keys.txt (not in this repo).
+  # Keep a backup: without it (or a host key) the secrets cannot be decrypted.
+  - &admin_justin age1h6ce2vjt8t6yc8dsmxf780r5mkg6ajmqkdh202v3r9jxnvwd2fnsg952kl
+  # Host keys, derived from each machine's /etc/ssh/ssh_host_ed25519_key.pub
+  # with ssh-to-age; sops-nix decrypts with them at activation time.
+  - &host_gecko age1rj8pdlg2c32sld2mnxp6djmclhtzvwkqknad5uzn6tc3lkx92vvqf7hwy6
   - &host_lnxclnt2840 age1zc70s7rk2xmghjhk3ywrapm2pfgc6s6sazgdcxse699sp9n7pdusmpw4ms
 creation_rules:
   - path_regex: hosts/gecko/secrets.ya?ml$
