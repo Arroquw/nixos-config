@@ -65,21 +65,28 @@
     ];
   };
 
-  environment.systemPackages = with pkgs; [
-    cifs-utils
-    keyutils
-    minicom
-    curl
-    libusb1
-  ];
+  environment = {
+    # This display needs DRM modifiers disabled. Aquamarine still reads this
+    # variable; the old WLR_DRM_NO_MODIFIERS is wlroots-era and read by nothing
+    # in Hyprland or aquamarine any more.
+    variables.AQ_NO_MODIFIERS = "1";
 
-  environment.etc."request-key.conf" = {
-    source = lib.mkForce (
-      pkgs.writeText "request-key.conf" ''
-        create id_resolver * * ${lib.getExe' pkgs.nfs-utils "nfsidmap"} -t 600 %k %d
-        create dns_resolver * * /run/current-system/sw/bin/key.dns_resolver %k
-      ''
-    );
+    systemPackages = with pkgs; [
+      cifs-utils
+      keyutils
+      minicom
+      curl
+      libusb1
+    ];
+
+    etc."request-key.conf" = {
+      source = lib.mkForce (
+        pkgs.writeText "request-key.conf" ''
+          create id_resolver * * ${lib.getExe' pkgs.nfs-utils "nfsidmap"} -t 600 %k %d
+          create dns_resolver * * /run/current-system/sw/bin/key.dns_resolver %k
+        ''
+      );
+    };
   };
 
   fileSystems = {

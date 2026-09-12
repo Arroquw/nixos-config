@@ -183,9 +183,12 @@ in
         output_volume = {
           type = "volume";
           device = "output";
-          actions.left = exec pkgs.pavucontrol "pavucontrol";
-          actions.scroll_up = "volume-up 1%";
-          actions.scroll_down = "volume-down 1%";
+          actions = {
+            left = exec pkgs.pavucontrol "pavucontrol";
+            # 1% per scroll notch, like waybar (noctalia defaults to 5%).
+            scroll_up = "volume-up 1%";
+            scroll_down = "volume-down 1%";
+          };
         };
         input_volume = {
           type = "volume";
