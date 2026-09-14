@@ -52,6 +52,42 @@
         python3
         rubber
         krb5
+        (pkgs.realvnc-vnc-viewer.overrideAttrs (old: {
+          version = "8.4.2";
+          src = pkgs.fetchurl {
+            url = "https://downloads.realvnc.com/download/file/realvnc-connect-viewer/RealVNC-Connect-Viewer-8.4.2-Linux-x64.rpm";
+            sha256 = "sha256-k0n6VuPwUEBpEQinCs+rabziMNqZR0At/4ONBHVnJSo=";
+          };
+          postPatch = "";
+          buildInputs =
+            with pkgs;
+            old.buildInputs
+            ++ [
+              gtk3
+              glib
+              pango
+              atk
+              libepoxy
+              fontconfig
+            ];
+          postInstall = ''
+            rm -rf $out/lib/.build-id
+            mkdir -p $out/bin
+            ln -s $out/lib/rvncconnect/rvncconnect $out/bin/rvncconnect
+
+            for f in $out/share/applications/com.realvnc.rvncconnect*.desktop; do
+              sed -i 's/\r$//' "$f"
+              substituteInPlace "$f" \
+                --replace-fail '/usr/lib/rvncconnect/rvncconnect' "$out/bin/rvncconnect" \
+                --replace-warn \
+                  '/usr/share/icons/hicolor/scalable/apps/com.realvnc.rvncconnect.svg' \
+                  "$out/share/icons/hicolor/scalable/apps/com.realvnc.rvncconnect.svg"
+            done
+          '';
+          meta = old.meta // {
+            mainProgram = "rvncconnect";
+          };
+        }))
       ]
       ++ (with self.packages.${pkgs.stdenv.hostPlatform.system}; [
         sf100linux
