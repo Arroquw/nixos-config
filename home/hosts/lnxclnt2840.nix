@@ -69,8 +69,8 @@
   #  ------   -----   ------
   monitors =
     let
-      left = "Dell Inc. DELL U2722D 2H9TQ83";
-      right = "Dell Inc. DELL U2722D CC9TQ83";
+      left = "Dell Inc. DELL U2717D J0XYN8AOB7JL";
+      right = "Dell Inc. DELL U2717D J0XYN8B6DU3S";
     in
     [
       {

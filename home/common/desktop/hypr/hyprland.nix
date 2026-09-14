@@ -13,7 +13,7 @@ let
     natural_scroll = 1;
     clickfinger_behavior = 1;
     middle_button_emulation = 1;
-    tap-to-click = 1;
+    tap_to_click = 1;
   };
   hyprshutdown = lib.getExe pkgs.hyprshutdown;
   runapp = lib.getExe pkgs.runapp;
